@@ -32,4 +32,4 @@ php composer.phar require soluble/flexstore:0.*
 Documentation is hosted on [Read the docs](http://soluble.readthedocs.org)
 
 
-[![Total Downloads](https://poser.pugx.org/soluble/soluble/flexstore/downloads.png)](https://packagist.org/packages/soluble/flexstore)
+[![Total Downloads](https://poser.pugx.org/soluble/flexstore/downloads.png)](https://packagist.org/packages/flexstore)

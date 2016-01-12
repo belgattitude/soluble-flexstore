@@ -17,28 +17,30 @@
     ],
     "autoload": {
         "psr-4": {
-            "Soluble\\FlexStore\\": ""
+            "Soluble\\FlexStore\\": "src/Soluble/FlexStore"
         }
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4.4",
         "soluble/metadata": "0.*",
-        "soluble/db": "self.version",
-        "soluble/spreadsheet": "self.version",
+        "soluble/dbwrapper": "1.*",
+        "soluble/spreadsheet": "0.*",
         "ramsey/array_column": "~1.1",
-        "zendframework/zend-stdlib": "2.*",
+        "zendframework/zend-paginator": "2.*"
+    },
+    "require-dev": {
         "zendframework/zend-cache": "2.*",
         "zendframework/zend-json": "2.*",
-        "zendframework/zend-paginator": "2.*",
         "zendframework/zend-validator": "2.*",
-        "zendframework/zend-inputfilter": "2.*"
-
+        "zendframework/zend-inputfilter": "2.*",
+        "zendframework/zend-db": "2.*",
+        "phpoffice/phpexcel": "1.8.*"
     },
     "suggest": {
-        "soluble/normalist": "Dynamic ORM",
-        "zendframework/zend-view": "ZF2 integration for FlexStore",
-        "zendframework/zend-eventmanager": "ZF2 integration for eventmanager",
-        "zendframework/zend-servicemanager": "ZF2 integration for services"
 
+    },
+    "archive": {
+        "exclude": ["test", "doc", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore", "phpcs.xml"]
     }
+    
 }

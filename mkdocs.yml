@@ -1,0 +1,19 @@
+docs_dir: doc
+site_dir: build/doc
+pages:
+    - index.md
+site_name: soluble-flexstore
+site_description: "soluble-flexstore"
+theme: readthedocs
+#theme: bootstrap
+#theme: united
+repo_url: 'https://github.com/belgattitude/soluble-flexstore'
+markdown_extensions:
+    - toc:
+        permalink: True
+    - codehilite:
+        linenums: False
+        guess_lang: True
+        #pygments_style: monokai
+        #use_pygments: True
+    

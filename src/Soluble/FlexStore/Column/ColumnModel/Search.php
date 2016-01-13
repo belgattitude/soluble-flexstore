@@ -62,6 +62,7 @@ class Search
 
     /**
      *
+     * @param string $regexp
      * @return Result
      */
     public function regexp($regexp)

@@ -8,7 +8,7 @@ use Soluble\FlexStore\Column\ColumnModel;
 use Soluble\FlexStore\Column\Column;
 use Soluble\Datatype\Column\Type as MetadataType;
 use Soluble\FlexStore\Column\Exception;
-use ArrayObject;
+use Soluble\Metadata\ColumnsMetadata;
 
 class MetadataMapper
 {
@@ -42,10 +42,10 @@ class MetadataMapper
 
     /**
      *
-     * @param ArrayObject $metadata_columns
+     * @param ColumnsMetadata $metadata_columns
      * @return ColumnModel
      */
-    public static function getColumnModelFromMetadata(ArrayObject $metadata_columns)
+    public static function getColumnModelFromMetadata(ColumnsMetadata $metadata_columns)
     {
         $cm = new ColumnModel();
         $cm->setMetatadata($metadata_columns);

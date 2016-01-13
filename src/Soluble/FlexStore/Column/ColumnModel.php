@@ -5,13 +5,14 @@ namespace Soluble\FlexStore\Column;
 use Soluble\FlexStore\Renderer\RowRendererInterface;
 use Soluble\FlexStore\Column\ColumnModel\Search;
 use Soluble\FlexStore\Formatter\FormatterInterface;
+use Soluble\Metadata\ColumnsMetadata;
+
 use ArrayObject;
 
 class ColumnModel
 {
     const ADD_COLUMN_AFTER = 'after';
     const ADD_COLUMN_BEFORE = 'before';
-
 
     /**
      *
@@ -357,10 +358,10 @@ class ColumnModel
 
     /**
      *
-     * @param ArrayObject $metadata
+     * @param ColumnsMetadata $metadata
      * @return ColumnModel
      */
-    public function setMetatadata(ArrayObject $metadata)
+    public function setMetatadata(ColumnsMetadata $metadata)
     {
         $this->metadata = $metadata;
         return $this;

@@ -4,10 +4,9 @@ namespace Soluble\FlexStore\ResultSet;
 
 use Soluble\FlexStore\ResultSet\ResultSetInterface;
 use Zend\Db\ResultSet\ResultSet as ZFResultSet;
-use Iterator;
 use ArrayObject;
 
-abstract class AbstractResultSet implements Iterator, ResultSetInterface
+abstract class AbstractResultSet implements ResultSetInterface
 {
     const TYPE_ARRAYOBJECT = 'arrayobject';
     const TYPE_ARRAY  = 'array';

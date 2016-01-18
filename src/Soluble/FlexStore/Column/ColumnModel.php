@@ -34,7 +34,7 @@ class ColumnModel
 
     /**
      *
-     * @var ArrayObject|null
+     * @var ColumnsMetadata|null
      */
     protected $metadata;
 

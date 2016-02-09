@@ -99,7 +99,7 @@ class Options
      * @param int $offset
      * @return Options
      */
-    protected function setOffset($offset)
+    public function setOffset($offset)
     {
         if ($offset === null) {
             throw new Exception\InvalidArgumentException(__METHOD__ . ": offset parameter cannot be null, use unsetOffset instead.");

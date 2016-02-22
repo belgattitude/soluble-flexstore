@@ -232,8 +232,11 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['price'], $test);
 
 
-        $test = $cm->search()->notIn(['price'])->toArray();
-        $this->assertEquals(['price'], $test);
+        $cool = new Column('notincool');
+        $cm->add($cool);
+        $test = $cm->search()->notIn(['notincool'])->toArray();
+        $this->assertNotContains('notincool', $test);
+
 
 
         $cool = new Column('cool');

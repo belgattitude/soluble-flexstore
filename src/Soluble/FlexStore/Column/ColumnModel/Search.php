@@ -29,7 +29,8 @@ class Search
     }
 
     /**
-     *
+     * Search ColumnModel for columns that are not in the $columns parameter
+     * 
      * @throws Exception\InvalidArgumentException
      * @return Result
      */
@@ -37,7 +38,7 @@ class Search
     {
         $results = [];
         foreach ($this->columns as $name => $column) {
-            if (!array_key_exists($name, $columns)) {
+            if (!in_array($name, $columns)) {
                 $results[] = $name;
             }
         }

@@ -26,21 +26,17 @@
         "soluble/dbwrapper": "1.*",
         "soluble/spreadsheet": "0.*",
         "ramsey/array_column": "~1.1",
-        "zendframework/zend-paginator": "2.*"
+        "zendframework/zend-paginator": "^2.4 || ^3.0"
     },
     "require-dev": {
-        "zendframework/zend-cache": "2.*",
-        "zendframework/zend-json": "2.*",
-        "zendframework/zend-validator": "2.*",
-        "zendframework/zend-inputfilter": "2.*",
-        "zendframework/zend-db": "2.*",
-        "phpoffice/phpexcel": "1.8.*"
-    },
-    "suggest": {
-
+        "zendframework/zend-cache": "^2.4 || ^3.0",
+        "zendframework/zend-json": "^2.4 || ^3.0",
+        "zendframework/zend-validator": "^2.4 || ^3.0",
+        "zendframework/zend-inputfilter": "^2.4 || ^3.0",
+        "zendframework/zend-db": "^2.4 || ^3.0",
+        "phpoffice/phpexcel": "^1.8"
     },
     "archive": {
         "exclude": ["test", "doc", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore", "phpcs.xml"]
     }
-    
 }

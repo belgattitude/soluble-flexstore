@@ -6,8 +6,6 @@
 
 namespace Soluble\FlexStore;
 
-use Soluble\FlexStore\Options;
-
 interface StoreInterface
 {
     /**

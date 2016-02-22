@@ -3,7 +3,6 @@
 namespace Soluble\FlexStore\Formatter;
 
 use Soluble\FlexStore\Exception;
-use Soluble\FlexStore\Formatter\RowColumn;
 use ArrayObject;
 
 class UnitFormatter extends NumberFormatter
@@ -18,17 +17,17 @@ class UnitFormatter extends NumberFormatter
      *
      * @var array
      */
-    protected $default_params = array(
+    protected $default_params = [
         'decimals' => 2,
         'locale' => null,
         'pattern' => null,
         'unit' => null
-    );
+    ];
 
     /**
      * @throws Exception\ExtensionNotLoadedException if ext/intl is not present
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         parent::__construct($params);
     }

@@ -8,6 +8,7 @@ namespace Soluble\FlexStore\Helper;
 
 use Soluble\FlexStore\Exception;
 use Zend\Paginator\Paginator as ZendPaginator;
+use Zend\Paginator\ScrollingStyle\ScrollingStyleInterface;
 
 class Paginator extends ZendPaginator
 {

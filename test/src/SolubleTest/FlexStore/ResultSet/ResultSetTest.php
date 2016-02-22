@@ -186,7 +186,7 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
         $paginator = $resultset->getPaginator();
 
         $this->assertInstanceOf('Soluble\FlexStore\Helper\Paginator', $paginator);
-        
+
         $pages = $paginator->getPages();
 
         $this->assertEquals(10, $pages->itemCountPerPage);

@@ -204,7 +204,7 @@ class ResultSet extends AbstractResultSet
     {
         $row = $this->zfResultSet->current();
         if ($row === null) {
-            return null;
+            return;
         }
 
         if (!$this->hydrate_options_initialized) {
@@ -247,7 +247,7 @@ class ResultSet extends AbstractResultSet
      */
     public function toArray()
     {
-        $return = array();
+        $return = [];
         foreach ($this as $row) {
             if (is_array($row)) {
                 $return[] = $row;

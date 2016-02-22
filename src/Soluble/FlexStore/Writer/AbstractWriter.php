@@ -19,10 +19,10 @@ abstract class AbstractWriter
      *
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'debug' => false,
         'charset' => 'UTF-8'
-    );
+    ];
 
      /**
       *

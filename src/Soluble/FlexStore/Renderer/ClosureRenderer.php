@@ -29,7 +29,7 @@ class ClosureRenderer implements RowRendererInterface
      */
     public function __construct(Closure $closure)
     {
-        $this->required_columns = array();
+        $this->required_columns = [];
         $this->closure = $closure;
     }
 
@@ -41,7 +41,7 @@ class ClosureRenderer implements RowRendererInterface
      */
     public function __call($method, $args)
     {
-        if (is_callable(array($this, $method))) {
+        if (is_callable([$this, $method])) {
             return call_user_func_array($this->$method, $args);
         }
     }

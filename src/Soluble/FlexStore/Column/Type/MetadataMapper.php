@@ -2,7 +2,6 @@
 
 namespace Soluble\FlexStore\Column\Type;
 
-use Soluble\FlexStore\Column\Type\AbstractType;
 use Soluble\FlexStore\Column\ColumnType;
 use Soluble\FlexStore\Column\ColumnModel;
 use Soluble\FlexStore\Column\Column;
@@ -12,7 +11,7 @@ use Soluble\Metadata\ColumnsMetadata;
 
 class MetadataMapper
 {
-    protected static $mapper = array(
+    protected static $mapper = [
         MetadataType::TYPE_BIT => ColumnType::TYPE_BIT,
         MetadataType::TYPE_BOOLEAN => ColumnType::TYPE_BOOLEAN,
         MetadataType::TYPE_BLOB => ColumnType::TYPE_BLOB,
@@ -24,7 +23,7 @@ class MetadataMapper
         MetadataType::TYPE_SPATIAL_GEOMETRY => ColumnType::TYPE_STRING,
         MetadataType::TYPE_TIME => ColumnType::TYPE_TIME,
         MetadataType::TYPE_STRING => ColumnType::TYPE_STRING
-    );
+    ];
 
     /**
      *

@@ -2,7 +2,6 @@
 
 namespace Soluble\FlexStore\ResultSet;
 
-use Soluble\FlexStore\ResultSet\ResultSetInterface;
 use Zend\Db\ResultSet\ResultSet as ZFResultSet;
 use ArrayObject;
 
@@ -23,10 +22,10 @@ abstract class AbstractResultSet implements ResultSetInterface
      *
      * @var array
      */
-    protected $allowedReturnTypes = array(
+    protected $allowedReturnTypes = [
         self::TYPE_ARRAYOBJECT,
         self::TYPE_ARRAY,
-    );
+    ];
 
 
 
@@ -53,9 +52,9 @@ abstract class AbstractResultSet implements ResultSetInterface
     public function __construct(ZFResultSet $resultSet, $returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
     {
         $this->zfResultSet = $resultSet;
-        $this->returnType = (in_array($returnType, array(self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT))) ? $returnType : self::TYPE_ARRAYOBJECT;
+        $this->returnType = (in_array($returnType, [self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT])) ? $returnType : self::TYPE_ARRAYOBJECT;
         if ($this->returnType === self::TYPE_ARRAYOBJECT) {
-            $this->setArrayObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
+            $this->setArrayObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject([], ArrayObject::ARRAY_AS_PROPS));
         }
     }
 

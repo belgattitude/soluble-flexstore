@@ -15,30 +15,30 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      *
      * @var array
      */
-    protected $formatters = array();
+    protected $formatters = [];
 
     /**
      *
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      *
      * @var array
      */
-    protected $default_params = array(
+    protected $default_params = [
         'decimals' => 2,
         'locale' => null,
         'pattern' => null
-    );
+    ];
 
     /**
      * @param array $params
      * @throws Exception\ExtensionNotLoadedException if ext/intl is not present
      * @throws Exception\InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!extension_loaded('intl')) {
             throw new Exception\ExtensionNotLoadedException(sprintf(

@@ -14,7 +14,7 @@ class ColumnType
     const TYPE_TIME     = 'time';
     const TYPE_BIT      = 'bit';
 
-    protected static $typesMap = array(
+    protected static $typesMap = [
         self::TYPE_INTEGER  => 'Type\IntegerType',
         self::TYPE_DECIMAL  => 'Type\DecimalType',
         self::TYPE_STRING   => 'Type\StringType',
@@ -24,7 +24,7 @@ class ColumnType
         self::TYPE_DATE     => 'Type\DateType',
         self::TYPE_TIME     => 'Type\TimeType',
         self::TYPE_BIT      => 'Type\BitType',
-    );
+    ];
 
 
 

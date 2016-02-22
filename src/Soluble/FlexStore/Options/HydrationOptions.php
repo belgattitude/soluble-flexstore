@@ -8,17 +8,17 @@ class HydrationOptions
      *
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      *
      * @var array
      */
-    protected $default_params = array(
+    protected $default_params = [
         'disable_formatters' => false,
         'disable_renderers' => false,
         'disable_column_exclusion' => false
-    );
+    ];
 
     /**
      *

@@ -9,7 +9,7 @@ interface FormatterInterface
     /**
      * @param array $params
      */
-    public function __construct(array $params = array());
+    public function __construct(array $params = []);
 
 
     /**

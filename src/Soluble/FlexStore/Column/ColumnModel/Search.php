@@ -35,7 +35,7 @@ class Search
      */
     public function notIn(array $columns)
     {
-        $results = array();
+        $results = [];
         foreach ($this->columns as $name => $column) {
             if (!array_key_exists($name, $columns)) {
                 $results[] = $name;
@@ -50,7 +50,7 @@ class Search
      */
     public function in(array $columns)
     {
-        $results = array();
+        $results = [];
         foreach ($columns as $column) {
             $column = trim($column);
             if ($this->columns->offsetExists($column)) {
@@ -67,7 +67,7 @@ class Search
      */
     public function regexp($regexp)
     {
-        $results = array();
+        $results = [];
         foreach ($this->columns as $name => $column) {
             $column = trim($column);
             if (preg_match($regexp, $name)) {
@@ -84,7 +84,7 @@ class Search
      */
     public function findByType($type)
     {
-        $results = array();
+        $results = [];
         foreach ($this->columns as $name => $column) {
             if ($column->getType() == $type) {
                 $results[] = $name;
@@ -99,7 +99,7 @@ class Search
      */
     public function findVirtual()
     {
-        $results = array();
+        $results = [];
         foreach ($this->columns as $name => $column) {
             if ($column->isVirtual()) {
                 $results[] = $name;

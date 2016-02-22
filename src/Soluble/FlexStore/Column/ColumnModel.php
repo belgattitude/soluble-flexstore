@@ -6,7 +6,6 @@ use Soluble\FlexStore\Renderer\RowRendererInterface;
 use Soluble\FlexStore\Column\ColumnModel\Search;
 use Soluble\FlexStore\Formatter\FormatterInterface;
 use Soluble\Metadata\ColumnsMetadata;
-
 use ArrayObject;
 
 class ColumnModel
@@ -112,11 +111,11 @@ class ColumnModel
             if ($include_excluded_columns || !$this->get($column)->isExcluded()) {
                 $hash = spl_object_hash($formatter);
                 if (!$unique->offsetExists($hash)) {
-                    $tmp = new ArrayObject(array(
+                    $tmp = new ArrayObject([
                                                 'formatter' => $formatter,
-                                                'columns' => new ArrayObject(array($column))
+                                                'columns' => new ArrayObject([$column])
 
-                    ));
+                    ]);
                     $unique->offsetSet($hash, $tmp);
                 } else {
                     $unique->offsetGet($hash)->offsetGet('columns')->append($column);
@@ -153,7 +152,7 @@ class ColumnModel
                 throw new Exception\ColumnNotFoundException(__METHOD__ . ': ' . $msg);
             }
 
-            if (!in_array($mode, array(self::ADD_COLUMN_BEFORE, self::ADD_COLUMN_AFTER))) {
+            if (!in_array($mode, [self::ADD_COLUMN_BEFORE, self::ADD_COLUMN_AFTER])) {
                 $msg = "Cannot add column '$name', invalid mode specified '$mode'";
                 throw new Exception\InvalidArgumentException(__METHOD__ . ': ' . $msg);
             }
@@ -203,7 +202,7 @@ class ColumnModel
      */
     public function getExcluded()
     {
-        $arr = array();
+        $arr = [];
         foreach ($this->columns as $name => $column) {
             if ($column->isExcluded()) {
                 $arr[] = $name;
@@ -241,10 +240,10 @@ class ColumnModel
     {
         $diff = array_diff_assoc($sorted_columns, array_unique($sorted_columns));
         if (count($diff) > 0) {
-            $cols = join(',', $diff);
+            $cols = implode(',', $diff);
             throw new Exception\DuplicateColumnException(__METHOD__ . " Duplicate column found in paramter sorted_columns : '$cols'");
         }
-        $columns = array();
+        $columns = [];
 
         foreach ($sorted_columns as $idx => $column) {
             if (!$this->exists($column)) {

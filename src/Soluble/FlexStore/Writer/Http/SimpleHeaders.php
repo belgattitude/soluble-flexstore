@@ -11,20 +11,20 @@ class SimpleHeaders
      * Supported disposition types
      * @var array
      */
-    protected $disposition_types = array('inline', 'attachement');
+    protected $disposition_types = ['inline', 'attachement'];
 
 
     /**
      *
      * @var array
      */
-    protected $default_params = array(
+    protected $default_params = [
         'content-type'                  => null,
         'content-type-charset'          => null,
         'content-disposition-filename'  => null,
         'content-disposition-type'      => null,
         'content-length'                => null
-    );
+    ];
 
     /**
      *
@@ -118,7 +118,7 @@ class SimpleHeaders
     public function setContentDispositionType($content_disposition_type)
     {
         if (!in_array($content_disposition_type, $this->disposition_types)) {
-            $supported = join(',', $this->disposition_types);
+            $supported = implode(',', $this->disposition_types);
             throw new Exception\InvalidArgumentException(__METHOD__ . " Content disposition type '$content_disposition_type' not in supported types: $supported");
         }
 
@@ -159,7 +159,7 @@ class SimpleHeaders
 
     public function getHeaderLines()
     {
-        $lines = array();
+        $lines = [];
         if ($this->params['content-type'] !== null) {
             $ct = "Content-Type: " . $this->params['content-type'];
             if ($this->params['content-type-charset'] !== null) {

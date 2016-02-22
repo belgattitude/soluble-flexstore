@@ -17,7 +17,7 @@ class Column implements ColumnSettableInterface
      *
      * @var array
      */
-    protected $properties = array(
+    protected $properties = [
         'type' => null, // will be defaulted to string
         'formatter' => null,
         'excluded' => false,
@@ -29,7 +29,7 @@ class Column implements ColumnSettableInterface
         'sortable' => true,
         'editable' => false,
         'virtual' => true
-    );
+    ];
 
 
     /**

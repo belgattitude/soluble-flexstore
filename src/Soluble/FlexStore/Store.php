@@ -6,9 +6,6 @@
 
 namespace Soluble\FlexStore;
 
-use Soluble\FlexStore\Source;
-use Soluble\FlexStore\Exception;
-use Soluble\FlexStore\Options;
 use Soluble\FlexStore\Column\ColumnModel;
 use Soluble\FlexStore\ResultSet\ResultSet;
 

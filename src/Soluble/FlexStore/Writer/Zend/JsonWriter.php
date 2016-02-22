@@ -5,7 +5,6 @@ namespace Soluble\FlexStore\Writer\Zend;
 use Soluble\FlexStore\Writer\Http\SimpleHeaders;
 use Zend\Json\Encoder;
 use Soluble\FlexStore\Writer\AbstractSendableWriter;
-use Soluble\FlexStore\Writer\Http\SendHeaders;
 use Soluble\FlexStore\Source\QueryableSourceInterface;
 use Soluble\FlexStore\Options;
 
@@ -33,13 +32,13 @@ class JsonWriter extends AbstractSendableWriter
 
 
         $data = $this->store->getData($options);
-        $d = array(
+        $d = [
             'success' => true,
             'total' => $data->getTotalRows(),
             'start' => $data->getSource()->getOptions()->getOffset(),
             'limit' => $data->getSource()->getOptions()->getLimit(),
             'data' => $data->toArray()
-        );
+        ];
 
         if ($this->options['debug']) {
             $source = $data->getSource();

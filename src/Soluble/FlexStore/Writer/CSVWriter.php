@@ -2,7 +2,6 @@
 
 namespace Soluble\FlexStore\Writer;
 
-use Soluble\FlexStore\Writer\Exception;
 use Soluble\FlexStore\Writer\Http\SimpleHeaders;
 use Soluble\FlexStore\Options;
 
@@ -23,13 +22,13 @@ class CSVWriter extends AbstractSendableWriter
     /**
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'field_separator' => ";",
         'line_separator' => "\n",
         'enclosure' => '',
         'charset' => 'UTF-8',
         'escape' => '\\'
-    );
+    ];
 
     /**
      *
@@ -74,29 +73,29 @@ class CSVWriter extends AbstractSendableWriter
 //	var_dump($data); die();
         if (count($data) == 0) {
             $columns = $this->store->getColumnModel()->getColumns();
-            $header_line = join($this->options['field_separator'], array_keys((array) $columns));
+            $header_line = implode($this->options['field_separator'], array_keys((array) $columns));
             $csv .= $header_line . $this->options['line_separator'];
         } else {
-            $header_line = join($this->options['field_separator'], array_keys($data[0]));
+            $header_line = implode($this->options['field_separator'], array_keys($data[0]));
             $csv .= $header_line . $this->options['line_separator'];
 
 
             foreach ($data as $row) {
                 switch ($this->options['field_separator']) {
                     case self::SEPARATOR_TAB:
-                        array_walk($row, array($this, 'escapeTabDelimiter'));
+                        array_walk($row, [$this, 'escapeTabDelimiter']);
                         break;
                     default:
-                        array_walk($row, array($this, 'escapeFieldDelimiter'));
+                        array_walk($row, [$this, 'escapeFieldDelimiter']);
                 }
 
-                array_walk($row, array($this, 'escapeLineDelimiter'));
+                array_walk($row, [$this, 'escapeLineDelimiter']);
 
                 if ($this->options['enclosure'] != '') {
-                    array_walk($row, array($this, 'addEnclosure'));
+                    array_walk($row, [$this, 'addEnclosure']);
                 }
 
-                $line = join($this->options['field_separator'], $row);
+                $line = implode($this->options['field_separator'], $row);
 
 
                 if ($charset != $internal_encoding) {

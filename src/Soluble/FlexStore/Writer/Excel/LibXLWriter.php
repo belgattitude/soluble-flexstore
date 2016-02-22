@@ -57,19 +57,19 @@ class LibXLWriter extends AbstractSendableWriter
      *
      * @var array
      */
-    protected $currencyMap = array(
+    protected $currencyMap = [
         'EUR' => '€',
         'GBP' => '£',
         'CNY' => 'CN¥',
         'USD' => '$',
         'CAD' => 'CA$'
-    );
+    ];
 
     /**
      *
      * @var array
      */
-    protected $typeMap = array(
+    protected $typeMap = [
         ColumnType::TYPE_BIT => 'number',
         ColumnType::TYPE_BLOB => 'text',
         ColumnType::TYPE_BOOLEAN => 'number',
@@ -79,7 +79,7 @@ class LibXLWriter extends AbstractSendableWriter
         ColumnType::TYPE_INTEGER => 'number',
         ColumnType::TYPE_STRING => 'text',
         ColumnType::TYPE_TIME => 'text',
-    );
+    ];
 
     /**
      *
@@ -510,7 +510,7 @@ class LibXLWriter extends AbstractSendableWriter
      */
     public static function setDefaultLicense($license_name, $license_key)
     {
-        self::$default_license = array('name' => $license_name, 'key' => $license_key);
+        self::$default_license = ['name' => $license_name, 'key' => $license_key];
     }
 
 
@@ -522,10 +522,10 @@ class LibXLWriter extends AbstractSendableWriter
 
     public function getFormatStyles()
     {
-        $styles = array(
+        $styles = [
                 'horizontalAlign' => ExcelFormat::ALIGNH_LEFT,
                 'verticalAlign' => ExcelFormat::ALIGNV_TOP
-        );
+        ];
         return $styles;
     }
 

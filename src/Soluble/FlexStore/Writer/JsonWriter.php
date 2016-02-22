@@ -56,7 +56,7 @@ class JsonWriter extends AbstractSendableWriter
         $data = $this->store->getData($options);
         $now = new DateTime();
 
-        $d = array(
+        $d = [
             'success' => true,
             'timestamp' => $now->format(DateTime::W3C),
             'total' => $data->getTotalRows(),
@@ -64,7 +64,7 @@ class JsonWriter extends AbstractSendableWriter
             'start' => $data->getSource()->getOptions()->getOffset(),
             'limit' => $data->getSource()->getOptions()->getLimit(),
             'data' => $data->toArray()
-        );
+        ];
 
         if ($this->options['debug']) {
             $source = $data->getSource();

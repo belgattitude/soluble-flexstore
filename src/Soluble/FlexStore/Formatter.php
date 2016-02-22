@@ -12,11 +12,11 @@ class Formatter
      *
      * @var array
      */
-    protected static $formattersMap = array(
+    protected static $formattersMap = [
         self::FORMATTER_CURRENCY  => 'Formatter\CurrencyFormatter',
         self::FORMATTER_NUMBER    => 'Formatter\NumberFormatter',
         self::FORMATTER_UNIT    => 'Formatter\UnitFormatter',
-    );
+    ];
 
 
 
@@ -27,7 +27,7 @@ class Formatter
      * @throws Exception\InvalidArgumentException
      * @return \Soluble\FlexStore\Formatter\FormatterInterface
      */
-    public static function create($formatter_name, array $params = array())
+    public static function create($formatter_name, array $params = [])
     {
         if (!self::isSupported($formatter_name)) {
             throw new Exception\InvalidArgumentException(__METHOD__ . " Formatter '$formatter_name' is not supported.");

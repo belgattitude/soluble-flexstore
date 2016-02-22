@@ -4,7 +4,6 @@ namespace Soluble\FlexStore\Column\ColumnModel\Search;
 
 use Soluble\FlexStore\Column\Column;
 use Soluble\FlexStore\Column\ColumnSettableInterface;
-use Soluble\FlexStore\Column\ColumnModel;
 use Soluble\FlexStore\Column\Exception;
 use Soluble\FlexStore\Formatter\FormatterInterface;
 use ArrayObject;

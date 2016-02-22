@@ -5,7 +5,6 @@ namespace Soluble\FlexStore\Writer;
 use Soluble\FlexStore\Store;
 use Soluble\FlexStore\Writer\Http\SimpleHeaders;
 use DateTime;
-use Traversable;
 use SimpleXMLElement;
 use Soluble\FlexStore\Options;
 
@@ -21,7 +20,7 @@ class SimpleXmlWriter extends AbstractSendableWriter
     /**
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         /**
          * XML tag for response
          */
@@ -32,7 +31,7 @@ class SimpleXmlWriter extends AbstractSendableWriter
         'row_tag' => 'row',
         'encoding' => 'UTF-8',
         'debug' => false
-    );
+    ];
 
     /**
      *
@@ -94,14 +93,14 @@ class SimpleXmlWriter extends AbstractSendableWriter
         $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding=\"$encoding\" ?><$bt></$bt>");
 
         $now = new DateTime();
-        $d = array(
+        $d = [
             'success' => true,
             'timestamp' => $now->format(DateTime::W3C),
             'total' => $data->getTotalRows(),
             'start' => $data->getSource()->getOptions()->getOffset(),
             'limit' => $data->getSource()->getOptions()->getLimit(),
             'data' => $data->toArray(),
-        );
+        ];
 
         if ($this->options['debug']) {
             $d['query'] = $data->getSource()->getQueryString();
@@ -128,7 +127,7 @@ class SimpleXmlWriter extends AbstractSendableWriter
                     $subnode = $xml->addChild("$key");
                     $this->createXmlNode($value, $subnode);
                 } else {
-                    $v = array($this->options['row_tag'] => $value);
+                    $v = [$this->options['row_tag'] => $value];
                     $this->createXmlNode($v, $xml);
                 }
             } else {

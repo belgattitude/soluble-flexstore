@@ -10,4 +10,3 @@ phpunit.xml
 /vendor
 /nbproject
 /build
-/test/tmp

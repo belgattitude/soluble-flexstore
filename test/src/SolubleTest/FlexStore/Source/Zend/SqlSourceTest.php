@@ -66,6 +66,50 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
     }
 
 
+    public function testCalcFoundRowsAndOptions()
+    {
+
+        $select = new Select();
+        $select->from(array('p' => 'product'));
+
+        $options = new Options();
+        $options->setLimit(2, 0);
+
+        $source = new SqlSource($this->adapter, $select);
+        $data = $source->getData($options);
+        $this->assertEquals(2, $data->count());
+        $this->assertGreaterThan(2, $data->getTotalRows());
+
+        // Edge, test if SQL_CALC_FOUND_ROWS was really injected
+        $query = $source->__toString();
+        $this->assertContains('SQL_CALC_FOUND_ROWS', $query);
+        $this->assertContains('LIMIT 2 OFFSET 0', $query);
+
+        // Second edge case, when the query already contains
+        // a quantifier : it should not be overridden
+
+        $select = new Select();
+        $select->from(array('p' => 'product'));
+        $select->quantifier(new Expression('SQL_NO_CACHE'));
+
+        $source = new SqlSource($this->adapter, $select);
+        $source->getData($options);
+        $query = $source->__toString();
+        $this->assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
+
+        // Third edge case, when the query already contains
+        // a quantifier but in string version : it should not be overridden
+
+        $select = new Select();
+        $select->from(array('p' => 'product'));
+        $select->quantifier('SQL_NO_CACHE');
+
+        $source = new SqlSource($this->adapter, $select);
+        $source->getData($options);
+        $query = $source->__toString();
+        $this->assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
+    }
+
 
     public function testCustomQuery()
     {

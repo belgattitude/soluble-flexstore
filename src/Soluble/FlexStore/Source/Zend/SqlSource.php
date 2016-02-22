@@ -130,7 +130,22 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
             if ($options->hasOffset()) {
                 $select->offset($options->getOffset());
             }
-            $select->quantifier(new Expression('SQL_CALC_FOUND_ROWS'));
+            /**
+             * For mysql queries, to allow counting rows we must prepend
+             * SQL_CALC_FOUND_ROWS to the select quantifiers
+             */
+            $calc_found_rows = 'SQL_CALC_FOUND_ROWS';
+            $quant_state = $select->getRawState($select::QUANTIFIER);
+            if ($quant_state !== null) {
+                if ($quant_state instanceof Expression) {
+                    $quant_state->setExpression($calc_found_rows . ' ' . $quant_state->getExpression());
+                } elseif (is_string($quant_state)) {
+                    $quant_state = $calc_found_rows . ' ' . $quant_state;
+                }
+                $select->quantifier($quant_state);
+            } else {
+                $select->quantifier(new Expression($calc_found_rows));
+            }
         }
         return $select;
     }
@@ -157,47 +172,11 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
         //echo "----" . var_dump($sql_string) . "----\n";
         // In ZF 2.3.0 an empty query will return SELECT .*
         // In ZF 2.4.0 and empty query will return SELECT *
-        if (in_array($sql_string, array('', 'SELECT .*', 'SELECT *'))) {
+        if (in_array($sql_string, ['', 'SELECT .*', 'SELECT *'])) {
             throw new Exception\EmptyQueryException(__METHOD__ . ': Cannot return data of an empty query');
         }
         $this->query_string = $sql_string;
 
-
-        // In case of unbuffered results (default on mysqli) !!!
-        // Seems to not be needed anymore in ZF 2.3+
-        // Uncomment if necessary, see also below is_mysqli
-        /*
-          $is_mysqli = false;
-          $driver = $this->adapter->getDriver();
-          if (false && $driver instanceof \Zend\Db\Adapter\Driver\Mysqli\Mysqli) {
-          $stmt_prototype_backup = $driver->getStatementPrototype();
-          if (self::$cache_stmt_prototype === null) {
-          // With buffer results
-          self::$cache_stmt_prototype = new \Zend\Db\Adapter\Driver\Mysqli\Statement($buffer=true);
-          }
-          $driver->registerStatementPrototype(self::$cache_stmt_prototype);
-          $is_mysqli = true;
-          }
-         */
-
-
-        /**
-         * Check whether there's a column model
-         */
-        /*
-          $limit_columns = false;
-          $renderers     = false;
-          if ($this->columnModel !== null) {
-          // TODO: optimize when the column model haven't been modified.
-          $limit_columns = $this->columnModel->getColumns();
-          $renderers     = $this->columnModel->getRowRenderers();
-          }
-         */
-        //$cm = $this->getColumnModel();
-        //$cm->setExcluded(array('user_id'));
-        //$this->columns = $cm->getColumns();
-        //var_dump($this->columns);
-        //die();
         try {
             $results = $this->adapter->query($sql_string, Adapter::QUERY_MODE_EXECUTE);
             //$stmt = $sql->prepareStatementForSqlObject( $select );
@@ -215,27 +194,7 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
             } else {
                 $r->setTotalRows($r->count());
             }
-
-
-
-            // restore result prototype
-            // $this->adapter->getDriver()->registerResultPrototype($result_prototype_backup);
-            // restore statement prototype
-            // seems not needed in zf 2.3
-            /*
-              if ($is_mysqli) {
-              $this->adapter->getDriver()->registerStatementPrototype($stmt_prototype_backup);
-              }
-             */
         } catch (\Exception $e) {
-            // restore result prototype
-            //$this->adapter->getDriver()->registerResultPrototype($result_prototype_backup);
-            // seems not needed in zf 2.3
-            /*
-              if ($is_mysqli) {
-              $this->adapter->getDriver()->registerStatementPrototype($stmt_prototype_backup);
-              }
-             */
             throw new Exception\ErrorException(__METHOD__ . ': Cannot retrieve data (' . $e->getMessage() . ')');
         }
         return $r;

@@ -36,20 +36,6 @@ abstract class AbstractSource implements SourceInterface
     protected $metadataReader;
 
 
-/*
-    public function setColumns(array $columns)
-    {
-        $this->columns = $columns;
-        return $this;
-    }
-
-
-    public function unsetColumns()
-    {
-        $this->columns = null;
-        return $this;
-    }
-*/
     /**
      *
      * @return \Soluble\FlexStore\Options
@@ -70,14 +56,10 @@ abstract class AbstractSource implements SourceInterface
      */
     abstract public function getData(Options $options = null);
 
-
-
-
-
     /**
      * Set the primary key / unique identifier in the store
      *
-     * @param string|integer $identifier column name of the primary key
+     * @param string|null $identifier column name of the primary key
      * @return AbstractSource
      */
     public function setIdentifier($identifier)
@@ -89,7 +71,7 @@ abstract class AbstractSource implements SourceInterface
      * Return the primary key / unique identifier in the store
      * Null if not applicable
      *
-     * @return string|integer|null
+     * @return string|null
      */
     public function getIdentifier()
     {
@@ -140,22 +122,18 @@ abstract class AbstractSource implements SourceInterface
 
 
     /**
-     *
+     * Set underlying metadatareader
      * @param AbstractMetadataReader $metadataReader
-     * @return AbstractSource
      */
     public function setMetadataReader(AbstractMetadataReader $metadataReader)
     {
         $this->metadataReader = $metadataReader;
-        return $this;
     }
 
     /**
-     *
+     * Return underlying metadata reader
+     * 
      * @return AbstractMetadataReader
      */
-    public function getMetadataReader()
-    {
-        return $this->metadataReader;
-    }
+    abstract public function getMetadataReader();
 }

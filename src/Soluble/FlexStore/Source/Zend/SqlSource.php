@@ -210,25 +210,23 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
         $select->limit(0);
         $sql_string = $sql->getSqlStringForSqlObject($select);
         $metadata_columns = $this->getMetadataReader()->getColumnsMetadata($sql_string);
-        $this->columnModel = MetadataMapper::getColumnModelFromMetadata($metadata_columns);
+        $this->setColumnModel(MetadataMapper::getColumnModelFromMetadata($metadata_columns));
     }
 
     /**
-     *
+     * {@inheritdoc}
      * @throws Exception\UnsupportedFeatureException
-     * @return AbstractMetadataReader
      */
     public function getMetadataReader()
     {
         if ($this->metadataReader === null) {
-            $this->metadataReader = $this->getDefaultMetadataReader();
+            $this->setMetadataReader($this->getDefaultMetadataReader());
         }
         return $this->metadataReader;
     }
 
     /**
      * @throws Exception\UnsupportedFeatureException
-     * @return AbstractMetadataReader
      */
     protected function getDefaultMetadataReader()
     {

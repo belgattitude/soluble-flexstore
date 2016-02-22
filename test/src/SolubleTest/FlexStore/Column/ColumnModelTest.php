@@ -208,6 +208,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
 
 
         $results = $cm->search()->regexp('/price/');
+        $this->assertInstanceOf('Soluble\FlexStore\Column\ColumnModel\Search\Result', $results);
         $this->assertEquals(['price', 'list_price', 'public_price'], $results->toArray());
         $formatterDb = \Soluble\FlexStore\Formatter::create('currency', [
                     'currency_code' => new \Soluble\FlexStore\Formatter\RowColumn('currency_reference')
@@ -238,6 +239,12 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $this->assertNotContains('notincool', $test);
 
 
+        $cool = new Column('cooldate');
+        $cool->setType('date');
+        $cm->add($cool);
+        $test = $cm->search()->findByType('date')->toArray();
+        $this->assertContains('cooldate', $test);
+        
 
         $cool = new Column('cool');
         $cm->add($cool);

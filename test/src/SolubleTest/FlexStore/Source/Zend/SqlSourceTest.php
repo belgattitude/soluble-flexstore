@@ -65,6 +65,28 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testGetMetadatareader() 
+    {
+        $select = new Select();
+        $select->from(['p' => 'product']);
+        $source = new SqlSource($this->adapter, $select);
+        $mr = $source->getMetadataReader();
+        $this->assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
+    }
+
+    
+    public function testIdentifier() 
+    {
+        $select = new Select();
+        $select->from(['p' => 'product']);
+
+
+        $source = new SqlSource($this->adapter, $select);
+        $this->assertNull($source->getIdentifier());
+        $source->setIdentifier('product_id');
+        $this->assertEquals('product_id', $source->getIdentifier());
+    }
+
 
     public function testCalcFoundRowsAndOptions()
     {

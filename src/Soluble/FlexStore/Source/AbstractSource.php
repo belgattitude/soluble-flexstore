@@ -132,7 +132,7 @@ abstract class AbstractSource implements SourceInterface
 
     /**
      * Return underlying metadata reader
-     * 
+     *
      * @return AbstractMetadataReader
      */
     abstract public function getMetadataReader();

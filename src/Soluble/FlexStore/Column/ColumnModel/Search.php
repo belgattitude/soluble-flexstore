@@ -30,7 +30,7 @@ class Search
 
     /**
      * Search ColumnModel for columns that are not in the $columns parameter
-     * 
+     *
      * @throws Exception\InvalidArgumentException
      * @return Result
      */

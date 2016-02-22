@@ -2,6 +2,8 @@
 
 namespace Soluble\FlexStore\Column\Exception;
 
-class MissingColumnException extends \Exception implements ExceptionInterface
+use Exception;
+
+class MissingColumnException extends Exception implements ExceptionInterface
 {
-};
+}

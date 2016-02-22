@@ -33,11 +33,11 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $params = array(
+        $params = [
             'locale' => 'zh_CN',
             'pattern' => '#,##0.###',
             'decimals' => 3
-        );
+        ];
         $f = new NumberFormatter($params);
         $this->assertEquals('zh_CN', $f->getLocale());
         $this->assertEquals('#,##0.###', $f->getPattern());
@@ -63,11 +63,11 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 
     public function testFormat()
     {
-        $params = array(
+        $params = [
             'locale' => 'fr_FR',
             'pattern' => '#,##0.###',
             'decimals' => 3
-        );
+        ];
         $f = new NumberFormatter($params);
         $this->assertEquals('1 123,457', $f->format(1123.4567));
         $this->assertEquals('-1 123,457', $f->format(-1123.4567));
@@ -76,15 +76,15 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('1,123.457', $f->format(1123.4567));
         $this->assertEquals('-1,123.457', $f->format(-1123.4567));
 
-        $params = array(
+        $params = [
             'locale' => 'fr_BE'
-        );
+        ];
         $f = new NumberFormatter($params);
         $this->assertEquals('1.123,46', $f->format(1123.4567));
 
-        $params = array(
+        $params = [
             'locale' => 'en_GB'
-        );
+        ];
         $f = new NumberFormatter($params);
         $this->assertEquals('1,123.46', $f->format(1123.4567));
     }
@@ -92,30 +92,30 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
     public function testConstructThrowsInvalidArgumentException()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $params = array(
+        $params = [
             'cool' => 0
-        );
+        ];
         $f = new NumberFormatter($params);
     }
 
     public function testFormatThrowsRuntimeException2()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\RuntimeException');
-        $params = array(
+        $params = [
             'locale' => 'fr_FR',
             'decimals' => 3
-        );
+        ];
         $f = new NumberFormatter($params);
-        $f->format(array('cool'));
+        $f->format(['cool']);
     }
 
     public function testFormatThrowsRuntimeException3()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\RuntimeException');
-        $params = array(
+        $params = [
             'locale' => 'fr_FR',
             'decimals' => 3
-        );
+        ];
         $f = new NumberFormatter($params);
         $a = $f->format('not a number');
     }

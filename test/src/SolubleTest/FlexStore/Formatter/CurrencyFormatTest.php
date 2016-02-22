@@ -33,11 +33,11 @@ class CurrencyFormatTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $params = array(
+        $params = [
             'locale' => 'zh_CN',
             'pattern' => '#,##0.###',
             'decimals' => 3
-        );
+        ];
         $f = new CurrencyFormatter($params);
         $this->assertEquals('zh_CN', $f->getLocale());
         $this->assertEquals('#,##0.###', $f->getPattern());
@@ -64,9 +64,9 @@ class CurrencyFormatTest extends \PHPUnit_Framework_TestCase
     public function testConstructThrowsInvalidArgumentException()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $params = array(
+        $params = [
             'cool' => 0
-        );
+        ];
         $f = new CurrencyFormatter($params);
     }
 
@@ -100,10 +100,10 @@ class CurrencyFormatTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(-10.24, $parsed['value']);
 
 
-        $params = array(
+        $params = [
             'locale' => 'fr_FR',
             'decimals' => 3
-        );
+        ];
         $f = new CurrencyFormatter($params);
         $f->setCurrencyCode('EUR');
         $this->assertEquals('1 123,457 €', $f->format(1123.4567));
@@ -121,21 +121,21 @@ class CurrencyFormatTest extends \PHPUnit_Framework_TestCase
     public function testFormatThrowsRuntimeException2()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\RuntimeException');
-        $params = array(
+        $params = [
             'locale' => 'fr_FR',
             'decimals' => 3
-        );
+        ];
         $f = new CurrencyFormatter($params);
-        $f->format(array('cool'));
+        $f->format(['cool']);
     }
 
     public function testFormatThrowsRuntimeException3()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\RuntimeException');
-        $params = array(
+        $params = [
             'locale' => 'fr_FR',
             'decimals' => 3
-        );
+        ];
         $f = new CurrencyFormatter($params);
         $f->format('not a number');
     }

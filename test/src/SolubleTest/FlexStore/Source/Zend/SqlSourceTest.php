@@ -68,9 +68,8 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
 
     public function testCalcFoundRowsAndOptions()
     {
-
         $select = new Select();
-        $select->from(array('p' => 'product'));
+        $select->from(['p' => 'product']);
 
         $options = new Options();
         $options->setLimit(2, 0);
@@ -89,7 +88,7 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         // a quantifier : it should not be overridden
 
         $select = new Select();
-        $select->from(array('p' => 'product'));
+        $select->from(['p' => 'product']);
         $select->quantifier(new Expression('SQL_NO_CACHE'));
 
         $source = new SqlSource($this->adapter, $select);
@@ -101,7 +100,7 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         // a quantifier but in string version : it should not be overridden
 
         $select = new Select();
-        $select->from(array('p' => 'product'));
+        $select->from(['p' => 'product']);
         $select->quantifier('SQL_NO_CACHE');
 
         $source = new SqlSource($this->adapter, $select);
@@ -114,11 +113,11 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
     public function testCustomQuery()
     {
         $select = new Select();
-        $select->from(array('p' => 'product'), array())
-                ->join(array('ppl' => 'product_pricelist'), 'ppl.product_id = p.product_id', array(), Select::JOIN_LEFT)
+        $select->from(['p' => 'product'], [])
+                ->join(['ppl' => 'product_pricelist'], 'ppl.product_id = p.product_id', [], Select::JOIN_LEFT)
                 ->limit(100);
 
-        $select->columns(array(
+        $select->columns([
            'product_id' => new Expression('p.product_id'),
            'brand_id'   => new Expression('p.brand_id'),
            'reference'  => new Expression('p.reference'),
@@ -131,7 +130,7 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
            'discount_1'     => new Expression('ppl.discount_1'),
            'pricelist.promo_start_at' => new Expression('ppl.promo_start_at'),
            'promo_end_at'   => new Expression('cast(NOW() as date)')
-        ), false);
+        ], false);
 
 
 

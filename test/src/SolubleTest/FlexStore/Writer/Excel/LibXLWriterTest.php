@@ -3,9 +3,7 @@
 namespace SolubleTest\FlexStore\Writer\Excel;
 
 use Soluble\FlexStore\Source\Zend\SqlSource;
-use Soluble\FlexStore\Writer\Http\SimpleHeaders;
 use Soluble\FlexStore\Writer\Excel\LibXLWriter;
-
 use Zend\Db\Sql\Select;
 use Soluble\FlexStore\Store;
 use Zend\Db\Sql\Expression;
@@ -43,7 +41,6 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $libxl_lic = \SolubleTestFactories::getLibXLLicense();
 
         \Soluble\Spreadsheet\Library\LibXL::setDefaultLicense($libxl_lic);
-
     }
 
     /**
@@ -53,12 +50,12 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
     protected function getTestSource()
     {
         $select = new Select();
-        $select->from(array('p' => 'product'), array())
-                ->join(array('ppl' => 'product_pricelist'), 'ppl.product_id = p.product_id', array(), Select::JOIN_LEFT)
-                ->join(array('p18' => 'product_translation'), new Expression("p.product_id = p18.product_id and p18.lang = 'fr'"), array(), Select::JOIN_LEFT)
+        $select->from(['p' => 'product'], [])
+                ->join(['ppl' => 'product_pricelist'], 'ppl.product_id = p.product_id', [], Select::JOIN_LEFT)
+                ->join(['p18' => 'product_translation'], new Expression("p.product_id = p18.product_id and p18.lang = 'fr'"), [], Select::JOIN_LEFT)
                 ->limit(100);
 
-        $select->columns(array(
+        $select->columns([
             'test_chars' => new Expression('"french accents éàùêûçâµè and chinese 请收藏我们的网址"'),
             'product_id' => new Expression('p.product_id'),
             'brand_id' => new Expression('p.brand_id'),
@@ -82,7 +79,7 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
             'test_time' => new Expression("cast('2012-12-31 15:10:59' as time)"),
             'unit' => new Expression("'Kg'"),
             'length' => new Expression("1.36666666")
-        ));
+        ]);
 
         $source = new SqlSource($this->adapter, $select);
         return $source;
@@ -103,36 +100,36 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
 
         $store = new Store($this->getTestSource());
         $cm = $store->getColumnModel();
-        $cm->search()->in(array('test_chars', 'brand_id', 'reference', 'description'))->setExcluded();
-        $cm->sort(array('product_id', 'price', 'list_price', 'public_price', 'currency_reference'));
+        $cm->search()->in(['test_chars', 'brand_id', 'reference', 'description'])->setExcluded();
+        $cm->sort(['product_id', 'price', 'list_price', 'public_price', 'currency_reference']);
         $locale = 'en_US';
-        $formatterDb = Formatter::create('currency', array(
+        $formatterDb = Formatter::create('currency', [
             'currency_code' => new \Soluble\FlexStore\Formatter\RowColumn('currency_reference'),
             'locale' => $locale
-        ));
+        ]);
         $this->assertInstanceOf('Soluble\FlexStore\Formatter\RowColumn', $formatterDb->getCurrencyCode());
 
-        $formatterEur = Formatter::create('currency', array(
+        $formatterEur = Formatter::create('currency', [
             'currency_code' => 'EUR',
             'locale' => $locale
-        ));
+        ]);
         $this->assertNotInstanceOf('Soluble\FlexStore\Formatter\RowColumn', $formatterEur->getCurrencyCode());
 
-        $unitFormatter = Formatter::create('unit', array(
+        $unitFormatter = Formatter::create('unit', [
             'unit' => '%',
             'decimals' => 2,
             'locale' => $locale
-        ));
+        ]);
 
-        $intFormatter = Formatter::create('number', array(
+        $intFormatter = Formatter::create('number', [
             'decimals' => 0,
             'locale' => $locale
-        ));
+        ]);
 
-        $volumeFormatter = Formatter::create('number', array(
+        $volumeFormatter = Formatter::create('number', [
             'decimals' => 3,
             'locale' => $locale
-        ));
+        ]);
 
 
         $cm->search()->regexp('/price/')->setFormatter($formatterDb);
@@ -228,19 +225,19 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
 
         $store = new Store($this->getTestSource());
         $cm = $store->getColumnModel();
-        $cm->search()->in(array('test_chars', 'brand_id', 'reference', 'description'))->setExcluded();
-        $cm->sort(array('product_id', 'price', 'list_price', 'public_price', 'currency_reference'));
+        $cm->search()->in(['test_chars', 'brand_id', 'reference', 'description'])->setExcluded();
+        $cm->sort(['product_id', 'price', 'list_price', 'public_price', 'currency_reference']);
         $locale = 'en_US';
-        $formatterDb = Formatter::create('currency', array(
+        $formatterDb = Formatter::create('currency', [
             'currency_code' => new \Soluble\FlexStore\Formatter\RowColumn('currency_reference'),
             'locale' => $locale
-        ));
+        ]);
         $this->assertInstanceOf('Soluble\FlexStore\Formatter\RowColumn', $formatterDb->getCurrencyCode());
 
-        $formatterEur = Formatter::create('currency', array(
+        $formatterEur = Formatter::create('currency', [
             'currency_code' => 'EUR',
             'locale' => $locale
-        ));
+        ]);
         $this->assertNotInstanceOf('Soluble\FlexStore\Formatter\RowColumn', $formatterEur->getCurrencyCode());
 
         $cm->search()->regexp('/price/')->setFormatter($formatterDb);
@@ -374,7 +371,7 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $source = $this->getTestSource();
 
         $cm = $source->getColumnModel();
-        $cm->exclude(array('reference', 'description', 'volume', 'weight', 'barcode_ean13', 'created_at', 'price', 'discount_1', 'promo_start_at', 'promo_end_at'));
+        $cm->exclude(['reference', 'description', 'volume', 'weight', 'barcode_ean13', 'created_at', 'price', 'discount_1', 'promo_start_at', 'promo_end_at']);
 
         $xlsWriter = new LibXLWriter();
         $xlsWriter->setStore(new Store($source));

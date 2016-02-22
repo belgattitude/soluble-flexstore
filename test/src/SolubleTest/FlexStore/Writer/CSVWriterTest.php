@@ -84,12 +84,12 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
     {
         $enclosure = '"';
         $this->csvWriter->setOptions(
-            array(
+            [
                     'field_separator' => CSVWriter::SEPARATOR_TAB,
                     'line_separator' => CSVWriter::SEPARATOR_NEWLINE_UNIX,
                     'enclosure' => $enclosure,
                     'charset' => 'UTF-8'
-                    )
+                    ]
         );
 
 
@@ -116,12 +116,12 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
     {
         $enclosure = '"';
         $this->csvWriter->setOptions(
-            array(
+            [
                     'field_separator' => CSVWriter::SEPARATOR_TAB,
                     'line_separator' => CSVWriter::SEPARATOR_NEWLINE_UNIX,
                     'enclosure' => $enclosure,
                     'charset' => 'ISO-8859-1'
-                    )
+                    ]
         );
 
         $data = $this->csvWriter->getData();
@@ -168,18 +168,18 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
             $select = $source->select();
 
 
-            $select->from('user', array())->columns(
-                array(
+            $select->from('user', [])->columns(
+                [
                 'user_id' => new Expression('user_id'),
-                'test' => new Expression('"french accents éàùêûçâµè and chinese 请收藏我们的网址"'))
+                'test' => new Expression('"french accents éàùêûçâµè and chinese 请收藏我们的网址"')]
             );
             $store = new Store($source);
 
             $writer = new CSVWriter($store);
             $writer->setOptions(
-                array(
+                [
                         'charset' => 'ISO-8859-1'
-                        )
+                        ]
             );
             $data = $writer->getData();
         } else {
@@ -193,12 +193,12 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
         //die();
         $enclosure = '"';
         $this->csvWriter->setOptions(
-            array(
+            [
                     'field_separator' => CSVWriter::SEPARATOR_TAB,
                     'line_separator' => CSVWriter::SEPARATOR_NEWLINE_UNIX,
                     'enclosure' => $enclosure,
                     //'charset' => 'ISO-8859-1'
-                    )
+                    ]
         );
 
         $data = $this->csvWriter->getData();
@@ -237,9 +237,9 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\InvalidArgumentException');
         $this->csvWriter->setOptions(
-            array(
+            [
                     'rossssss' => 'line',
-                    )
+                    ]
         );
 
 
@@ -252,22 +252,22 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
     {
         $enclosure = '"';
         $this->csvWriter->setOptions(
-            array(
+            [
                     'field_separator' => CSVWriter::SEPARATOR_SEMICOLON,
                     'line_separator' => CSVWriter::SEPARATOR_NEWLINE_UNIX,
                     'enclosure' => $enclosure,
                     'charset' => 'ISO-8859-1',
                     'escape' => '\\'
-                    )
+                    ]
         );
 
 
         $select = new \Zend\Db\Sql\Select();
-        $select->from(array('pc18' => 'product_category_translation'))
-               ->columns(array(
+        $select->from(['pc18' => 'product_category_translation'])
+               ->columns([
                    'category_id',
                    'test' => new \Zend\Db\Sql\Expression("'alpha; beta;'")
-               ))
+               ])
                ->where("lang = 'fr' and category_id = 988");
 
 
@@ -280,22 +280,22 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
     {
         $enclosure = '"';
         $this->csvWriter->setOptions(
-            array(
+            [
                     'field_separator' => CSVWriter::SEPARATOR_SEMICOLON,
                     'line_separator' => CSVWriter::SEPARATOR_NEWLINE_UNIX,
                     'enclosure' => $enclosure,
                     'charset' => 'ISO-8859-1',
                     'escape' => ''
-                    )
+                    ]
         );
 
 
         $select = new \Zend\Db\Sql\Select();
-        $select->from(array('pc18' => 'product_category_translation'))
-               ->columns(array(
+        $select->from(['pc18' => 'product_category_translation'])
+               ->columns([
                    'category_id',
                    'test' => new \Zend\Db\Sql\Expression("'alpha; beta;'")
-               ))
+               ])
                ->where("lang = 'fr' and category_id = 988");
 
 

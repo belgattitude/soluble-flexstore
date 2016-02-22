@@ -57,7 +57,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
     public function testSetLimitThrowsInvalidException()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $this->options->setLimit(array('cool'));
+        $this->options->setLimit(['cool']);
     }
 
     public function testSetLimitThrowsInvalidException2()
@@ -76,7 +76,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
     public function testSetLimitThrowsInvalidException4()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $this->options->setLimit(10, array('cool'));
+        $this->options->setLimit(10, ['cool']);
     }
 
     public function testSetLimitThrowsInvalidException5()

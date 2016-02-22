@@ -33,11 +33,11 @@ class UnitFormatterTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $params = array(
+        $params = [
             'locale' => 'zh_CN',
             'pattern' => '#,##0.###',
             'decimals' => 3
-        );
+        ];
         $f = new UnitFormatter($params);
         $this->assertEquals('zh_CN', $f->getLocale());
         $this->assertEquals('#,##0.###', $f->getPattern());
@@ -66,12 +66,12 @@ class UnitFormatterTest extends \PHPUnit_Framework_TestCase
 
     public function testFormat()
     {
-        $params = array(
+        $params = [
             'locale' => 'fr_FR',
             'pattern' => '#,##0.###',
             'decimals' => 3,
             'unit' => 'Kg'
-        );
+        ];
         $f = new UnitFormatter($params);
         $this->assertEquals('1 123,457 Kg', $f->format(1123.4567));
         $this->assertEquals('-1 123,457 Kg', $f->format(-1123.4567));
@@ -80,18 +80,18 @@ class UnitFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('1,123.457 Kg', $f->format(1123.4567));
         $this->assertEquals('-1,123.457 Kg', $f->format(-1123.4567));
 
-        $params = array(
+        $params = [
             'locale' => 'fr_BE',
             'unit' => 'm³'
-        );
+        ];
 
         $f = new UnitFormatter($params);
 
         $this->assertEquals('1.128,46 m³', $f->format(1128.4567));
-        $params = array(
+        $params = [
             'locale' => 'en_GB',
             'unit' => 'm²'
-        );
+        ];
         $f = new UnitFormatter($params);
         $this->assertEquals('1,123.46 m²', $f->format(1123.4567));
 
@@ -102,32 +102,32 @@ class UnitFormatterTest extends \PHPUnit_Framework_TestCase
     public function testConstructThrowsInvalidArgumentException()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $params = array(
+        $params = [
             'cool' => 0
-        );
+        ];
         $f = new UnitFormatter($params);
     }
 
     public function testFormatThrowsRuntimeException2()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\RuntimeException');
-        $params = array(
+        $params = [
             'locale' => 'fr_FR',
             'decimals' => 3,
             'unit' => 'ltr'
-        );
+        ];
         $f = new UnitFormatter($params);
-        $f->format(array('cool'));
+        $f->format(['cool']);
     }
 
     public function testFormatThrowsRuntimeException3()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\RuntimeException');
-        $params = array(
+        $params = [
             'locale' => 'fr_FR',
             'decimals' => 3,
             'unit' => 'ltr'
-        );
+        ];
 
         $f = new UnitFormatter($params);
         $f->format('not a number');

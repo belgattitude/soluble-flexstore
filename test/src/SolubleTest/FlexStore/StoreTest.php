@@ -3,9 +3,7 @@
 namespace Soluble\FlexStore;
 
 use Soluble\FlexStore\Source\Zend\SqlSource;
-use Soluble\FlexStore\Store;
-use Soluble\FlexStore\Column\Column;
-use Soluble\FlexStore\Column\ColumnModel;
+
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Select;
 
@@ -56,29 +54,29 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $source = new SqlSource($this->adapter);
         $source->select()
-               ->from(array('ttt' => 'test_table_types'));
+               ->from(['ttt' => 'test_table_types']);
 
         $store = new Store($source);
         $cm    = $store->getColumnModel();
         //$config = new Zend\Config\Config();
         //$cm->mergeConfiguration($config);
-        $cm->exclude(array('test_multipoint'));
+        $cm->exclude(['test_multipoint']);
 
 
         $search = $cm->search();
         $search->regexp('/multi/')->setExcluded(true);
         $search->regexp('/^test\_/')->setExcluded(true);
-        $search->in(array('test_char_10'))->setExcluded(false);
+        $search->in(['test_char_10'])->setExcluded(false);
 
         $data = $store->getData()->toArray();
-        $keys = join(',', array_keys($data[0]));
+        $keys = implode(',', array_keys($data[0]));
         $this->assertEquals('id,test_char_10', $keys);
 
         $search->all()->setExcluded(true);
         $search->regexp('/\_10$/')->setExcluded($excluded = false);
 
         $data = $store->getData()->toArray();
-        $keys = join(',', array_keys($data[0]));
+        $keys = implode(',', array_keys($data[0]));
         $this->assertEquals('test_char_10,test_varbinary_10', $keys);
     }
 

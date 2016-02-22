@@ -29,7 +29,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     public function testGetProperties()
     {
         $formatter = new \Soluble\FlexStore\Formatter\CurrencyFormatter();
-        $properties = array(
+        $properties = [
             'type' => 'string', // will be defaulted to string
             'formatter' => $formatter,
             'excluded' => true,
@@ -41,7 +41,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
             'sortable' => false,
             'editable' => true,
             'virtual' => true,
-        );
+        ];
 
         $column = new Column('cool', $properties);
         $this->assertEquals($properties, $column->getProperties());
@@ -49,7 +49,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     public function testWithProperties()
     {
-        $properties = array(
+        $properties = [
             'type' => ColumnType::TYPE_DATE,
             'header' => 'header',
             'width' => '100%',
@@ -59,7 +59,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
             'hidden' => true,
             'excluded' => true,
             'editable' => true
-        );
+        ];
 
         $column = new Column('cool', $properties);
         $this->assertFalse($column->isSortable());
@@ -72,9 +72,9 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(ColumnType::TYPE_DATE, $column->getType());
         $this->assertEquals('100%', $column->getWidth());
 
-        $properties = array(
+        $properties = [
             'header' => 'changed',
-        );
+        ];
         $column->setProperties($properties);
         $this->assertEquals('changed', $column->getHeader());
     }
@@ -83,10 +83,10 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Soluble\FlexStore\Column\Exception\InvalidArgumentException');
 
-        $properties = array(
+        $properties = [
             'header' => 'header',
             'not_exists' => '100%',
-        );
+        ];
 
         $column = new Column('cool', $properties);
     }
@@ -103,10 +103,10 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Soluble\FlexStore\Column\Exception\InvalidArgumentException');
 
-        $properties = array(
+        $properties = [
             'header' => 'header',
             'not_exists' => '100%',
-        );
+        ];
 
         $column = new Column('cool');
         $column->setProperties($properties);
@@ -177,7 +177,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     public function testConstructThrowsInvalidArgumentException()
     {
         $this->setExpectedException('Soluble\FlexStore\Column\Exception\InvalidArgumentException');
-        $column = new Column(array('cool'));
+        $column = new Column(['cool']);
     }
 
     public function testConstructThrowsInvalidArgumentException2()
@@ -191,7 +191,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Soluble\FlexStore\Column\Exception\InvalidArgumentException');
         $column = new Column('hello');
-        $column->setWidth(array('cool'));
+        $column->setWidth(['cool']);
     }
 
 

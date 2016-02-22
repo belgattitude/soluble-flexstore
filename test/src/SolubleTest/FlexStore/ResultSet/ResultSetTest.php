@@ -3,9 +3,7 @@
 namespace SolubleTest\FlexStore\ResultSet;
 
 use Soluble\FlexStore\ResultSet\ResultSet;
-use Soluble\FlexStore\FlexStore;
 use Soluble\FlexStore\Store;
-use Zend\Paginator\Paginator;
 use Zend\Db\Sql\Select;
 use Soluble\FlexStore\Source\Zend\SqlSource;
 
@@ -102,13 +100,13 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
     public function testGetFieldCount()
     {
         $select = new \Zend\Db\Sql\Select();
-        $select->from('product_brand')->limit(1)->columns(array('reference'));
+        $select->from('product_brand')->limit(1)->columns(['reference']);
         $store = $this->getStore($select);
         $resultset = $store->getData();
         $this->assertEquals(1, $resultset->getFieldCount());
 
         $select = new \Zend\Db\Sql\Select();
-        $select->from('product_brand')->limit(1)->columns(array('reference', 'brand_id'));
+        $select->from('product_brand')->limit(1)->columns(['reference', 'brand_id']);
 
         $store = $this->getStore($select);
         $resultset = $store->getData();
@@ -127,7 +125,7 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
     {
         // With limit in the rquery
         $select = new \Zend\Db\Sql\Select();
-        $select->from('product_brand')->limit(10)->columns(array('reference'));
+        $select->from('product_brand')->limit(10)->columns(['reference']);
 
 
 
@@ -143,7 +141,7 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
 
         // With no limit
         $select = new \Zend\Db\Sql\Select();
-        $select->from('product_brand')->columns(array('reference'));
+        $select->from('product_brand')->columns(['reference']);
 
         $store = $this->getStore($select);
         $options = new \Soluble\FlexStore\Options();

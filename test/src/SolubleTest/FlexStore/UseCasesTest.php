@@ -39,12 +39,11 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
     {
         $zendAdapter = \SolubleTestFactories::getDbAdapter();
 
-        $this->sources = array(
-            'zend-sqlsource' => array(
+        $this->sources = [
+            'zend-sqlsource' => [
                 'source' => new Source\Zend\SqlSource($zendAdapter)
-            )
-        );
-
+            ]
+        ];
     }
 
     public function testBasicDataRetrieval()
@@ -129,19 +128,17 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
             $column->isFilterable();
             $column->isGroupable();
             $column->isSortable();
-
-
         }
     }
 
     protected function getQueryOne($key)
     {
         $select = new Select();
-        $select->from(array('p' => 'product'), array())
-                ->join(array('ppl' => 'product_pricelist'), 'ppl.product_id = p.product_id', array(), Select::JOIN_LEFT)
+        $select->from(['p' => 'product'], [])
+                ->join(['ppl' => 'product_pricelist'], 'ppl.product_id = p.product_id', [], Select::JOIN_LEFT)
                 ->limit(100);
 
-        $select->columns(array(
+        $select->columns([
            'product_id' => new Expression('p.product_id'),
            'brand_id'   => new Expression('p.brand_id'),
            'reference'  => new Expression('p.reference'),
@@ -154,7 +151,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
            'discount_1'     => new Expression('ppl.discount_1'),
            'pricelist.promo_start_at' => new Expression('ppl.promo_start_at'),
            'promo_end_at'   => new Expression('cast(NOW() as date)')
-        ), false);
+        ], false);
 
         switch ($key) {
             case 'zend-sqlsource':

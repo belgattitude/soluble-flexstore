@@ -130,10 +130,10 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
         $cm = $store->getColumnModel();
 
         $locale = 'en_US';
-        $formatter = Formatter::create('currency', array(
+        $formatter = Formatter::create('currency', [
             'currency_code' => new \Soluble\FlexStore\Formatter\RowColumn('currency_reference'),
             'locale' => $locale
-        ));
+        ]);
 
         $cm->search()->regexp('/price/')->setFormatter($formatter);
         $formatted_data = $store->getData()->toArray();
@@ -154,12 +154,12 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
     {
         $source = new SqlSource($this->adapter);
         $select = $source->select();
-        $select->from(array('p' => 'product'), array())
-                ->join(array('ppl' => 'product_pricelist'), 'ppl.product_id = p.product_id', array(), Select::JOIN_LEFT)
-                ->join(array('p18' => 'product_translation'), new Expression("p.product_id = p18.product_id and p18.lang = 'fr'"), array(), Select::JOIN_LEFT)
+        $select->from(['p' => 'product'], [])
+                ->join(['ppl' => 'product_pricelist'], 'ppl.product_id = p.product_id', [], Select::JOIN_LEFT)
+                ->join(['p18' => 'product_translation'], new Expression("p.product_id = p18.product_id and p18.lang = 'fr'"), [], Select::JOIN_LEFT)
                 ->limit(100);
 
-        $select->columns(array(
+        $select->columns([
             'test_chars' => new Expression('"french accents éàùêûçâµè and chinese 请收藏我们的网址"'),
             'product_id' => new Expression('p.product_id'),
             'brand_id' => new Expression('p.brand_id'),
@@ -177,7 +177,7 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
             'list_price' => new Expression('ppl.list_price'),
             'public_price' => new Expression('ppl.public_price'),
             'currency_reference' => new Expression("'CNY'")
-        ));
+        ]);
 
 
         return $source;

@@ -3,7 +3,6 @@
 namespace Soluble\FlexStore;
 
 use Soluble\FlexStore\Source\Zend\SqlSource;
-
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Select;
 

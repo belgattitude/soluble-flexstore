@@ -4,12 +4,8 @@ namespace SolubleTest\FlexStore\Column\Search;
 
 use Soluble\FlexStore\Source\Zend\SqlSource;
 use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Expression;
-use Soluble\FlexStore\Formatter\CurrencyFormatter;
 use Soluble\FlexStore\Store;
-use Soluble\FlexStore\Column\Column;
 use Soluble\FlexStore\Column\ColumnModel;
-use Soluble\FlexStore\Column\ColumnType;
 
 
 /**
@@ -62,12 +58,12 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $results = $cm->search()->regexp('/created_at/');
 
         $this->assertInstanceOf('Soluble\FlexStore\Column\ColumnModel\Search\Result', $results);
-        
+
         $results->setEditable(true);
         $this->assertTrue($cm->get('created_at')->isEditable());
         $results->setEditable(false);
         $this->assertFalse($cm->get('created_at')->isEditable());
-        
+
         $results->setExcluded(true);
         $this->assertTrue($cm->get('created_at')->isExcluded());
         $results->setExcluded(false);
@@ -83,14 +79,14 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cm->get('created_at')->isHidden());
         $results->setHidden(false);
         $this->assertFalse($cm->get('created_at')->isHidden());
-        
+
 
         $results->setVirtual(true);
         $this->assertTrue($cm->get('created_at')->isVirtual());
         $results->setVirtual(false);
         $this->assertFalse($cm->get('created_at')->isVirtual());
 
-        
+
         $results->setGroupable(true);
         $this->assertTrue($cm->get('created_at')->isGroupable());
         $results->setGroupable(false);
@@ -99,18 +95,15 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $results->setFilterable(true);
         $this->assertTrue($cm->get('created_at')->isFilterable());
         $results->setFilterable(false);
-        $this->assertFalse($cm->get('created_at')->isFilterable());        
-        
+        $this->assertFalse($cm->get('created_at')->isFilterable());
+
         $results->setWidth(10);
         $this->assertEquals(10, $cm->get('created_at')->getWidth());
-        
+
         $results->setHeader('header');
         $this->assertEquals('header', $cm->get('created_at')->getHeader());
-        
+
         $results->setType('date');
         $this->assertEquals('date', $cm->get('created_at')->getType());
-
-        
     }
-
 }

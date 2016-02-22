@@ -19,7 +19,6 @@ use Zend\Db\Sql\Expression;
 use ArrayObject;
 use Soluble\FlexStore\Column\ColumnModel;
 use Soluble\FlexStore\Column\Type\MetadataMapper;
-use Soluble\Metadata\Reader\AbstractMetadataReader;
 use Soluble\Metadata\Reader as MetadataReader;
 
 class SqlSource extends AbstractSource implements QueryableSourceInterface

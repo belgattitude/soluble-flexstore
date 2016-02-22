@@ -65,7 +65,7 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetMetadatareader() 
+    public function testGetMetadatareader()
     {
         $select = new Select();
         $select->from(['p' => 'product']);
@@ -74,8 +74,8 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
     }
 
-    
-    public function testIdentifier() 
+
+    public function testIdentifier()
     {
         $select = new Select();
         $select->from(['p' => 'product']);

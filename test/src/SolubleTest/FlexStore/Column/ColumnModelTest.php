@@ -244,7 +244,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $cm->add($cool);
         $test = $cm->search()->findByType('date')->toArray();
         $this->assertContains('cooldate', $test);
-        
+
 
         $cool = new Column('cool');
         $cm->add($cool);

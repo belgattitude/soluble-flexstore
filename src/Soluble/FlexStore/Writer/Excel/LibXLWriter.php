@@ -8,7 +8,7 @@ use Soluble\Spreadsheet\Library\LibXL;
 use Soluble\FlexStore\Writer\Http\SimpleHeaders;
 use Soluble\FlexStore\Column\ColumnType;
 use Soluble\FlexStore\Options;
-use Soluble\FlexStore\StoreInterface;
+use Soluble\FlexStore\Store\StoreInterface;
 use ExcelBook;
 use ExcelFormat;
 use ArrayObject;

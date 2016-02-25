@@ -5,7 +5,7 @@ namespace Soluble\FlexStore\Writer;
 use Soluble\FlexStore\Exception;
 use Traversable;
 use Soluble\FlexStore\Options;
-use Soluble\FlexStore\StoreInterface;
+use Soluble\FlexStore\Store\StoreInterface;
 
 abstract class AbstractWriter
 {

@@ -23,18 +23,22 @@
     "require": {
         "php": "^5.4 || ^7.0",
         "soluble/metadata": "0.*",
-        "soluble/dbwrapper": "1.*",
         "soluble/spreadsheet": "0.*",
         "ramsey/array_column": "~1.1",
-        "zendframework/zend-paginator": "^2.4 || ^3.0"
+        "zendframework/zend-paginator": "^2.3 || ^3.0"
     },
     "require-dev": {
-        "zendframework/zend-cache": "^2.4 || ^3.0",
-        "zendframework/zend-json": "^2.4 || ^3.0",
-        "zendframework/zend-validator": "^2.4 || ^3.0",
-        "zendframework/zend-inputfilter": "^2.4 || ^3.0",
-        "zendframework/zend-db": "^2.4 || ^3.0",
+        "zendframework/zend-cache": "^2.3 || ^3.0",
+        "zendframework/zend-json": "^2.3 || ^3.0",
+        "zendframework/zend-validator": "^2.3 || ^3.0",
+        "zendframework/zend-inputfilter": "^2.3 || ^3.0",
+        "zendframework/zend-db": "^2.3 || ^3.0",
+        "soluble/dbwrapper": "^1.1.0",        
         "phpoffice/phpexcel": "^1.8"
+    },
+    "suggest": {
+        "soluble/dbwrapper": "soluble-dbwrapper datasource support (universal database wrapper).",
+        "zendframework/zend-db": "zendframework db select datasource support"
     },
     "archive": {
         "exclude": ["test", "doc", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore", "phpcs.xml"]

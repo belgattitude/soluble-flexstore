@@ -162,6 +162,35 @@ class Result implements ColumnSettableInterface
         }
         return $this;
     }
+    
+    /**
+     * Set recommended horizontal align 
+     *
+     * @throws Exception\InvalidArgumentException
+     * @param string $align can be left|center|right
+     * @return Column
+     */
+    public function setAlign($align)
+    {
+        foreach ($this->results as $name) {
+            $this->columns->offsetGet($name)->setAlign($align);
+        }
+    }
+
+    /**
+     * Set recommended css class
+     *
+     * @throws Exception\InvalidArgumentException
+     * @param string $class css class
+     * @return Column
+     */
+    public function setClass($class)
+    {
+        foreach ($this->results as $name) {
+            $this->columns->offsetGet($name)->setClass($class);
+        }
+    }
+
 
     /**
      * Set table header for this column

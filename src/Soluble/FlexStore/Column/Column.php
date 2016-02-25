@@ -28,7 +28,9 @@ class Column implements ColumnSettableInterface
         'groupable' => true,
         'sortable' => true,
         'editable' => false,
-        'virtual' => true
+        'virtual' => true,
+        'align' => null,
+        'class' => null
     ];
 
 
@@ -265,6 +267,7 @@ class Column implements ColumnSettableInterface
         return (bool) $this->properties['filterable'];
     }
 
+    
     /**
      * Set recommended width for the column
      *
@@ -311,7 +314,57 @@ class Column implements ColumnSettableInterface
     {
         return $this->properties['header'];
     }
+    
+    /**
+     * Set recommended horizontal align 
+     *
+     * @throws Exception\InvalidArgumentException
+     * @param string $align can be left|center|right
+     * @return Column
+     */
+    public function setAlign($align)
+    {
+        if (!is_string($align) || ! in_array(strtolower($align), ['left', 'right', 'center'])) {
+            throw new Exception\InvalidArgumentException(__METHOD__ . " Align param must be a string : right, left, center.");
+        }
+        $this->properties['align'] = $align;
+        return $this;
+    }
 
+    /**
+     * Return recommended horizontal alignment
+     * @return string|null
+     */
+    public function getAlign()
+    {
+        return $this->properties['align'];
+    }    
+
+    /**
+     * Set recommended css class
+     *
+     * @throws Exception\InvalidArgumentException
+     * @param string $class css class
+     * @return Column
+     */
+    public function setClass($class)
+    {
+        if (!is_string($class)) {
+            throw new Exception\InvalidArgumentException(__METHOD__ . " Class param must be a string");
+        }
+        $this->properties['class'] = $class;
+        return $this;
+    }
+
+    /**
+     * Return recommended css class
+     * @return string|null
+     */
+    public function getClass()
+    {
+        return $this->properties['class'];
+    }        
+    
     /**
      *
      * @return array

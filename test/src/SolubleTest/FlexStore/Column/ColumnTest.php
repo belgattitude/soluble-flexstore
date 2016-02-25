@@ -41,6 +41,8 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
             'sortable' => false,
             'editable' => true,
             'virtual' => true,
+            'align' => 'right',
+            'class' => 'css_class'
         ];
 
         $column = new Column('cool', $properties);
@@ -68,6 +70,8 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($column->isHidden());
         $this->assertTrue($column->isExcluded());
         $this->assertTrue($column->isEditable());
+        $this->assertNull($column->getClass());
+        $this->assertNull($column->getAlign());
         $this->assertEquals('header', $column->getHeader());
         $this->assertEquals(ColumnType::TYPE_DATE, $column->getType());
         $this->assertEquals('100%', $column->getWidth());

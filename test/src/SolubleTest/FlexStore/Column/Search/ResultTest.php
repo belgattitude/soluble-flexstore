@@ -4,7 +4,7 @@ namespace SolubleTest\FlexStore\Column\Search;
 
 use Soluble\FlexStore\Source\Zend\SqlSource;
 use Zend\Db\Sql\Select;
-use Soluble\FlexStore\Store;
+use Soluble\FlexStore\FlexStore;
 use Soluble\FlexStore\Column\ColumnModel;
 
 /**
@@ -51,7 +51,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $select = $source->select();
         $select->from(['p' => 'product']);
 
-        $store = new Store($source);
+        $store = new FlexStore($source);
         $cm = $store->getColumnModel();
 
         $results = $cm->search()->regexp('/created_at/');

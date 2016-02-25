@@ -3,7 +3,7 @@
 namespace SolubleTest\FlexStore\ResultSet;
 
 use Soluble\FlexStore\ResultSet\ResultSet;
-use Soluble\FlexStore\Store;
+use Soluble\FlexStore\FlexStore;
 use Zend\Db\Sql\Select;
 use Soluble\FlexStore\Source\Zend\SqlSource;
 
@@ -42,7 +42,7 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
 
     protected function getStore(Select $select = null)
     {
-        $store = new Store(new SqlSource($this->adapter, $select));
+        $store = new FlexStore(new SqlSource($this->adapter, $select));
         return $store;
     }
 

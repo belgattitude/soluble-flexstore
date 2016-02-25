@@ -4,7 +4,7 @@ namespace SolubleTest\FlexStore\Writer;
 
 use Soluble\FlexStore\Writer\CSVWriter;
 use Soluble\FlexStore\Source\Zend\SqlSource;
-use Soluble\FlexStore\Store;
+use Soluble\FlexStore\FlexStore;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Expression;
 
@@ -69,7 +69,7 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
      */
     protected function getStore(SqlSource $sqlSource = null)
     {
-        return new Store($sqlSource);
+        return new FlexStore($sqlSource);
     }
 
     /**
@@ -135,7 +135,7 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
         $select->from('product_category_translation')->where("lang = 'fr' and category_id = 988")->limit(50);
 
 
-        $this->csvWriter->setStore(new Store($this->getSource($select)));
+        $this->csvWriter->setStore(new FlexStore($this->getSource($select)));
         $data = $this->csvWriter->getData();
         $data = explode(CSVWriter::SEPARATOR_NEWLINE_UNIX, $data);
         $line1 = str_getcsv($data[1], CSVWriter::SEPARATOR_TAB, $enclosure, $escape = null);
@@ -173,7 +173,7 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
                 'user_id' => new Expression('user_id'),
                 'test' => new Expression('"french accents éàùêûçâµè and chinese 请收藏我们的网址"')]
             );
-            $store = new Store($source);
+            $store = new FlexStore($source);
 
             $writer = new CSVWriter($store);
             $writer->setOptions(
@@ -212,7 +212,7 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
         $select->from('product_category_translation')->where("lang = 'fr' and category_id = 988")->limit(50);
 
 
-        $this->csvWriter->setStore(new Store($this->getSource($select)));
+        $this->csvWriter->setStore(new FlexStore($this->getSource($select)));
         $data = $this->csvWriter->getData();
 
         $data = explode(CSVWriter::SEPARATOR_NEWLINE_UNIX, $data);
@@ -271,7 +271,7 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
                ->where("lang = 'fr' and category_id = 988");
 
 
-        $this->csvWriter->setStore(new Store($this->getSource($select)));
+        $this->csvWriter->setStore(new FlexStore($this->getSource($select)));
         $data = $this->csvWriter->getData();
         $this->assertContains('alpha\; beta\;', $data);
     }
@@ -299,7 +299,7 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
                ->where("lang = 'fr' and category_id = 988");
 
 
-        $this->csvWriter->setStore(new Store($this->getSource($select)));
+        $this->csvWriter->setStore(new FlexStore($this->getSource($select)));
         $data = $this->csvWriter->getData();
 
         $this->assertContains('"alpha; beta;"', $data);

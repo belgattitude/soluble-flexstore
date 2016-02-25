@@ -3,7 +3,7 @@
 namespace SolubleTest\FlexStore\Writer\Zend;
 
 use Soluble\FlexStore\Source\Zend\SqlSource;
-use Soluble\FlexStore\Store;
+use Soluble\FlexStore\FlexStore;
 use Soluble\FlexStore\Writer\Zend\JsonWriter;
 
 /**
@@ -42,7 +42,7 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
 
 
         $this->jsonWriter = new JsonWriter();
-        $this->jsonWriter->setStore(new Store($this->source));
+        $this->jsonWriter->setStore(new FlexStore($this->source));
     }
 
     /**

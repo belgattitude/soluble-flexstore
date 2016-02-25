@@ -3,7 +3,7 @@
 namespace SolubleTest\FlexStore\Writer;
 
 use Soluble\FlexStore\Source\Zend\SqlSource;
-use Soluble\FlexStore\Store;
+use Soluble\FlexStore\FlexStore;
 use Soluble\FlexStore\Formatter;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Expression;
@@ -46,7 +46,7 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
 
 
         $this->jsonWriter = new JsonWriter();
-        $this->jsonWriter->setStore(new Store($this->source));
+        $this->jsonWriter->setStore(new FlexStore($this->source));
     }
 
     /**
@@ -87,7 +87,7 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
         $select->from('product');
 
         $source = new SqlSource($this->adapter, $select);
-        $store =  new Store($source);
+        $store =  new FlexStore($source);
 
         $limit = 2;
 
@@ -126,7 +126,7 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
      */
     public function testColumnModel()
     {
-        $store = new Store($this->getTestSource());
+        $store = new FlexStore($this->getTestSource());
         $cm = $store->getColumnModel();
 
         $locale = 'en_US';

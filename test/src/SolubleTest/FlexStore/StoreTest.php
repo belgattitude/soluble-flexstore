@@ -55,7 +55,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $source->select()
                ->from(['ttt' => 'test_table_types']);
 
-        $store = new Store($source);
+        $store = new FlexStore($source);
         $cm    = $store->getColumnModel();
         //$config = new Zend\Config\Config();
         //$cm->mergeConfiguration($config);
@@ -82,7 +82,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testGetOptions()
     {
         $this->source->select()->from('product');
-        $store = new Store($this->source);
+        $store = new FlexStore($this->source);
         $options = $store->getOptions();
         $this->assertInstanceOf('Soluble\FlexStore\Options', $options);
         $options->setLimit(2);
@@ -94,7 +94,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testGetSource()
     {
         $this->source->select()->from('user');
-        $store = new Store($this->source);
+        $store = new FlexStore($this->source);
         $source = $store->getSource();
         $this->assertInstanceOf('Soluble\FlexStore\Source\Zend\SqlSource', $source);
     }
@@ -103,7 +103,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $source = $this->source;
         $source->setSelect($this->select);
-        $store = new Store($source);
+        $store = new FlexStore($source);
         $resultset = $store->getData();
         $this->assertInstanceOf('Soluble\FlexStore\ResultSet\ResultSet', $resultset);
     }
@@ -111,7 +111,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testGetDataThrowsEmptyQueryException()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\EmptyQueryException');
-        $store = new Store($this->source);
+        $store = new FlexStore($this->source);
         $resultset = $store->getData();
         $this->assertInstanceOf('Soluble\FlexStore\ResultSet\ResultSet', $resultset);
     }
@@ -119,7 +119,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testGetColumnModel()
     {
         $this->source->select()->from('user');
-        $store = new Store($this->source);
+        $store = new FlexStore($this->source);
         $cm = $store->getColumnModel();
         $this->assertInstanceOf('Soluble\FlexStore\Column\ColumnModel', $cm);
     }

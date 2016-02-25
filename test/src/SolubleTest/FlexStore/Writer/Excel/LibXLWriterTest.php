@@ -5,7 +5,7 @@ namespace SolubleTest\FlexStore\Writer\Excel;
 use Soluble\FlexStore\Source\Zend\SqlSource;
 use Soluble\FlexStore\Writer\Excel\LibXLWriter;
 use Zend\Db\Sql\Select;
-use Soluble\FlexStore\Store;
+use Soluble\FlexStore\FlexStore;
 use Zend\Db\Sql\Expression;
 use PHPExcel_IOFactory;
 use Soluble\Spreadsheet\Library\LibXL;
@@ -98,7 +98,7 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
     {
         $output_file = \SolubleTestFactories::getCachePath() . DIRECTORY_SEPARATOR . 'tmp_phpunit_lbxl_test5.xlsx';
 
-        $store = new Store($this->getTestSource());
+        $store = new FlexStore($this->getTestSource());
         $cm = $store->getColumnModel();
         $cm->search()->in(['test_chars', 'brand_id', 'reference', 'description'])->setExcluded();
         $cm->sort(['product_id', 'price', 'list_price', 'public_price', 'currency_reference']);
@@ -223,7 +223,7 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
     {
         $output_file = \SolubleTestFactories::getCachePath() . DIRECTORY_SEPARATOR . 'tmp_phpunit_lbxl_test4.xlsx';
 
-        $store = new Store($this->getTestSource());
+        $store = new FlexStore($this->getTestSource());
         $cm = $store->getColumnModel();
         $cm->search()->in(['test_chars', 'brand_id', 'reference', 'description'])->setExcluded();
         $cm->sort(['product_id', 'price', 'list_price', 'public_price', 'currency_reference']);
@@ -320,7 +320,7 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $cm = $source->getColumnModel();
 
         $xlsWriter = new LibXLWriter();
-        $xlsWriter->setStore(new Store($source));
+        $xlsWriter->setStore(new FlexStore($source));
 
         $xlsWriter->save($output_file);
 
@@ -349,7 +349,7 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
 
         $xlsWriter = new LibXLWriter();
         $xlsWriter->setFormat(LibXL::FILE_FORMAT_XLS);
-        $xlsWriter->setStore(new Store($source));
+        $xlsWriter->setStore(new FlexStore($source));
 
         $xlsWriter->save($output_file);
 
@@ -374,7 +374,7 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $cm->exclude(['reference', 'description', 'volume', 'weight', 'barcode_ean13', 'created_at', 'price', 'discount_1', 'promo_start_at', 'promo_end_at']);
 
         $xlsWriter = new LibXLWriter();
-        $xlsWriter->setStore(new Store($source));
+        $xlsWriter->setStore(new FlexStore($source));
 
         $xlsWriter->save($output_file);
         $this->assertFileExists($output_file);

@@ -3,7 +3,7 @@
 namespace SolubleTest\FlexStore\Writer;
 
 use Soluble\FlexStore\Source\Zend\SqlSource;
-use Soluble\FlexStore\Store;
+use Soluble\FlexStore\FlexStore;
 use DateTime;
 use Soluble\FlexStore\Writer\SimpleXmlWriter;
 
@@ -42,7 +42,7 @@ class SimpleXmlWriterTest extends \PHPUnit_Framework_TestCase
 
 
         $this->xmlWriter = new SimpleXmlWriter();
-        $this->xmlWriter->setStore(new Store($this->source));
+        $this->xmlWriter->setStore(new FlexStore($this->source));
     }
 
     /**

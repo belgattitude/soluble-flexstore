@@ -4,7 +4,7 @@ namespace SolubleTest\FlexStore\Source\Zend;
 
 use Soluble\FlexStore\Options;
 use Soluble\FlexStore\Source;
-use Soluble\FlexStore\Store;
+use Soluble\FlexStore\FlexStore;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Expression;
 
@@ -54,7 +54,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
             $queryOne = $this->getQueryOne($key);
 
             $source->setSelect($queryOne);
-            $store = new Store($source);
+            $store = new FlexStore($source);
 
             $data = $store->getData();
 
@@ -90,7 +90,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
             $source = $options['source'];
             $queryOne = $this->getQueryOne($key);
             $source->setSelect($queryOne);
-            $store = new Store($source);
+            $store = new FlexStore($source);
             $options = new Options();
             $options->setLimit(1);
             $data = $store->getData($options);
@@ -105,7 +105,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
             $source = $options['source'];
             $queryOne = $this->getQueryOne($key);
             $source->setSelect($queryOne);
-            $store = new Store($source);
+            $store = new FlexStore($source);
 
             $cm = $store->getColumnModel();
             $this->assertInstanceOf('\Soluble\FlexStore\Column\ColumnModel', $cm);

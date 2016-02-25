@@ -6,7 +6,7 @@ use Soluble\FlexStore\Source\Zend\SqlSource;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Expression;
 use Soluble\FlexStore\Formatter\CurrencyFormatter;
-use Soluble\FlexStore\Store;
+use Soluble\FlexStore\FlexStore;
 use Soluble\FlexStore\Column\Column;
 use Soluble\FlexStore\Column\ColumnModel;
 use Soluble\FlexStore\Column\ColumnType;
@@ -69,7 +69,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
             'currency_reference' => new Expression("'CNY'")
         ]);
 
-        $store = new Store($source);
+        $store = new FlexStore($source);
         $cm = $store->getColumnModel();
 
         $f = function (\ArrayObject $row) {
@@ -98,7 +98,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
             'currency_reference' => new Expression("'CNY'")
         ]);
 
-        $store = new Store($source);
+        $store = new FlexStore($source);
         $cm = $store->getColumnModel();
         $column = new Column('cool', ['type' => ColumnType::TYPE_STRING]);
         $cm->add($column);
@@ -136,7 +136,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
             'currency_reference' => new Expression("'CNY'")
         ]);
 
-        $store = new Store($source);
+        $store = new FlexStore($source);
         $cm = $store->getColumnModel();
         $column = new Column('cool', ['type' => ColumnType::TYPE_STRING]);
         $cm->add($column);
@@ -171,7 +171,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
             'currency_reference' => new Expression("'CNY'")
         ]);
 
-        $store = new Store($source);
+        $store = new FlexStore($source);
         $cm = $store->getColumnModel();
         $column = new Column('cool', ['type' => ColumnType::TYPE_STRING]);
         $cm->add($column);
@@ -203,7 +203,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
             'currency_reference' => new Expression("'CNY'")
         ]);
 
-        $store = new Store($source);
+        $store = new FlexStore($source);
         $cm = $store->getColumnModel();
 
 
@@ -287,7 +287,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
             'currency_reference' => new Expression("'CNY'")
         ]);
 
-        $store = new Store($source);
+        $store = new FlexStore($source);
         $cm = $store->getColumnModel();
 
         $formatter = new CurrencyFormatter();
@@ -309,7 +309,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('$0.00', $data[3]['price']);
 
         // store 2
-        $store = new Store($source);
+        $store = new FlexStore($source);
 
         $formatter = new CurrencyFormatter();
         $formatter->setLocale('fr_FR');

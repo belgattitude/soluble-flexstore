@@ -6,7 +6,6 @@
 
 namespace Soluble\FlexStore;
 
-use Soluble\FlexStore\Column\ColumnModel;
 use Soluble\FlexStore\ResultSet\ResultSet;
 use Soluble\FlexStore\Store\StoreInterface;
 

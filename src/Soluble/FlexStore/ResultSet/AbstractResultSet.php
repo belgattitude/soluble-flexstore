@@ -2,8 +2,9 @@
 
 namespace Soluble\FlexStore\ResultSet;
 
-use Zend\Db\ResultSet\ResultSet as ZFResultSet;
 use ArrayObject;
+//use Soluble\DbWrapper\Result\ResultInterface;
+use Zend\Db\ResultSet\ResultSet as ZFResultSet;
 
 abstract class AbstractResultSet implements ResultSetInterface
 {
@@ -49,14 +50,30 @@ abstract class AbstractResultSet implements ResultSetInterface
      * @param string           $returnType
      * @param null|ArrayObject $arrayObjectPrototype
      */
-    public function __construct(ZFResultSet $resultSet, $returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
+
+/*    
+public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
+{
+    $this->zfResultSet = $resultSet;
+    $this->returnType = (in_array($returnType, [self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT])) ? $returnType : self::TYPE_ARRAYOBJECT;
+    if ($this->returnType === self::TYPE_ARRAYOBJECT) {
+        $this->setArrayObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject([], ArrayObject::ARRAY_AS_PROPS));
+    }
+}
+*/
+    /**
+     * Constructor
+     *
+     * @param ZFResultSet|ResultInterface      $resultSet
+     * @param string           $returnType
+     * @param null|ArrayObject $arrayObjectPrototype
+     */
+    public function __construct($resultSet, $returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
     {
         $this->zfResultSet = $resultSet;
         $this->returnType = (in_array($returnType, [self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT])) ? $returnType : self::TYPE_ARRAYOBJECT;
-        if ($this->returnType === self::TYPE_ARRAYOBJECT) {
-            $this->setArrayObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject([], ArrayObject::ARRAY_AS_PROPS));
-        }
     }
+
 
     /**
      * Set the row object prototype

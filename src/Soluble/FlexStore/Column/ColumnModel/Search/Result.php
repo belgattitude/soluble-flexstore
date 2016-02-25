@@ -162,7 +162,7 @@ class Result implements ColumnSettableInterface
         }
         return $this;
     }
-    
+
     /**
      * Set recommended horizontal align 
      *

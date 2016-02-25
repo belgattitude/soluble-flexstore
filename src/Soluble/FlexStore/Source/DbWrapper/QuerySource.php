@@ -5,38 +5,31 @@
  * @author Vanvelthem Sébastien
  */
 
-namespace Soluble\FlexStore\Source\Zend;
+namespace Soluble\FlexStore\Source\DbWrapper;
 
 use Soluble\FlexStore\Source\AbstractSource;
 use Soluble\FlexStore\Source\QueryableSourceInterface;
 use Soluble\FlexStore\ResultSet\ResultSet;
 use Soluble\FlexStore\Exception;
 use Soluble\FlexStore\Options;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Expression;
 use ArrayObject;
+use Soluble\DbWrapper\Adapter\AdapterInterface;
 use Soluble\FlexStore\Column\ColumnModel;
 use Soluble\FlexStore\Column\Type\MetadataMapper;
 use Soluble\Metadata\Reader as MetadataReader;
 
-class SqlSource extends AbstractSource implements QueryableSourceInterface
+class QuerySource extends AbstractSource implements QueryableSourceInterface
 {
-    /**
-     * @var Sql
-     */
-    protected $sql;
 
     /**
      *
-     * @var Select
+     * @var string
      */
-    protected $select;
+    protected $query;
 
     /**
      *
-     * @var Adapter
+     * @var AdapterInterface
      */
     protected $adapter;
 
@@ -52,17 +45,7 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
      */
     protected $query_string;
 
-    /**
-     *
-     * @var \Zend\Db\Adapter\Driver\Mysqli\Statement
-     */
-    protected static $cache_stmt_prototype;
 
-    /**
-     *
-     * @var \Zend\Db\Adapter\Driver\ResultInterface
-     */
-    protected static $cache_result_prototype;
 
     /**
      *
@@ -72,47 +55,33 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
 
     /**
      *
-     * @param Adapter $adapter
-     * @param Select $select
+     * @param AdapterInterface $adapter
+     * @param string $query
      */
-    public function __construct(Adapter $adapter, Select $select = null)
+    public function __construct(AdapterInterface $adapter, $query = null)
     {
         $this->adapter = $adapter;
-        $this->sql = new Sql($this->adapter);
-        if ($select !== null) {
-            $this->setSelect($select);
+
+        if ($query !== null) {
+            $this->setQuery($query);
         }
     }
 
     /**
-     * @param Select $select
-     * @return SqlSource
+     * @param string $query
      */
-    public function setSelect(Select $select)
+    public function setQuery($query)
     {
-        $this->select = $select;
-        return $this;
+        $this->query = $query;
     }
 
     /**
      *
-     * @return Select
+     * @return string
      */
-    public function getSelect()
+    public function getQuery()
     {
-        return $this->select();
-    }
-
-    /**
-     *
-     * @return Select
-     */
-    public function select()
-    {
-        if ($this->select === null) {
-            $this->select = $this->sql->select();
-        }
-        return $this->select;
+        return $this->query;
     }
 
 
@@ -162,25 +131,16 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
             $options = $this->getOptions();
         }
 
-        $select = $this->assignOptions(clone $this->getSelect(), $options);
+        // todo
+        //$query = $this->assignOptions(clone $this->query, $options);
 
 
-        $sql = new Sql($this->adapter);
-        $sql_string = (string) $sql->getSqlStringForSqlObject($select);
-        //echo $this->select->getSqlString($this->adapter->getPlatform());
-        //echo "----" . var_dump($sql_string) . "----\n";
-        // In ZF 2.3.0 an empty query will return SELECT .*
-        // In ZF 2.4.0 and empty query will return SELECT *
-        if (in_array($sql_string, ['', 'SELECT .*', 'SELECT *'])) {
-            throw new Exception\EmptyQueryException(__METHOD__ . ': Cannot return data of an empty query');
-        }
-        $this->query_string = $sql_string;
+        $sql_string = $this->query;
 
         try {
-            $results = $this->adapter->query($sql_string, Adapter::QUERY_MODE_EXECUTE);
-            //$stmt = $sql->prepareStatementForSqlObject( $select );
-            //$results = $stmt->execute();
-            //var_dump(get_class($results));
+            $results = $this->adapter->query($sql_string);
+
+
 
             $r = new ResultSet($results);
             $r->setSource($this);
@@ -188,7 +148,7 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
 
             if ($options->hasLimit()) {
                 //$row = $this->adapter->query('select FOUND_ROWS() as total_count')->execute()->current();
-                $row = $this->adapter->createStatement('select FOUND_ROWS() as total_count')->execute()->current();
+                $row = $this->adapter->query('select FOUND_ROWS() as total_count')->current();
                 $r->setTotalRows($row['total_count']);
             } else {
                 $r->setTotalRows($r->count());
@@ -204,11 +164,7 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
      */
     public function loadDefaultColumnModel()
     {
-        $sql = new Sql($this->adapter);
-        $select = clone $this->select;
-        $select->limit(0);
-        $sql_string = $sql->getSqlStringForSqlObject($select);
-        $metadata_columns = $this->getMetadataReader()->getColumnsMetadata($sql_string);
+        $metadata_columns = $this->getMetadataReader()->getColumnsMetadata($this->query);
         $this->setColumnModel(MetadataMapper::getColumnModelFromMetadata($metadata_columns));
     }
 
@@ -229,7 +185,7 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
      */
     protected function getDefaultMetadataReader()
     {
-        $conn = $this->adapter->getDriver()->getConnection()->getResource();
+        $conn = $this->adapter->getConnection()->getResource();
         $class = strtolower(get_class($conn));
         switch ($class) {
             case 'pdo':

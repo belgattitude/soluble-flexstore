@@ -267,7 +267,7 @@ class Column implements ColumnSettableInterface
         return (bool) $this->properties['filterable'];
     }
 
-    
+
     /**
      * Set recommended width for the column
      *
@@ -314,7 +314,7 @@ class Column implements ColumnSettableInterface
     {
         return $this->properties['header'];
     }
-    
+
     /**
      * Set recommended horizontal align 
      *
@@ -338,7 +338,7 @@ class Column implements ColumnSettableInterface
     public function getAlign()
     {
         return $this->properties['align'];
-    }    
+    }
 
     /**
      * Set recommended css class
@@ -363,8 +363,8 @@ class Column implements ColumnSettableInterface
     public function getClass()
     {
         return $this->properties['class'];
-    }        
-    
+    }
+
     /**
      *
      * @return array

@@ -2,7 +2,6 @@
 
 namespace Soluble\FlexStore\Writer;
 
-use Soluble\FlexStore\FlexStore;
 use Soluble\FlexStore\Writer\Http\SimpleHeaders;
 use DateTime;
 use SimpleXMLElement;

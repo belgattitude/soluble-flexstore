@@ -104,7 +104,7 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
                 $calc_found_rows = 'SQL_CALC_FOUND_ROWS';
                 if (!preg_match("/$calc_found_rows/", $query)) {
                     $q = trim($query);
-                    $query = preg_replace('/^select\b/', "SELECT $calc_found_rows", $q);
+                    $query = preg_replace('/^select\b/i', "SELECT $calc_found_rows", $q);
                 }
             }
             $query .= " $limit_clause";

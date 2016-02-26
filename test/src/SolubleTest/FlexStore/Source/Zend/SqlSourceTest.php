@@ -148,7 +148,7 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
 
         $source = new SqlSource($this->adapter, $select);
         $source->getData($options);
-        $query = $source->__toString();
+        $query = $source->getQueryString();
         $this->assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
     }
 

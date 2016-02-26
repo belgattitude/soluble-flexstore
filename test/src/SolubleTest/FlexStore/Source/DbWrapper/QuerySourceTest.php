@@ -123,7 +123,7 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
 
     public function testCalcFoundRowsAndOptions()
     {
-        $source = new QuerySource($this->adapter, "select * from product");
+        $source = new QuerySource($this->adapter, "SELECT * from product");
 
         $options = new Options();
         $options->setLimit(2, 0);

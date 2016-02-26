@@ -129,9 +129,9 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
             if ($options->hasOffset()) {
                 $select->offset($options->getOffset());
             }
-            
+
             if ($options->getLimit() > 0) {
-            
+
                 /**
                  * For mysql queries, to allow counting rows we must prepend
                  * SQL_CALC_FOUND_ROWS to the select quantifiers

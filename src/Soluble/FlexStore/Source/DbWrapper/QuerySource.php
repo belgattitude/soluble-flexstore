@@ -100,7 +100,7 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
              * For mysql queries, to allow counting rows we must prepend
              * SQL_CALC_FOUND_ROWS to the select quantifiers
              */
-            if ($options->getLimit() > 0) {            
+            if ($options->getLimit() > 0) {
                 $calc_found_rows = 'SQL_CALC_FOUND_ROWS';
                 if (!preg_match("/$calc_found_rows/", $query)) {
                     $q = trim($query);

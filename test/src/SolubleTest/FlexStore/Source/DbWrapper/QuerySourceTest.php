@@ -102,7 +102,7 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
     }
 
-    
+
     public function testCalcFoundRowsAndWithZeroLimit()
     {
         $source = new QuerySource($this->adapter, "select * from product");
@@ -118,7 +118,6 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $query = $source->getQueryString();
         $this->assertNotContains('SQL_CALC_FOUND_ROWS', $query);
         $this->assertContains('LIMIT 0 OFFSET 0', $query);
-        
     }
 
 
@@ -130,7 +129,7 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $options->setLimit(2, 0);
 
         $data = $source->getData($options);
-        
+
         $this->assertEquals(2, $data->count());
         $this->assertGreaterThan(2, $data->getTotalRows());
 
@@ -138,9 +137,8 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $query = $source->getQueryString();
         $this->assertContains('SQL_CALC_FOUND_ROWS', $query);
         $this->assertContains('LIMIT 2 OFFSET 0', $query);
-
     }
-    
+
 
     /**
      *

@@ -86,8 +86,8 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $source->setIdentifier('product_id');
         $this->assertEquals('product_id', $source->getIdentifier());
     }
-    
-    
+
+
     public function testCalcFoundRowsAndWithZeroLimit()
     {
         $select = new Select();
@@ -106,7 +106,6 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $query = $source->__toString();
         $this->assertNotContains('SQL_CALC_FOUND_ROWS', $query);
         $this->assertContains('LIMIT 0 OFFSET 0', $query);
-
     }
 
 

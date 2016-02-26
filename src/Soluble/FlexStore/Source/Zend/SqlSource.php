@@ -129,21 +129,25 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
             if ($options->hasOffset()) {
                 $select->offset($options->getOffset());
             }
-            /**
-             * For mysql queries, to allow counting rows we must prepend
-             * SQL_CALC_FOUND_ROWS to the select quantifiers
-             */
-            $calc_found_rows = 'SQL_CALC_FOUND_ROWS';
-            $quant_state = $select->getRawState($select::QUANTIFIER);
-            if ($quant_state !== null) {
-                if ($quant_state instanceof Expression) {
-                    $quant_state->setExpression($calc_found_rows . ' ' . $quant_state->getExpression());
-                } elseif (is_string($quant_state)) {
-                    $quant_state = $calc_found_rows . ' ' . $quant_state;
+            
+            if ($options->getLimit() > 0) {
+            
+                /**
+                 * For mysql queries, to allow counting rows we must prepend
+                 * SQL_CALC_FOUND_ROWS to the select quantifiers
+                 */
+                $calc_found_rows = 'SQL_CALC_FOUND_ROWS';
+                $quant_state = $select->getRawState($select::QUANTIFIER);
+                if ($quant_state !== null) {
+                    if ($quant_state instanceof Expression) {
+                        $quant_state->setExpression($calc_found_rows . ' ' . $quant_state->getExpression());
+                    } elseif (is_string($quant_state)) {
+                        $quant_state = $calc_found_rows . ' ' . $quant_state;
+                    }
+                    $select->quantifier($quant_state);
+                } else {
+                    $select->quantifier(new Expression($calc_found_rows));
                 }
-                $select->quantifier($quant_state);
-            } else {
-                $select->quantifier(new Expression($calc_found_rows));
             }
         }
         return $select;
@@ -186,7 +190,7 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
             $r->setSource($this);
             $r->setHydrationOptions($options->getHydrationOptions());
 
-            if ($options->hasLimit()) {
+            if ($options->hasLimit() && $options->getLimit() > 0) {
                 //$row = $this->adapter->query('select FOUND_ROWS() as total_count')->execute()->current();
                 $row = $this->adapter->createStatement('select FOUND_ROWS() as total_count')->execute()->current();
                 $r->setTotalRows($row['total_count']);
@@ -262,7 +266,7 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
      */
     public function __toString()
     {
-        if ($this->query_string != '') {
+        if (trim($this->query_string) != '') {
             $sql = str_replace("\n", ' ', $this->query_string);
         } elseif ($this->select !== null) {
             $sql = $this->sql->getSqlStringForSqlObject($this->select);

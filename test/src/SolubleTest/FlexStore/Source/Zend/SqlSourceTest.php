@@ -86,6 +86,28 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $source->setIdentifier('product_id');
         $this->assertEquals('product_id', $source->getIdentifier());
     }
+    
+    
+    public function testCalcFoundRowsAndWithZeroLimit()
+    {
+        $select = new Select();
+        $select->from(['p' => 'product']);
+
+        $options = new Options();
+        $options->setLimit(0, 0);
+
+        $source = new SqlSource($this->adapter, $select);
+
+        $data = $source->getData($options);
+        $this->assertEquals(0, $data->count());
+        $this->assertEquals(0, $data->getTotalRows());
+
+        // Edge, test if SQL_CALC_FOUND_ROWS was really injected
+        $query = $source->__toString();
+        $this->assertNotContains('SQL_CALC_FOUND_ROWS', $query);
+        $this->assertContains('LIMIT 0 OFFSET 0', $query);
+
+    }
 
 
     public function testCalcFoundRowsAndOptions()

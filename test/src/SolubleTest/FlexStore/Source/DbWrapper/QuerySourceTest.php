@@ -102,11 +102,45 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
     }
 
+    
+    public function testCalcFoundRowsAndWithZeroLimit()
+    {
+        $source = new QuerySource($this->adapter, "select * from product");
+
+        $options = new Options();
+        $options->setLimit(0, 0);
+
+        $data = $source->getData($options);
+        $this->assertEquals(0, $data->count());
+        $this->assertEquals(0, $data->getTotalRows());
+
+        // Edge, test if SQL_CALC_FOUND_ROWS was really injected
+        $query = $source->getQueryString();
+        $this->assertNotContains('SQL_CALC_FOUND_ROWS', $query);
+        $this->assertContains('LIMIT 0 OFFSET 0', $query);
+        
+    }
 
 
+    public function testCalcFoundRowsAndOptions()
+    {
+        $source = new QuerySource($this->adapter, "select * from product");
 
+        $options = new Options();
+        $options->setLimit(2, 0);
 
+        $data = $source->getData($options);
+        
+        $this->assertEquals(2, $data->count());
+        $this->assertGreaterThan(2, $data->getTotalRows());
 
+        // Edge, test if SQL_CALC_FOUND_ROWS was really injected
+        $query = $source->getQueryString();
+        $this->assertContains('SQL_CALC_FOUND_ROWS', $query);
+        $this->assertContains('LIMIT 2 OFFSET 0', $query);
+
+    }
+    
 
     /**
      *

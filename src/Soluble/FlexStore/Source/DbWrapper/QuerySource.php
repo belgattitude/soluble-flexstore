@@ -40,12 +40,10 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
     protected $params;
 
     /**
-     *
+     * The query string contains the query as it has been crafted (with options, limits...)
      * @var string
      */
     protected $query_string;
-
-
 
     /**
      *
@@ -87,35 +85,31 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
 
     /**
      *
-     * @param Select $select
+     * @param string $query
      * @param Options $options
-     * @return Select
+     * @return query
      */
-    protected function assignOptions(Select $select, Options $options)
+    protected function assignOptions($query, Options $options)
     {
         if ($options->hasLimit()) {
-            $select->limit($options->getLimit());
+            $limit_clause = "LIMIT " . $options->getLimit();
             if ($options->hasOffset()) {
-                $select->offset($options->getOffset());
+                $limit_clause .= " OFFSET " . $options->getOffset();
             }
             /**
              * For mysql queries, to allow counting rows we must prepend
              * SQL_CALC_FOUND_ROWS to the select quantifiers
              */
-            $calc_found_rows = 'SQL_CALC_FOUND_ROWS';
-            $quant_state = $select->getRawState($select::QUANTIFIER);
-            if ($quant_state !== null) {
-                if ($quant_state instanceof Expression) {
-                    $quant_state->setExpression($calc_found_rows . ' ' . $quant_state->getExpression());
-                } elseif (is_string($quant_state)) {
-                    $quant_state = $calc_found_rows . ' ' . $quant_state;
+            if ($options->getLimit() > 0) {            
+                $calc_found_rows = 'SQL_CALC_FOUND_ROWS';
+                if (!preg_match("/$calc_found_rows/", $query)) {
+                    $q = trim($query);
+                    $query = preg_replace('/^select\b/', "SELECT $calc_found_rows", $q);
                 }
-                $select->quantifier($quant_state);
-            } else {
-                $select->quantifier(new Expression($calc_found_rows));
             }
+            $query .= " $limit_clause";
         }
-        return $select;
+        return $query;
     }
 
     /**
@@ -131,22 +125,18 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
             $options = $this->getOptions();
         }
 
-        // todo
-        //$query = $this->assignOptions(clone $this->query, $options);
+        $this->query_string = $this->assignOptions($this->query, $options);
 
 
-        $sql_string = $this->query;
 
         try {
-            $results = $this->adapter->query($sql_string);
-
-
+            $results = $this->adapter->query($this->query_string);
 
             $r = new ResultSet($results);
             $r->setSource($this);
             $r->setHydrationOptions($options->getHydrationOptions());
 
-            if ($options->hasLimit()) {
+            if ($options->hasLimit() && $options->getLimit() > 0) {
                 //$row = $this->adapter->query('select FOUND_ROWS() as total_count')->execute()->current();
                 $row = $this->adapter->query('select FOUND_ROWS() as total_count')->current();
                 $r->setTotalRows($row['total_count']);
@@ -198,7 +188,8 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
     }
 
     /**
-     * Return the query string that was executed
+     * Return the query string that was executed with options etc
+     * 
      * @throws Exception\InvalidUsageException
      * @return string
      */
@@ -218,13 +209,9 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
      */
     public function __toString()
     {
-        if ($this->query_string != '') {
-            $sql = str_replace("\n", ' ', $this->query_string);
-        } elseif ($this->select !== null) {
-            $sql = $this->sql->getSqlStringForSqlObject($this->select);
-        } else {
-            throw new Exception\InvalidUsageException(__METHOD__ . ": No select given.");
+        if (trim($this->query) == '') {
+            throw new Exception\InvalidUsageException(__METHOD__ . ": Empty query given.");
         }
-        return $sql;
+        return $this->query;
     }
 }

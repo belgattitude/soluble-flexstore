@@ -6,6 +6,7 @@ use Soluble\FlexStore\Writer\Http\SimpleHeaders;
 use DateTime;
 use SimpleXMLElement;
 use Soluble\FlexStore\Options;
+use Soluble\FlexStore\Store\StoreInterface;
 
 class SimpleXmlWriter extends AbstractSendableWriter
 {
@@ -34,10 +35,10 @@ class SimpleXmlWriter extends AbstractSendableWriter
 
     /**
      *
-     * @param Store|null $store
+     * @param StoreInterface|null $store
      * @param array|\Traversable|null $options
      */
-    public function __construct(Store $store = null, $options = null)
+    public function __construct(StoreInterface $store = null, $options = null)
     {
         if (version_compare(PHP_VERSION, '5.4.0', '<')) {
             $this->php_54_compatibility = false;

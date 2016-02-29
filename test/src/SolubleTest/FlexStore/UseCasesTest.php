@@ -32,7 +32,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $sources;
-    
+
     /**
      *
      * @var Sql
@@ -47,7 +47,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
     {
         $zendAdapter = \SolubleTestFactories::getDbAdapter();
         $this->sql = new Sql($zendAdapter);
-        
+
         $dbWrapper = DbWrapper\AdapterFactory::createAdapterFromZendDb2($zendAdapter);
 
         $this->sources = [
@@ -68,7 +68,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
             $queryOne = $this->getQueryOne($key);
 
             $this->setQuery($source, $queryOne);
-            
+
             $store = new FlexStore($source);
 
             $data = $store->getData();
@@ -81,12 +81,14 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(count($data), $data->count());
 
             $current = $data->current();
-            $this->assertInstanceOf('\ArrayObject', $current);
+
+            $this->assertInstanceOf('ArrayObject', $current);
 
             $i = 0;
             foreach ($data as $idx => $row) {
                 $this->assertEquals($i, $idx);
-                $this->assertInstanceOf('\ArrayObject', $row);
+
+                $this->assertInstanceOf('ArrayObject', $row);
                 $i++;
             }
 
@@ -103,8 +105,19 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
     {
         foreach ($this->sources as $key => $options) {
             $source = $options['source'];
+
+            // With limit by options
             $queryOne = $this->getQueryOne($key);
-            $this->setQuery($source,$queryOne);
+            $this->setQuery($source, $queryOne);
+            $store = new FlexStore($source);
+            $options = new Options();
+            $options->setLimit(1);
+            $data = $store->getData($options);
+            $this->assertEquals(1, count($data));
+
+            // with initial limit
+            $queryOne = $this->getQueryOne($key, $limit=2);
+            $this->setQuery($source, $queryOne);
             $store = new FlexStore($source);
             $options = new Options();
             $options->setLimit(1);
@@ -119,8 +132,8 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
      * @param \Soluble\FlexStore\Source\SourceInterface $source
      * @param Select $select
      */
-    protected function setQuery(Source\SourceInterface $source, $select) {
-        
+    protected function setQuery(Source\SourceInterface $source, $select)
+    {
         if ($source instanceof Source\DbWrapper\QuerySource) {
             $query = $this->sql->buildSqlString($select);
             $source->setQuery($query);
@@ -128,13 +141,13 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
             $source->setSelect($select);
         }
     }
-    
+
     public function testColumnModel()
     {
         foreach ($this->sources as $key => $options) {
             $source = $options['source'];
             $queryOne = $this->getQueryOne($key);
-            $this->setQuery($source,$queryOne);
+            $this->setQuery($source, $queryOne);
             $store = new FlexStore($source);
 
             $cm = $store->getColumnModel();
@@ -161,7 +174,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    protected function getQueryOne($key)
+    protected function getQueryOne($key, $limit=null, $offset=null)
     {
         $select = new Select();
         $select->from(['p' => 'product'], [])
@@ -182,6 +195,13 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
            'pricelist.promo_start_at' => new Expression('ppl.promo_start_at'),
            'promo_end_at'   => new Expression('cast(NOW() as date)')
         ], false);
+
+        if ($limit !== null) {
+            $select->limit($limit);
+            if ($offset !== null) {
+                $select->offset($offset);
+            }
+        }
 
         switch ($key) {
             case 'zend-sqlsource':

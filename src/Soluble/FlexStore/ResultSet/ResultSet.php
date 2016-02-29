@@ -149,11 +149,10 @@ class ResultSet extends AbstractResultSet
 
     /**
      *
-     * @param ArrayObject|array $row
+     * @param ArrayObject $row
      * @return null
      */
-//protected function initColumnModelHydration(ArrayObject $row)    
-    protected function initColumnModelHydration(&$row)
+    protected function initColumnModelHydration(ArrayObject $row)
     {
         $this->hydration_formatters = new ArrayObject();
         $this->hydration_renderers = new ArrayObject();

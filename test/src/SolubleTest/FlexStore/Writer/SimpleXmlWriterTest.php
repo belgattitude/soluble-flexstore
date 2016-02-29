@@ -52,10 +52,10 @@ class SimpleXmlWriterTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
-    
-    
-    public function testConstructor() {
-        
+
+
+    public function testConstructor()
+    {
         $xmlWriter = new SimpleXmlWriter(new FlexStore($this->source));
         $this->assertInstanceOf('\Soluble\FlexStore\Writer\AbstractWriter', $xmlWriter);
     }

@@ -14,6 +14,7 @@ use Soluble\FlexStore\Exception;
 use Soluble\FlexStore\Options;
 use ArrayObject;
 use Soluble\DbWrapper\Adapter\AdapterInterface;
+use Soluble\DbWrapper\Result\Resultset as DbWrapperResultset;
 use Soluble\FlexStore\Column\ColumnModel;
 use Soluble\FlexStore\Column\Type\MetadataMapper;
 use Soluble\Metadata\Reader as MetadataReader;
@@ -82,7 +83,6 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
         return $this->query;
     }
 
-
     /**
      *
      * @param string $query
@@ -104,7 +104,7 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
                     $query = preg_replace('/^select\b/i', "SELECT $calc_found_rows", $q);
                 }
             }
-            
+
             // mysql only, @todo make it rule everything (use traits)
             $replace_regexp = "LIMIT[\s]+[\d]+((\s*,\s*\d+)|(\s+OFFSET\s+\d+)){0,1}";
 
@@ -115,12 +115,11 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
             } else {
                 $query = preg_replace("/($replace_regexp)/i", "LIMIT " . $options->getLimit(), $query);
             }
-            
-            
+
+
             if ($options->hasOffset()) {
                 $query .= " OFFSET " . $options->getOffset();
             }
-            
         }
         return $query;
     }
@@ -140,10 +139,8 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
 
         $this->query_string = $this->assignOptions($this->query, $options);
 
-
-
         try {
-            $results = $this->adapter->query($this->query_string);
+            $results = $this->adapter->query($this->query_string, DbWrapperResultset::TYPE_ARRAYOBJECT);
 
             $r = new ResultSet($results);
             $r->setSource($this);

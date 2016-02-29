@@ -5,7 +5,9 @@ namespace SolubleTest\FlexStore\Source\Zend;
 use Soluble\FlexStore\Options;
 use Soluble\FlexStore\Source;
 use Soluble\FlexStore\FlexStore;
+use Soluble\DbWrapper;
 use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Expression;
 
 /**
@@ -30,6 +32,12 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $sources;
+    
+    /**
+     *
+     * @var Sql
+     */
+    protected $sql;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -38,10 +46,16 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $zendAdapter = \SolubleTestFactories::getDbAdapter();
+        $this->sql = new Sql($zendAdapter);
+        
+        $dbWrapper = DbWrapper\AdapterFactory::createAdapterFromZendDb2($zendAdapter);
 
         $this->sources = [
             'zend-sqlsource' => [
                 'source' => new Source\Zend\SqlSource($zendAdapter)
+            ],
+            'dbwrapper-querysource' => [
+                'source' => new Source\DbWrapper\QuerySource($dbWrapper)
             ]
         ];
     }
@@ -53,7 +67,8 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
 
             $queryOne = $this->getQueryOne($key);
 
-            $source->setSelect($queryOne);
+            $this->setQuery($source, $queryOne);
+            
             $store = new FlexStore($source);
 
             $data = $store->getData();
@@ -89,7 +104,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
         foreach ($this->sources as $key => $options) {
             $source = $options['source'];
             $queryOne = $this->getQueryOne($key);
-            $source->setSelect($queryOne);
+            $this->setQuery($source,$queryOne);
             $store = new FlexStore($source);
             $options = new Options();
             $options->setLimit(1);
@@ -99,12 +114,27 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * Set select or query to source
+     * @param \Soluble\FlexStore\Source\SourceInterface $source
+     * @param Select $select
+     */
+    protected function setQuery(Source\SourceInterface $source, $select) {
+        
+        if ($source instanceof Source\DbWrapper\QuerySource) {
+            $query = $this->sql->buildSqlString($select);
+            $source->setQuery($query);
+        } else {
+            $source->setSelect($select);
+        }
+    }
+    
     public function testColumnModel()
     {
         foreach ($this->sources as $key => $options) {
             $source = $options['source'];
             $queryOne = $this->getQueryOne($key);
-            $source->setSelect($queryOne);
+            $this->setQuery($source,$queryOne);
             $store = new FlexStore($source);
 
             $cm = $store->getColumnModel();

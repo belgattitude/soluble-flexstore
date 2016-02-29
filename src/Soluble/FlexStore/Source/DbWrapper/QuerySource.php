@@ -92,10 +92,7 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
     protected function assignOptions($query, Options $options)
     {
         if ($options->hasLimit()) {
-            $limit_clause = "LIMIT " . $options->getLimit();
-            if ($options->hasOffset()) {
-                $limit_clause .= " OFFSET " . $options->getOffset();
-            }
+
             /**
              * For mysql queries, to allow counting rows we must prepend
              * SQL_CALC_FOUND_ROWS to the select quantifiers
@@ -107,7 +104,23 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
                     $query = preg_replace('/^select\b/i', "SELECT $calc_found_rows", $q);
                 }
             }
-            $query .= " $limit_clause";
+            
+            // mysql only, @todo make it rule everything (use traits)
+            $replace_regexp = "LIMIT[\s]+[\d]+((\s*,\s*\d+)|(\s+OFFSET\s+\d+)){0,1}";
+
+            $search_regexp = "$replace_regexp";
+            if (!preg_match("/$search_regexp$/i", $query)) {
+                // Limit is not already present
+                $query .= " LIMIT " . $options->getLimit();
+            } else {
+                $query = preg_replace("/($replace_regexp)/i", "LIMIT " . $options->getLimit(), $query);
+            }
+            
+            
+            if ($options->hasOffset()) {
+                $query .= " OFFSET " . $options->getOffset();
+            }
+            
         }
         return $query;
     }

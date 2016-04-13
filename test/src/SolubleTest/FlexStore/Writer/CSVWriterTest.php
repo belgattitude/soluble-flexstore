@@ -117,22 +117,28 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
     public function testCharsetTranslit()
     {
         $adapter = AdapterFactory::createAdapterFromZendDb2($this->adapter);
-
+        $enclosure = '"';
         $cases = [
             [
-                'query' => 'select "Blue Saitensatz für Klassikgitarre"',
+                'query' => 'select "Blue Saitensatz für Klassikgitarre" as col_title',
                 'ignore_translit_error' => false,
-                'should_pass' => true
+                'should_pass' => true,
+                'expected' => "Blue Saitensatz für Klassikgitarre",
+                'charset' => 'ISO-8859-1',
             ],
             [
-                'query' => 'select "Saitens„tze fr Konzertgitarren"',
+                'query' => 'select "Saitens„tze fr Konzertgitarren" as col_title',
                 'ignore_translit_error' => true,
-                'should_pass' => true
+                'should_pass' => true,
+                'expected' => 'Saitens,,tze fr Konzertgitarren',
+                'charset' => 'ISO-8859-1',
             ],
             [
-                'query' => 'select "Saitens„tze fr Konzertgitarren"',
+                'query' => 'select "Saitens„tze fr Konzertgitarren" as col_title',
                 'ignore_translit_error' => false,
-                'should_pass' => false
+                'should_pass' => false,
+                'expected' => 'Shoulf fail !!!',
+                'charset' => 'ISO-8859-1',
             ]
 
         ];
@@ -141,14 +147,23 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
             $query = $case['query'];
             $source = new QuerySource($adapter, $query);
             $store = new FlexStore($source);
-            $csvWriter = new CSVWriter($store);
-            $csvWriter->setOptions([
-                    'charset' => 'ISO-8859-1',
-                    'ignore_translit_error' => $case['ignore_translit_error']
-            ]);
 
             try {
+                $csvWriter = new CSVWriter($store);
+                $csvWriter->setOptions([
+                        'charset' => $case['charset'],
+                        'ignore_translit_error' => $case['ignore_translit_error'],
+                        'enclosure' => $enclosure
+                ]);
+
                 $data = $csvWriter->getData();
+                $exploded = explode(CSVWriter::SEPARATOR_NEWLINE_UNIX, $data);
+                echo "\n\n";
+                $line1 = str_getcsv($exploded[1], CSVWriter::SEPARATOR_TAB, $enclosure, $escape = null);
+                $cell = $line1[0];
+                $utf8_cell = utf8_encode($cell);
+
+                $this->assertEquals($case['expected'], $utf8_cell, "Translit error with query number $idx");
             } catch (Exception\CharsetConversionException $e) {
                 if ($case['should_pass']) {
                     throw $e;

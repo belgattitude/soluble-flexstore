@@ -112,14 +112,12 @@ class CSVWriter extends AbstractSendableWriter
 
                 $line = implode($this->options['field_separator'], $row);
 
-
                 if ($charset != $internal_encoding) {
                     $l = (string) $line;
                     if ($l != '') {
                         $l = @iconv($internal_encoding, $iconv_output_charset, $l);
-
-                        if ($l === false) {
-                            throw new Exception\CharsetConversionException("Cannot convert the charset to '" . $this->options['charset'] . "' from charset '$internal_encoding', value: '$line'.");
+                        if ($l === false || strlen($l) == 0) {
+                            throw new Exception\CharsetConversionException("Cannot convert the charset to '" . $this->options['charset'] . "' from charset '$internal_encoding', using '$iconv_output_charset' value: '$line'.");
                         } else {
                             $line = $l;
                         }

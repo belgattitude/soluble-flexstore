@@ -170,7 +170,8 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
 
 
         $sql = new Sql($this->adapter);
-        $sql_string = (string) $sql->getSqlStringForSqlObject($select);
+        
+        $sql_string = (string) $sql->buildSqlString($select);
         //echo $this->select->getSqlString($this->adapter->getPlatform());
         //echo "----" . var_dump($sql_string) . "----\n";
         // In ZF 2.3.0 an empty query will return SELECT .*

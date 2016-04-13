@@ -33,7 +33,7 @@
         "zendframework/zend-json": "^2.3 || ^3.0",
         "zendframework/zend-validator": "^2.3 || ^3.0",
         "zendframework/zend-inputfilter": "^2.3 || ^3.0",
-        "zendframework/zend-db": "^2.3 || ^3.0",
+        "zendframework/zend-db": "^2.4 || ^3.0",
         "phpoffice/phpexcel": "^1.8"
     },
     "suggest": {

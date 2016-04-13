@@ -324,9 +324,9 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
     public function testCustomColumn()
     {
         $select = new Select();
-        $select->from(['p' => 'product'], [])
+        $select->from(['p' => 'product'])
                 ->join(['ppl' => 'product_pricelist'], new Expression('ppl.product_id = p.product_id and ppl.pricelist_id = 1'), [], $select::JOIN_LEFT);
-
+        
         $select->columns([
             'product_id' => new Expression('p.product_id'),
             'reference' => new Expression('p.reference'),
@@ -338,6 +338,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $source = new SqlSource($this->adapter, $select);
         $cm = $source->getColumnModel();
 
+        
         $cc = new Column('picture_url');
         $cc->setType('string');
 

@@ -44,7 +44,7 @@ To run tests:
 
   ```console
   $ git clone git@github.com:belgattitude/soluble-flexstore.git
-  $ cd solubl-flexstore
+  $ cd soluble-flexstore
   ```
 
 - Install dependencies via composer:

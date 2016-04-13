@@ -137,7 +137,7 @@ class CSVWriterTest extends \PHPUnit_Framework_TestCase
                 'query' => 'select "Saitens„tze fr Konzertgitarren" as col_title',
                 'ignore_translit_error' => false,
                 'should_pass' => false,
-                'expected' => 'Shoulf fail !!!',
+                'expected' => 'Should fail !!!',
                 'charset' => 'ISO-8859-1',
             ]
 

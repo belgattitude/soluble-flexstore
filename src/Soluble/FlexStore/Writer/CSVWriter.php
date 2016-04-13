@@ -7,6 +7,7 @@ use Soluble\FlexStore\Options;
 
 class CSVWriter extends AbstractSendableWriter
 {
+
     const SEPARATOR_TAB = "\t";
     const SEPARATOR_COMMA = ',';
     const SEPARATOR_SEMICOLON = ';';
@@ -27,7 +28,9 @@ class CSVWriter extends AbstractSendableWriter
         'line_separator' => "\n",
         'enclosure' => '',
         'charset' => 'UTF-8',
-        'escape' => '\\'
+        'escape' => '\\',
+        // ignore charset transliteration errors
+        'ignore_translit_error' => false
     ];
 
     /**
@@ -52,6 +55,7 @@ class CSVWriter extends AbstractSendableWriter
         if (PHP_VERSION_ID < 50600) {
             iconv_set_encoding('internal_encoding', 'UTF-8');
         }
+
         /*
           $backup_encoding = iconv_get_encoding("internal_encoding");
           iconv_set_encoding("internal_encoding", "UTF-8");
@@ -65,12 +69,23 @@ class CSVWriter extends AbstractSendableWriter
 
         $csv = '';
 
-
         // Get unformatted data when using csv writer
         $options->getHydrationOptions()->disableFormatters();
         $data = $this->store->getData($options)->toArray();
-//echo "éééééààà";
-//	var_dump($data); die();
+
+
+
+
+        if (strtoupper($this->options['charset']) != $charset && !function_exists('iconv')) {
+            throw new Exception\RuntimeException('CSV writer requires iconv extension');
+        }
+
+        $iconv_output_charset = $this->options['charset'];
+        if ($this->options['ignore_translit_error']) {
+            $iconv_output_charset .= "//TRANSLIT//IGNORE";
+        }
+
+
         if (count($data) == 0) {
             $columns = $this->store->getColumnModel()->getColumns();
             $header_line = implode($this->options['field_separator'], array_keys((array) $columns));
@@ -99,14 +114,9 @@ class CSVWriter extends AbstractSendableWriter
 
 
                 if ($charset != $internal_encoding) {
-                    if (!function_exists('iconv')) {
-                        throw new Exception\RuntimeException('CSV writer requires iconv extension');
-                    }
-
                     $l = (string) $line;
                     if ($l != '') {
-                        $l = @iconv($internal_encoding, $this->options['charset'], $l);
-                        //$l = iconv($internal_encoding, $this->options['charset'] . "//TRANSLIT//IGNORE", $l);
+                        $l = @iconv($internal_encoding, $iconv_output_charset, $l);
 
                         if ($l === false) {
                             throw new Exception\CharsetConversionException("Cannot convert the charset to '" . $this->options['charset'] . "' from charset '$internal_encoding', value: '$line'.");

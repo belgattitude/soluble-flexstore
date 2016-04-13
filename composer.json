@@ -26,7 +26,8 @@
         "soluble/spreadsheet": "0.*",
         "ramsey/array_column": "~1.1",
         "zendframework/zend-paginator": "^2.3 || ^3.0",
-        "soluble/dbwrapper": "^1.2.1"
+        "soluble/dbwrapper": "^1.2.1",
+        "symfony/polyfill-iconv": "^1.1.1"        
     },
     "require-dev": {
         "zendframework/zend-cache": "^2.3 || ^3.0",
@@ -34,7 +35,8 @@
         "zendframework/zend-validator": "^2.3 || ^3.0",
         "zendframework/zend-inputfilter": "^2.3 || ^3.0",
         "zendframework/zend-db": ">2.4.0,<=3.0,!=2.8.0",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "symfony/polyfill-mbstring": "^1.1.1"
     },
     "suggest": {
         "soluble/dbwrapper": "soluble-dbwrapper datasource support (universal database wrapper).",

@@ -285,9 +285,10 @@ class ColumnModel
      * @throws Exception\InvalidArgumentException
      * @param array|string|ArrayObject $include_only_columns
      * @param bool $sort automatically apply sortColumns
+     * @param bool $preserve_excluded preserve excluded columns
      * @return ColumnModel
      */
-    public function includeOnly($include_only_columns, $sort = true)
+    public function includeOnly($include_only_columns, $sort = true, $preserve_excluded = true)
     {
         if (!is_array($include_only_columns)
                 && !is_string($include_only_columns) && !$include_only_columns instanceof ArrayObject) {
@@ -297,12 +298,23 @@ class ColumnModel
         // trim column
         $include_only_columns = array_map('trim', (array) $include_only_columns);
 
+        if ($preserve_excluded) {
+            $previous_excluded_cols = $this->getExcluded();
+        } else {
+            $previous_excluded_cols = [];
+        }
+
         $this->search()->all()->setExcluded(true);
         $this->search()->in($include_only_columns)->setExcluded(false);
 
         if ($sort) {
             $this->sort($include_only_columns);
         }
+
+        if (count($previous_excluded_cols) > 0) {
+            $this->exclude($previous_excluded_cols);
+        }
+
         return $this;
     }
 

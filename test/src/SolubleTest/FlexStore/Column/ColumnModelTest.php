@@ -554,6 +554,8 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($excluded, $cm->getExcluded());
     }
 
+
+
     public function testFindVirtual()
     {
         $select = new \Zend\Db\Sql\Select();
@@ -665,6 +667,27 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
 
         $cm->includeOnly($include_only);
         $this->assertEquals($include_only, array_keys((array) $cm->getColumns()));
+    }
+
+    public function testIncludeOnlyWithSortAndExclusions()
+    {
+        $select = new \Zend\Db\Sql\Select();
+        $select->from('user')->columns(['user_id', 'email', 'displayName', 'username', 'password']);
+        $source = new SqlSource($this->adapter, $select);
+        $cm = $source->getColumnModel();
+
+        $include_only = ['email', 'user_id', 'username'];
+
+        $cm->includeOnly($include_only, $sort=false);
+        $this->assertEquals(['user_id', 'email', 'username'], array_keys((array) $cm->getColumns()));
+
+        $cm->exclude(['user_id']);
+        $cm->includeOnly($include_only, $sort=true, $preserve_excluded=false);
+        $this->assertEquals(['email', 'user_id', 'username'], array_keys((array) $cm->getColumns()));
+
+        $cm->exclude(['user_id', 'username']);
+        $cm->includeOnly($include_only, $sort=true, $preserve_excluded=true);
+        $this->assertEquals(['email'], array_keys((array) $cm->getColumns()));
     }
 
     public function testExclusionRetrieval()

@@ -7,7 +7,6 @@ use Soluble\FlexStore\Options;
 
 class CSVWriter extends AbstractSendableWriter
 {
-
     const SEPARATOR_TAB = "\t";
     const SEPARATOR_COMMA = ',';
     const SEPARATOR_SEMICOLON = ';';

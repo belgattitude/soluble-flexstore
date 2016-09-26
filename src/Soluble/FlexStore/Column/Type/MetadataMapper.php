@@ -22,7 +22,9 @@ class MetadataMapper
         MetadataType::TYPE_INTEGER => ColumnType::TYPE_INTEGER,
         MetadataType::TYPE_SPATIAL_GEOMETRY => ColumnType::TYPE_STRING,
         MetadataType::TYPE_TIME => ColumnType::TYPE_TIME,
-        MetadataType::TYPE_STRING => ColumnType::TYPE_STRING
+        MetadataType::TYPE_STRING => ColumnType::TYPE_STRING,
+        MetadataType::TYPE_NULL => ColumnType::TYPE_NULL
+
     ];
 
     /**

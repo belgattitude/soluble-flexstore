@@ -13,6 +13,7 @@ class ColumnType
     const TYPE_DATE     = 'date';
     const TYPE_TIME     = 'time';
     const TYPE_BIT      = 'bit';
+    const TYPE_NULL     = 'null';
 
     protected static $typesMap = [
         self::TYPE_INTEGER  => 'Type\IntegerType',
@@ -24,6 +25,7 @@ class ColumnType
         self::TYPE_DATE     => 'Type\DateType',
         self::TYPE_TIME     => 'Type\TimeType',
         self::TYPE_BIT      => 'Type\BitType',
+        self::TYPE_NULL     => 'Type\NullType'
     ];
 
 

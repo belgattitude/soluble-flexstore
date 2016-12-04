@@ -1,8 +1,8 @@
 <?php
 /**
- *
  * @author Vanvelthem Sébastien
  */
+
 namespace Soluble\FlexStore\Source;
 
 use Soluble\FlexStore\Options;
@@ -16,9 +16,9 @@ abstract class AbstractSource implements SourceInterface
      */
     protected $options;
 
-
     /**
-     * Column model
+     * Column model.
+     *
      * @var ColumnModel
      */
     protected $columnModel;
@@ -28,16 +28,12 @@ abstract class AbstractSource implements SourceInterface
      */
     protected $identifier;
 
-
     /**
-     *
      * @var AbstractMetadataReader
      */
     protected $metadataReader;
 
-
     /**
-     *
      * @return \Soluble\FlexStore\Options
      */
     public function getOptions()
@@ -45,21 +41,22 @@ abstract class AbstractSource implements SourceInterface
         if ($this->options === null) {
             $this->options = new Options();
         }
+
         return $this->options;
     }
 
-
     /**
-     *
      * @param Options $options
+     *
      * @return \Soluble\FlexStore\ResultSet\ResultSet
      */
     abstract public function getData(Options $options = null);
 
     /**
-     * Set the primary key / unique identifier in the store
+     * Set the primary key / unique identifier in the store.
      *
      * @param string|null $identifier column name of the primary key
+     *
      * @return AbstractSource
      */
     public function setIdentifier($identifier)
@@ -69,7 +66,7 @@ abstract class AbstractSource implements SourceInterface
 
     /**
      * Return the primary key / unique identifier in the store
-     * Null if not applicable
+     * Null if not applicable.
      *
      * @return string|null
      */
@@ -78,19 +75,18 @@ abstract class AbstractSource implements SourceInterface
         return $this->identifier;
     }
 
-
     /**
-     * Whether a column model exists
+     * Whether a column model exists.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasColumnModel()
     {
-        return ($this->columnModel !== null);
+        return $this->columnModel !== null;
     }
 
     /**
-     * Return column model
+     * Return column model.
      *
      * @return ColumnModel
      */
@@ -99,30 +95,32 @@ abstract class AbstractSource implements SourceInterface
         if ($this->columnModel === null) {
             $this->loadDefaultColumnModel();
         }
+
         return $this->columnModel;
     }
 
     /**
-     * Set column model associated with the datasource
+     * Set column model associated with the datasource.
      *
      * @param ColumnModel $columnModel
+     *
      * @return AbstractSource
      */
     public function setColumnModel(ColumnModel $columnModel)
     {
         $this->columnModel = $columnModel;
+
         return $this;
     }
 
-
     /**
-     * Default column model initialization
+     * Default column model initialization.
      */
     abstract public function loadDefaultColumnModel();
 
-
     /**
-     * Set underlying metadatareader
+     * Set underlying metadatareader.
+     *
      * @param AbstractMetadataReader $metadataReader
      */
     public function setMetadataReader(AbstractMetadataReader $metadataReader)
@@ -131,7 +129,7 @@ abstract class AbstractSource implements SourceInterface
     }
 
     /**
-     * Return underlying metadata reader
+     * Return underlying metadata reader.
      *
      * @return AbstractMetadataReader
      */

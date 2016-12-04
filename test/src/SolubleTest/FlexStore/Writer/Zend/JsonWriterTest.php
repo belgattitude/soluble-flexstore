@@ -21,9 +21,7 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
      */
     protected $source;
 
-
     /**
-     *
      * @var \Zend\Db\Adapter\Adapter
      */
     protected $adapter;
@@ -40,7 +38,6 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
 
         $this->source = new SqlSource($this->adapter, $select);
 
-
         $this->jsonWriter = new JsonWriter();
         $this->jsonWriter->setStore(new FlexStore($this->source));
     }
@@ -52,7 +49,6 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
-
 
     public function testGetData()
     {

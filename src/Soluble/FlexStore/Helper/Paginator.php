@@ -12,24 +12,23 @@ use Zend\Paginator\ScrollingStyle\ScrollingStyleInterface;
 
 class Paginator extends ZendPaginator
 {
-
     /**
-     * Default set of scrolling
+     * Default set of scrolling.
      *
      * @var array
      */
     protected $scrollingTypes = [
-        'all'     => 'Zend\Paginator\ScrollingStyle\All',
+        'all' => 'Zend\Paginator\ScrollingStyle\All',
         'elastic' => 'Zend\Paginator\ScrollingStyle\Elastic',
         'jumping' => 'Zend\Paginator\ScrollingStyle\Jumping',
         'sliding' => 'Zend\Paginator\ScrollingStyle\Sliding',
     ];
 
     /**
+     * @param int $totalRows
+     * @param int $limit
+     * @param int $offset
      *
-     * @param integer $totalRows
-     * @param integer $limit
-     * @param integer $offset
      * @throws Exception\InvalidUsageException
      */
     public function __construct($totalRows, $limit, $offset = 0)
@@ -63,12 +62,13 @@ class Paginator extends ZendPaginator
         $this->setCurrentPageNumber(ceil(($offset + 1) / $limit));
     }
 
-
     /**
      * Loads a scrolling style.
      *
      * @param string $scrollingStyle
+     *
      * @return ScrollingStyleInterface
+     *
      * @throws Exception\InvalidArgumentException
      */
     protected function _loadScrollingStyle($scrollingStyle = null)
@@ -92,12 +92,12 @@ class Paginator extends ZendPaginator
                     throw new Exception\InvalidArgumentException(
                         "Scrolling type '$scrollingStyle' is not supported, look for (" .
                         implode(',', array_keys($this->scrollingTypes)) .
-                        ")"
+                        ')'
                     );
                 }
                 $cls = $this->scrollingTypes[strtolower($scrollingStyle)];
-                return new $cls();
 
+                return new $cls();
 
             case 'null':
                 // Fall through to default case

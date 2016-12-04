@@ -19,7 +19,6 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
     protected $source;
 
     /**
-     *
      * @var \Zend\Db\Adapter\Adapter
      */
     protected $adapter;
@@ -32,7 +31,7 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
     {
         if (!extension_loaded('excel')) {
             $this->markTestSkipped(
-                "Excel extension not available."
+                'Excel extension not available.'
             );
         } else {
             $this->adapter = \SolubleTestFactories::getDbAdapter();
@@ -44,7 +43,6 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @return SelectSource
      */
     protected function getTestSource()
@@ -73,15 +71,16 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
             'list_price' => new Expression('ppl.list_price'),
             'public_price' => new Expression('ppl.public_price'),
             'currency_reference' => new Expression("if (p.product_id = 10, 'CNY', 'EUR')"),
-            'test_float' => new Expression("1.212"),
+            'test_float' => new Expression('1.212'),
             'test_date' => new Expression("cast('2012-12-31 15:10:59' as date)"),
             'test_datetime' => new Expression("cast('2012-12-31 15:10:59' as datetime)"),
             'test_time' => new Expression("cast('2012-12-31 15:10:59' as time)"),
             'unit' => new Expression("'Kg'"),
-            'length' => new Expression("1.36666666")
+            'length' => new Expression('1.36666666')
         ]);
 
         $source = new SqlSource($this->adapter, $select);
+
         return $source;
     }
 
@@ -90,10 +89,6 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         ini_set('error_reporting', E_ALL | E_STRICT);
     }
 
-
-    /**
-     *
-     */
     public function testColumnModelWithColumnExclusion()
     {
         $output_file = \SolubleTestFactories::getCachePath() . DIRECTORY_SEPARATOR . 'tmp_phpunit_lbxl_test5.xlsx';
@@ -131,7 +126,6 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
             'locale' => $locale
         ]);
 
-
         $cm->search()->regexp('/price/')->setFormatter($formatterDb);
         $cm->get('currency_reference')->setExcluded();
         $cm->get('public_price')->setFormatter($formatterEur);
@@ -139,7 +133,6 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $cm->get('length')->setFormatter($intFormatter);
 
         $cm->search()->regexp('/discount\_[1-4]$/')->setFormatter($unitFormatter);
-
 
         $formatted_data = $store->getData()->toArray();
         $this->assertEquals('CN¥15.30', $formatted_data[0]['list_price']);
@@ -161,11 +154,11 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $arr = $this->excelToArray($output_file);
 
         $this->assertEquals('price', $arr[1]['B']);
-        $this->assertTrue(is_float($arr[2]['B']));
+        $this->assertInternalType('float', $arr[2]['B']);
         $this->assertEquals(number_format(15.3, 1), number_format($arr[2]['C'], 1));
         $this->assertEquals(number_format(18.2, 1), number_format($arr[2]['D'], 1));
-        $this->assertEquals("", $arr[4]['C']);
-        $this->assertEquals("", $arr[4]['B']);
+        $this->assertEquals('', $arr[4]['C']);
+        $this->assertEquals('', $arr[4]['B']);
 
         $excel = $this->getExcelReader($output_file);
         $sheet = $excel->getActiveSheet();
@@ -201,24 +194,20 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('n', $r2->getDataType());
 
         // Volume mus have 3 decimals
-        $e2 = $sheet->getCell("E2");
+        $e2 = $sheet->getCell('E2');
 
-        $this->assertTrue("0.300" === $e2->getFormattedValue());
+        $this->assertTrue('0.300' === $e2->getFormattedValue());
         $this->assertEquals(number_format(0.3, 2), number_format($e2->getValue(), 2));
         $this->assertEquals('n', $r2->getDataType());
 
         // Discount_1 2 decimals and % symbol
 
-        $i2 = $sheet->getCell("I2");
+        $i2 = $sheet->getCell('I2');
         $this->assertEquals(number_format(22.00, 2), number_format($i2->getValue(), 2));
-        $this->assertTrue("22.00 %" === $i2->getFormattedValue());
+        $this->assertTrue('22.00 %' === $i2->getFormattedValue());
         $this->assertEquals('n', $i2->getDataType());
     }
 
-
-    /**
-     *
-     */
     public function testColumnModel()
     {
         $output_file = \SolubleTestFactories::getCachePath() . DIRECTORY_SEPARATOR . 'tmp_phpunit_lbxl_test4.xlsx';
@@ -243,7 +232,6 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $cm->search()->regexp('/price/')->setFormatter($formatterDb);
         $cm->get('public_price')->setFormatter($formatterEur);
 
-
         $formatted_data = $store->getData()->toArray();
         $this->assertEquals('CN¥15.30', $formatted_data[0]['list_price']);
         $this->assertEquals('€18.20', $formatted_data[0]['public_price']);
@@ -264,20 +252,17 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
 
         $arr = $this->excelToArray($output_file);
 
-
-
         $this->assertEquals('price', $arr[1]['B']);
-        $this->assertTrue(is_float($arr[2]['B']));
+        $this->assertInternalType('float', $arr[2]['B']);
         $this->assertEquals(number_format(15.3, 1), number_format($arr[2]['C'], 1));
         $this->assertEquals(number_format(18.2, 1), number_format($arr[2]['D'], 1));
         $this->assertEquals('CNY', $arr[2]['E']);
         $this->assertEquals('EUR', $arr[3]['E']);
-        $this->assertEquals("", $arr[4]['C']);
-        $this->assertEquals("", $arr[4]['B']);
+        $this->assertEquals('', $arr[4]['C']);
+        $this->assertEquals('', $arr[4]['B']);
         //$this->assertEquals('2012-12-31', $arr[2]['O']);
         //$this->assertEquals('2012-12-31 15:10:00', $arr[2]['P']);
         //$this->assertEquals('15:10:00', $arr[2]['Q']);
-
 
         $excel = $this->getExcelReader($output_file);
         $sheet = $excel->getActiveSheet();
@@ -305,9 +290,6 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('15:10:59', $q2->getFormattedValue());
         $this->assertEquals('s', $q2->getDataType());
     }
-
-
-
 
     public function testGetDataXlsx()
     {
@@ -359,7 +341,7 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
 
         // test Output
 
-        $arr = $this->excelToArray($output_file, "Excel5");
+        $arr = $this->excelToArray($output_file, 'Excel5');
         //$this->assertEquals(113, $arr[5]['B']);
         $this->assertEquals('french accents éàùêûçâµè and chinese 请收藏我们的网址', $arr[2]['A']);
     }
@@ -390,35 +372,35 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('french accents éàùêûçâµè ', $arr[2]['D']);
     }
 
-
     /**
-     *
      * @param string $file
      * @param string $reader
+     *
      * @return \PHPExcel
      */
-    protected function getExcelReader($file, $reader = "Excel2007")
+    protected function getExcelReader($file, $reader = 'Excel2007')
     {
         $excelReader = PHPExcel_IOFactory::createReader($reader);
         $excelReader = $excelReader->load($file);
         $excelReader->setActiveSheetIndex(0);
+
         return $excelReader;
     }
 
-
-    protected function excelToArray($file, $reader = "Excel2007")
+    protected function excelToArray($file, $reader = 'Excel2007')
     {
         // Due to notice by php_excel class
-        if (strtoupper($reader) == "EXCEL5") {
-            ini_set("error_reporting", E_ALL ^ E_NOTICE);
+        if (strtoupper($reader) == 'EXCEL5') {
+            ini_set('error_reporting', E_ALL ^ E_NOTICE);
         }
         $excelReader = $this->getExcelReader($file, $reader);
         $sheet = $excelReader->getActiveSheet();
 
         $arr = $sheet->toArray($nullValue = null, $calculateFormulas = false, $formatData = false, $returnCellRef = true);
-        if (strtoupper($reader) == "EXCEL5") {
+        if (strtoupper($reader) == 'EXCEL5') {
             ini_set('error_reporting', E_ALL | E_STRICT);
         }
+
         return $arr;
     }
 
@@ -428,7 +410,6 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
         $xlsWriter = new LibXLWriter();
         $xlsWriter->setFormat('cool');
     }
-
 
     public function testExcelBookThrowsInvalidArgumentException()
     {

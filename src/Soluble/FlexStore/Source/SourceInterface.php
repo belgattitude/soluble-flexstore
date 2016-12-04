@@ -7,12 +7,11 @@ use Soluble\FlexStore\Options;
 interface SourceInterface
 {
     /**
-     *
      * @param Options $options
+     *
      * @return \Soluble\FlexStore\ResultSet\ResultSet
      */
     public function getData(Options $options = null);
-
 
     /**
      * @return \Soluble\FlexStore\Column\ColumnModel
@@ -20,13 +19,11 @@ interface SourceInterface
     public function getColumnModel();
 
     /**
-     *
      * @return \Soluble\Metadata\Reader\AbstractMetadataReader
      */
     public function getMetadataReader();
 
     /**
-     *
      * @return \Soluble\FlexStore\Options
      */
     public function getOptions();

@@ -18,7 +18,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->options = new Options;
+        $this->options = new Options();
     }
 
     /**
@@ -28,7 +28,6 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
-
 
     public function testSetGetLimitAndOffset()
     {
@@ -71,7 +70,6 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Soluble\FlexStore\Exception\InvalidArgumentException');
         $this->options->setLimit(null);
     }
-
 
     public function testSetLimitThrowsInvalidException4()
     {

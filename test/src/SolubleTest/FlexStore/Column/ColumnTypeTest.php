@@ -20,7 +20,7 @@ class ColumnTypeTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->type = new ColumnType;
+        $this->type = new ColumnType();
     }
 
     /**
@@ -59,7 +59,6 @@ class ColumnTypeTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($type_name, $type->getName());
         }
     }
-
 
     public function testIsSupported()
     {

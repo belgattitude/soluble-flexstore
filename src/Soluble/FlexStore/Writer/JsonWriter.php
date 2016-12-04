@@ -10,21 +10,17 @@ use Soluble\FlexStore\Options;
 class JsonWriter extends AbstractSendableWriter
 {
     /**
-     *
      * @var SimpleHeaders
      */
     protected $headers;
 
-
     /**
-     *
      * @var int|string|null
      */
     protected $request_id;
 
-
     /**
-     * Set origin request id
+     * Set origin request id.
      *
      * Value of request id will be returned in json encoded data
      * useful for autocompletion usage when synchronous requests
@@ -39,6 +35,7 @@ class JsonWriter extends AbstractSendableWriter
 
     /**
      * @param Options $options
+     *
      * @return string
      */
     public function getData(Options $options = null)
@@ -77,7 +74,8 @@ class JsonWriter extends AbstractSendableWriter
     }
 
     /**
-     * Return default headers for sending store data via http
+     * Return default headers for sending store data via http.
+     *
      * @return SimpleHeaders
      */
     public function getHttpHeaders()
@@ -87,6 +85,7 @@ class JsonWriter extends AbstractSendableWriter
             $this->headers->setContentType('application/json', 'utf-8');
             //$this->headers->setContentDispositionType(SimpleHeaders::DIPOSITION_ATTACHEMENT);
         }
+
         return $this->headers;
     }
 }

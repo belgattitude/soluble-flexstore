@@ -12,19 +12,18 @@ use Zend\Db\Sql\Select;
 class StoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     *
      * @var Adapter
      */
     protected $adapter;
 
     /**
-     *
      * @var SqlSource
      */
     protected $source;
 
     /**
-     * Dummy select
+     * Dummy select.
+     *
      * @var Select
      */
     protected $select;
@@ -56,11 +55,10 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                ->from(['ttt' => 'test_table_types']);
 
         $store = new FlexStore($source);
-        $cm    = $store->getColumnModel();
+        $cm = $store->getColumnModel();
         //$config = new Zend\Config\Config();
         //$cm->mergeConfiguration($config);
         $cm->exclude(['test_multipoint']);
-
 
         $search = $cm->search();
         $search->regexp('/multi/')->setExcluded(true);
@@ -89,7 +87,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $data = $store->getData()->toArray();
         $this->assertEquals(2, count($data));
     }
-
 
     public function testGetSource()
     {

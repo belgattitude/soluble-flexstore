@@ -18,7 +18,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     protected $source;
 
     /**
-     *
      * @var \Zend\Db\Adapter\Adapter
      */
     protected $adapter;
@@ -43,7 +42,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
-
 
     public function testSearchResults()
     {
@@ -73,18 +71,15 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $results->setSortable(false);
         $this->assertFalse($cm->get('created_at')->isSortable());
 
-
         $results->setHidden(true);
         $this->assertTrue($cm->get('created_at')->isHidden());
         $results->setHidden(false);
         $this->assertFalse($cm->get('created_at')->isHidden());
 
-
         $results->setVirtual(true);
         $this->assertTrue($cm->get('created_at')->isVirtual());
         $results->setVirtual(false);
         $this->assertFalse($cm->get('created_at')->isVirtual());
-
 
         $results->setGroupable(true);
         $this->assertTrue($cm->get('created_at')->isGroupable());

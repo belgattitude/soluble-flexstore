@@ -20,21 +20,17 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
      */
     protected $source;
 
-
     /**
-     *
      * @var \Zend\Db\Adapter\Adapter
      */
     protected $adapter;
 
     /**
-     *
      * @var array
      */
     protected $sources;
 
     /**
-     *
      * @var Sql
      */
     protected $sql;
@@ -89,7 +85,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals($i, $idx);
 
                 $this->assertInstanceOf('ArrayObject', $row);
-                $i++;
+                ++$i;
             }
 
             $toArray = $data->toArray();
@@ -116,7 +112,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(1, count($data));
 
             // with initial limit
-            $queryOne = $this->getQueryOne($key, $limit=2);
+            $queryOne = $this->getQueryOne($key, $limit = 2);
             $this->setQuery($source, $queryOne);
             $store = new FlexStore($source);
             $options = new Options();
@@ -126,11 +122,11 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-
     /**
-     * Set select or query to source
+     * Set select or query to source.
+     *
      * @param \Soluble\FlexStore\Source\SourceInterface $source
-     * @param Select $select
+     * @param Select                                    $select
      */
     protected function setQuery(Source\SourceInterface $source, $select)
     {
@@ -174,7 +170,7 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    protected function getQueryOne($key, $limit=null, $offset=null)
+    protected function getQueryOne($key, $limit = null, $offset = null)
     {
         $select = new Select();
         $select->from(['p' => 'product'], [])
@@ -183,17 +179,17 @@ class UseCasesTest extends \PHPUnit_Framework_TestCase
 
         $select->columns([
            'product_id' => new Expression('p.product_id'),
-           'brand_id'   => new Expression('p.brand_id'),
-           'reference'  => new Expression('p.reference'),
-           'description'    => new Expression('p.description'),
-           'volume'         => new Expression('p.volume'),
-           'weight'         => new Expression('p.weight'),
-           'barcode_ean13'  => new Expression('1234567890123'),
-           'created_at'     => new Expression('NOW()'),
-           'price'          => new Expression('ppl.price'),
-           'discount_1'     => new Expression('ppl.discount_1'),
+           'brand_id' => new Expression('p.brand_id'),
+           'reference' => new Expression('p.reference'),
+           'description' => new Expression('p.description'),
+           'volume' => new Expression('p.volume'),
+           'weight' => new Expression('p.weight'),
+           'barcode_ean13' => new Expression('1234567890123'),
+           'created_at' => new Expression('NOW()'),
+           'price' => new Expression('ppl.price'),
+           'discount_1' => new Expression('ppl.discount_1'),
            'pricelist.promo_start_at' => new Expression('ppl.promo_start_at'),
-           'promo_end_at'   => new Expression('cast(NOW() as date)')
+           'promo_end_at' => new Expression('cast(NOW() as date)')
         ], false);
 
         if ($limit !== null) {

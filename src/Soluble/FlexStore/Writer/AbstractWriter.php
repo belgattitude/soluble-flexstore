@@ -10,13 +10,11 @@ use Soluble\FlexStore\Store\StoreInterface;
 abstract class AbstractWriter
 {
     /**
-     *
      * @var StoreInterface
      */
     protected $store;
 
     /**
-     *
      * @var array
      */
     protected $options = [
@@ -24,11 +22,10 @@ abstract class AbstractWriter
         'charset' => 'UTF-8'
     ];
 
-     /**
-      *
-      * @param StoreInterface|null $store
-      * @param array|Traversable|null $options
-      */
+    /**
+     * @param StoreInterface|null    $store
+     * @param array|Traversable|null $options
+     */
     public function __construct(StoreInterface $store = null, $options = null)
     {
         if ($store !== null) {
@@ -39,36 +36,30 @@ abstract class AbstractWriter
         }
     }
 
-
     /**
-     *
      * @param StoreInterface $store
+     *
      * @return AbstractWriter
      */
     public function setStore(StoreInterface $store)
     {
         $this->store = $store;
+
         return $this;
     }
 
-
     /**
-     * Return data
+     * Return data.
+     *
      * @param Options $options
      */
     abstract public function getData(Options $options = null);
 
-
-
-
-
     /**
-     * Save content to a file
+     * Save content to a file.
      *
      * @param string $filename
      * @param string $charset
-     * @return void
-     *
      */
     public function save($filename, $charset = null)
     {
@@ -105,23 +96,24 @@ abstract class AbstractWriter
     }
 
     /**
+     * @param bool $debug
      *
-     * @param boolean $debug
      * @return AbstractWriter
      */
     public function setDebug($debug = true)
     {
         $this->options['debug'] = $debug;
+
         return $this;
     }
 
-
     /**
-     * Set options
+     * Set options.
      *
      * @throws Exception\InvalidArgumentException
      *
-     * @param  array|Traversable $options
+     * @param array|Traversable $options
+     *
      * @return AbstractWriter
      */
     public function setOptions($options)
@@ -149,11 +141,12 @@ abstract class AbstractWriter
                 ));
             }
         }
+
         return $this;
     }
 
     /**
-     * Retrieve options
+     * Retrieve options.
      *
      * @return array
      */

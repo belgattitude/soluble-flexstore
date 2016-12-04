@@ -17,13 +17,10 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
      */
     protected $source;
 
-
     /**
-     *
      * @var \Zend\Db\Adapter\Adapter
      */
     protected $adapter;
-
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -45,8 +42,6 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
-
-
 
     public function testGetMetadata()
     {
@@ -74,19 +69,16 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
     }
 
-
     public function testIdentifier()
     {
         $select = new Select();
         $select->from(['p' => 'product']);
-
 
         $source = new SqlSource($this->adapter, $select);
         $this->assertNull($source->getIdentifier());
         $source->setIdentifier('product_id');
         $this->assertEquals('product_id', $source->getIdentifier());
     }
-
 
     public function testCalcFoundRowsAndWithZeroLimit()
     {
@@ -107,7 +99,6 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertNotContains('SQL_CALC_FOUND_ROWS', $query);
         $this->assertContains('LIMIT 0 OFFSET 0', $query);
     }
-
 
     public function testCalcFoundRowsAndOptions()
     {
@@ -152,7 +143,6 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
     }
 
-
     public function testCustomQuery()
     {
         $select = new Select();
@@ -162,20 +152,18 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
 
         $select->columns([
            'product_id' => new Expression('p.product_id'),
-           'brand_id'   => new Expression('p.brand_id'),
-           'reference'  => new Expression('p.reference'),
-           'description'    => new Expression('p.description'),
-           'volume'         => new Expression('p.volume'),
-           'weight'         => new Expression('p.weight'),
-           'barcode_ean13'  => new Expression('1234567890123'),
-           'created_at'     => new Expression('NOW()'),
-           'price'          => new Expression('ppl.price'),
-           'discount_1'     => new Expression('ppl.discount_1'),
+           'brand_id' => new Expression('p.brand_id'),
+           'reference' => new Expression('p.reference'),
+           'description' => new Expression('p.description'),
+           'volume' => new Expression('p.volume'),
+           'weight' => new Expression('p.weight'),
+           'barcode_ean13' => new Expression('1234567890123'),
+           'created_at' => new Expression('NOW()'),
+           'price' => new Expression('ppl.price'),
+           'discount_1' => new Expression('ppl.discount_1'),
            'pricelist.promo_start_at' => new Expression('ppl.promo_start_at'),
-           'promo_end_at'   => new Expression('cast(NOW() as date)')
+           'promo_end_at' => new Expression('cast(NOW() as date)')
         ], false);
-
-
 
         $source = new SqlSource($this->adapter, $select);
         $data = $source->getData();
@@ -200,8 +188,6 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $d);
         $this->assertArrayHasKey('user_id', $d[0]);
         $this->assertArrayHasKey('email', $d[0]);
-
-
 
         $options = new Options();
         $options->setLimit(10, 0);
@@ -233,7 +219,6 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/^select/', strtolower(trim($sql_string)));
     }
 
-
     public function testGetQueryStringThrowsInvalidUsageException()
     {
         $this->setExpectedException('Soluble\FlexStore\Exception\InvalidUsageException');
@@ -242,9 +227,7 @@ class SqlSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/^select/', strtolower(trim($sql_string)));
     }
 
-
     /**
-     *
      * @return \Soluble\FlexStore\Source\Zend\SqlSource
      */
     protected function getNewSource()

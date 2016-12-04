@@ -20,7 +20,7 @@ class UnitFormatterTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->uf = new UnitFormatter;
+        $this->uf = new UnitFormatter();
     }
 
     /**

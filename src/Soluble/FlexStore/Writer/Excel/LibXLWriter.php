@@ -16,19 +16,20 @@ use ArrayObject;
 class LibXLWriter extends AbstractSendableWriter
 {
     /**
-     * Cache for currency formats
+     * Cache for currency formats.
+     *
      * @var ArrayObject
      */
     protected $currency_formats;
 
     /**
-     * Cache for unit formats
+     * Cache for unit formats.
+     *
      * @var ArrayObject
      */
     protected $unit_formats;
 
     /**
-     *
      * @var SimpleHeaders
      */
     protected $headers;
@@ -36,25 +37,21 @@ class LibXLWriter extends AbstractSendableWriter
     protected $column_max_width = 75;
 
     /**
-     *
      * @var array
      */
     protected static $default_license;
 
     /**
-     *
      * @var ExcelBook
      */
     protected $excelBook;
 
     /**
-     *
      * @var string
      */
     protected $file_format = LibXL::FILE_FORMAT_XLSX;
 
     /**
-     *
      * @var array
      */
     protected $currencyMap = [
@@ -66,7 +63,6 @@ class LibXLWriter extends AbstractSendableWriter
     ];
 
     /**
-     *
      * @var array
      */
     protected $typeMap = [
@@ -82,8 +78,7 @@ class LibXLWriter extends AbstractSendableWriter
     ];
 
     /**
-     *
-     * @param StoreInterface|null $store
+     * @param StoreInterface|null     $store
      * @param array|\Traversable|null $options
      */
     public function __construct(StoreInterface $store = null, $options = null)
@@ -94,10 +89,12 @@ class LibXLWriter extends AbstractSendableWriter
     }
 
     /**
-     * Set file format (xls, xlsx), default is xlsx
+     * Set file format (xls, xlsx), default is xlsx.
      *
      * @param string $file_format
+     *
      * @return LibXLWriter
+     *
      * @throws Exception\InvalidArgumentException
      */
     public function setFormat($file_format)
@@ -106,15 +103,15 @@ class LibXLWriter extends AbstractSendableWriter
             throw new Exception\InvalidArgumentException(__METHOD__ . " Unsupported format given '$file_format'");
         }
         $this->file_format = $file_format;
+
         return $this;
     }
 
-
     /**
-     *
      * @param ExcelBook $book
-     * @param string $currency
-     * @param int $decimals
+     * @param string    $currency
+     * @param int       $decimals
+     *
      * @return ExcelFormat
      */
     protected function getCurrencyFormat(ExcelBook $book, $currency, $decimals)
@@ -127,11 +124,10 @@ class LibXLWriter extends AbstractSendableWriter
                 $symbol = $currency;
             }
 
-
             $formatString = '#,##0';
 
             if ($decimals > 0) {
-                $zeros = str_repeat("0", $decimals);
+                $zeros = str_repeat('0', $decimals);
                 $formatString = $formatString . '.' . $zeros;
             }
             $formatString = $formatString . ' "' . $symbol . '"_-';
@@ -143,16 +139,15 @@ class LibXLWriter extends AbstractSendableWriter
             $format->numberFormat($cfid);
             $this->currency_formats->offsetSet($id, $format);
         }
+
         return $this->currency_formats->offsetGet($id);
     }
 
-
-
     /**
-     *
      * @param ExcelBook $book
-     * @param string $unit
-     * @param int $decimals
+     * @param string    $unit
+     * @param int       $decimals
+     *
      * @return ExcelFormat
      */
     protected function getUnitFormat(ExcelBook $book, $unit, $decimals)
@@ -164,7 +159,7 @@ class LibXLWriter extends AbstractSendableWriter
             $formatString = '#,##0';
 
             if ($decimals > 0) {
-                $zeros = str_repeat("0", $decimals);
+                $zeros = str_repeat('0', $decimals);
                 $formatString = $formatString . '.' . $zeros;
             }
             $formatString = $formatString . ' "' . $symbol . '"_-';
@@ -174,18 +169,16 @@ class LibXLWriter extends AbstractSendableWriter
             $format->numberFormat($cfid);
             $this->unit_formats->offsetSet($id, $format);
         }
+
         return $this->unit_formats->offsetGet($id);
     }
 
-
-
     /**
-     *
      * @throws Exception\ExtensionNotLoadedException
      * @throws Exception\InvalidArgumentException
      *
      * @param string $file_format
-     * @param string $locale default to en_US.UTF-8
+     * @param string $locale      default to en_US.UTF-8
      *
      * @return ExcelBook
      */
@@ -208,11 +201,13 @@ class LibXLWriter extends AbstractSendableWriter
 
             $this->excelBook = $libXL->getExcelBook($file_format, $locale);
         }
+
         return $this->excelBook;
     }
 
     /**
      * @param Options $options
+     *
      * @return string
      */
     public function getData(Options $options = null)
@@ -247,6 +242,7 @@ class LibXLWriter extends AbstractSendableWriter
 
         $data = file_get_contents($filename);
         unlink($filename);
+
         return $data;
     }
 
@@ -256,7 +252,6 @@ class LibXLWriter extends AbstractSendableWriter
     protected function getMetadataSpecs(ExcelBook $book)
     {
         $hide_thousands_separator = true;
-
 
         $specs = new ArrayObject();
         $cm = $this->store->getColumnModel();
@@ -304,12 +299,12 @@ class LibXLWriter extends AbstractSendableWriter
                 if (array_key_exists($model_type, $this->typeMap)) {
                     $type = $this->typeMap[$model_type];
                 } else {
-                    $type = "text";
+                    $type = 'text';
                 }
             }
 
             // We now have the type
-            if ($type == "number" && $decimals === null && $metadata !== null && $metadata->offsetExists($name)) {
+            if ($type == 'number' && $decimals === null && $metadata !== null && $metadata->offsetExists($name)) {
                 // try to guess from metadata
                 $decimals = $metadata->offsetGet($name)->getNumericPrecision();
                 if (!$decimals) {
@@ -340,7 +335,7 @@ class LibXLWriter extends AbstractSendableWriter
                             $formatString = '#,##0';
                         }
                         if ($decimals > 0) {
-                            $zeros = str_repeat("0", $decimals);
+                            $zeros = str_repeat('0', $decimals);
                             $formatString = $formatString . '.' . $zeros;
                         }
                         $cfid = $book->addCustomFormat($formatString);
@@ -391,10 +386,9 @@ class LibXLWriter extends AbstractSendableWriter
 
     protected function getHeaderFormat(ExcelBook $book)
     {
-
         // Font selection
         $headerFont = $book->addFont();
-        $headerFont->name("Tahoma");
+        $headerFont->name('Tahoma');
         $headerFont->size(12);
         $headerFont->color(ExcelFormat::COLOR_WHITE);
 
@@ -408,18 +402,19 @@ class LibXLWriter extends AbstractSendableWriter
         //$headerFormat->patternBackgroundColor(ExcelFormat:COLOR_LIGHTBLUE);
         $headerFormat->patternForegroundColor(ExcelFormat::COLOR_LIGHTBLUE);
         $headerFormat->fillPattern(ExcelFormat::FILLPATTERN_SOLID);
+
         return $headerFormat;
     }
 
     /**
-     *
      * @param ExcelBook $book
-     * @param Options $options
+     * @param Options   $options
+     *
      * @return ExcelBook
      */
     protected function generateExcel(ExcelBook $book, Options $options = null)
     {
-        $sheet = $book->addSheet("Sheet");
+        $sheet = $book->addSheet('Sheet');
         $headerFormat = $this->getHeaderFormat($book);
 
         // Step 1, print header
@@ -429,7 +424,7 @@ class LibXLWriter extends AbstractSendableWriter
         foreach ($specs as $name => $spec) {
             $sheet->write($row = 0, $col_idx, $spec['header'], $headerFormat);
             $column_max_widths[$name] = max(strlen($spec['header']) * $this->column_width_multiplier, $column_max_widths[$name]);
-            $col_idx++;
+            ++$col_idx;
         }
 
         $sheet->setRowHeight(0, 30);
@@ -439,8 +434,6 @@ class LibXLWriter extends AbstractSendableWriter
 
         // Fill document content
 
-
-
         $data = $this->store->getData($options);
 
         foreach ($data as $idx => $row) {
@@ -449,7 +442,6 @@ class LibXLWriter extends AbstractSendableWriter
             $rowHeight = $sheet->rowHeight($row_idx);
 
             foreach ($specs as $name => $spec) {
-
                 // Row may have no key in the case of customer renderers,
                 // to prevent notice let's make it to null
                 $value = isset($row[$name]) ? $row[$name] : null;
@@ -486,7 +478,7 @@ class LibXLWriter extends AbstractSendableWriter
                     $sheet->write($row_idx, $col_idx, $value);
                 }
                 $column_max_widths[$name] = max(strlen((string) $value) * $this->column_width_multiplier, $column_max_widths[$name]);
-                $col_idx++;
+                ++$col_idx;
             }
         }
 
@@ -502,9 +494,7 @@ class LibXLWriter extends AbstractSendableWriter
         return $book;
     }
 
-
     /**
-     *
      * @param string $license_name
      * @param string $license_key
      */
@@ -513,10 +503,10 @@ class LibXLWriter extends AbstractSendableWriter
         self::$default_license = ['name' => $license_name, 'key' => $license_key];
     }
 
-
     public function getFormatStyle($style)
     {
         $styles = $this->getFormatStyles();
+
         return $styles[$style];
     }
 
@@ -526,11 +516,13 @@ class LibXLWriter extends AbstractSendableWriter
                 'horizontalAlign' => ExcelFormat::ALIGNH_LEFT,
                 'verticalAlign' => ExcelFormat::ALIGNV_TOP
         ];
+
         return $styles;
     }
 
     /**
-     * Return default headers for sending store data via http
+     * Return default headers for sending store data via http.
+     *
      * @return SimpleHeaders
      */
     public function getHttpHeaders()
@@ -540,6 +532,7 @@ class LibXLWriter extends AbstractSendableWriter
             $this->headers->setContentType('application/excel', 'utf-8');
             $this->headers->setContentDispositionType(SimpleHeaders::DIPOSITION_ATTACHEMENT);
         }
+
         return $this->headers;
     }
 }

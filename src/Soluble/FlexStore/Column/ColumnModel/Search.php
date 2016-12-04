@@ -9,7 +9,6 @@ use ArrayObject;
 class Search
 {
     /**
-     *
      * @var ArrayObject
      */
     protected $columns;
@@ -20,7 +19,6 @@ class Search
     }
 
     /**
-     *
      * @return Result
      */
     public function all()
@@ -29,9 +27,10 @@ class Search
     }
 
     /**
-     * Search ColumnModel for columns that are not in the $columns parameter
+     * Search ColumnModel for columns that are not in the $columns parameter.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @return Result
      */
     public function notIn(array $columns)
@@ -42,11 +41,11 @@ class Search
                 $results[] = $name;
             }
         }
+
         return new Result($results, $this->columns);
     }
 
     /**
-     *
      * @return Result
      */
     public function in(array $columns)
@@ -58,12 +57,13 @@ class Search
                 $results[] = $column;
             }
         }
+
         return new Result($results, $this->columns);
     }
 
     /**
-     *
      * @param string $regexp
+     *
      * @return Result
      */
     public function regexp($regexp)
@@ -75,12 +75,13 @@ class Search
                 $results[] = $name;
             }
         }
+
         return new Result($results, $this->columns);
     }
 
     /**
-     *
      * @param string $type
+     *
      * @return Result
      */
     public function findByType($type)
@@ -91,11 +92,13 @@ class Search
                 $results[] = $name;
             }
         }
+
         return new Result($results, $this->columns);
     }
 
     /**
-     * Return virtual column (not materialized by the underlying datasource)
+     * Return virtual column (not materialized by the underlying datasource).
+     *
      * @return Result
      */
     public function findVirtual()
@@ -106,6 +109,7 @@ class Search
                 $results[] = $name;
             }
         }
+
         return new Result($results, $this->columns);
     }
 }

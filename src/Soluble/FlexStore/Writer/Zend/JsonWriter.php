@@ -11,14 +11,13 @@ use Soluble\FlexStore\Options;
 class JsonWriter extends AbstractSendableWriter
 {
     /**
-     *
      * @var SimpleHeaders
      */
     protected $headers;
 
     /**
-     *
      * @param Options $options
+     *
      * @return \Zend\View\Model\JsonModel
      */
     public function getData(Options $options = null)
@@ -29,7 +28,6 @@ class JsonWriter extends AbstractSendableWriter
             // By default formatters are disabled in JSON
             $options->getHydrationOptions()->disableFormatters();
         }
-
 
         $data = $this->store->getData($options);
         $d = [
@@ -46,11 +44,13 @@ class JsonWriter extends AbstractSendableWriter
                 $d['query'] = $source->getQueryString();
             }
         }
+
         return Encoder::encode($d);
     }
 
     /**
-     * Return default headers for sending store data via http
+     * Return default headers for sending store data via http.
+     *
      * @return SimpleHeaders
      */
     public function getHttpHeaders()
@@ -60,6 +60,7 @@ class JsonWriter extends AbstractSendableWriter
             $this->headers->setContentType('application/json', 'utf-8');
             //$this->headers->setContentDispositionType(SimpleHeaders::DIPOSITION_ATTACHEMENT);
         }
+
         return $this->headers;
     }
 }

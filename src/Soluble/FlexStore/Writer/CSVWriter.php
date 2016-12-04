@@ -14,7 +14,6 @@ class CSVWriter extends AbstractSendableWriter
     const SEPARATOR_NEWLINE_WIN = "\r\n";
 
     /**
-     *
      * @var SimpleHeaders
      */
     protected $headers;
@@ -23,7 +22,7 @@ class CSVWriter extends AbstractSendableWriter
      * @var array
      */
     protected $options = [
-        'field_separator' => ";",
+        'field_separator' => ';',
         'line_separator' => "\n",
         'enclosure' => '',
         'charset' => 'UTF-8',
@@ -33,9 +32,10 @@ class CSVWriter extends AbstractSendableWriter
     ];
 
     /**
-     *
      * @throws Exception\CharsetConversionException
+     *
      * @param Options $options
+     *
      * @return string csv encoded data
      */
     public function getData(Options $options = null)
@@ -45,11 +45,10 @@ class CSVWriter extends AbstractSendableWriter
             $options = $this->store->getOptions();
         }
 
-
 // TODO - TEST database connection charset !!!
 //
 
-        ini_set("default_charset", 'UTF-8');
+        ini_set('default_charset', 'UTF-8');
 
         if (PHP_VERSION_ID < 50600) {
             iconv_set_encoding('internal_encoding', 'UTF-8');
@@ -72,18 +71,14 @@ class CSVWriter extends AbstractSendableWriter
         $options->getHydrationOptions()->disableFormatters();
         $data = $this->store->getData($options)->toArray();
 
-
-
-
         if (strtoupper($this->options['charset']) != $charset && !function_exists('iconv')) {
             throw new Exception\RuntimeException('CSV writer requires iconv extension');
         }
 
         $iconv_output_charset = $this->options['charset'];
         if ($this->options['ignore_translit_error']) {
-            $iconv_output_charset .= "//TRANSLIT//IGNORE";
+            $iconv_output_charset .= '//TRANSLIT//IGNORE';
         }
-
 
         if (count($data) == 0) {
             $columns = $this->store->getColumnModel()->getColumns();
@@ -92,7 +87,6 @@ class CSVWriter extends AbstractSendableWriter
         } else {
             $header_line = implode($this->options['field_separator'], array_keys($data[0]));
             $csv .= $header_line . $this->options['line_separator'];
-
 
             foreach ($data as $row) {
                 switch ($this->options['field_separator']) {
@@ -126,34 +120,29 @@ class CSVWriter extends AbstractSendableWriter
                 $csv .= $line . $this->options['line_separator'];
             }
         }
+
         return $csv;
     }
 
     /**
-     *
      * @param string $item
-     * @return void
      */
     protected function escapeLineDelimiter(&$item)
     {
-        $item = str_replace(self::SEPARATOR_NEWLINE_WIN, " ", $item);
-        $item = str_replace(self::SEPARATOR_NEWLINE_UNIX, " ", $item);
+        $item = str_replace(self::SEPARATOR_NEWLINE_WIN, ' ', $item);
+        $item = str_replace(self::SEPARATOR_NEWLINE_UNIX, ' ', $item);
     }
 
     /**
-     *
      * @param string $item
-     * @return void
      */
     protected function escapeTabDelimiter(&$item)
     {
-        $item = str_replace("\t", " ", $item);
+        $item = str_replace("\t", ' ', $item);
     }
 
     /**
-     *
      * @param string $item
-     * @return void
      */
     protected function escapeFieldDelimiter(&$item)
     {
@@ -161,10 +150,8 @@ class CSVWriter extends AbstractSendableWriter
     }
 
     /**
-     *
      * @param string $item
      * @param string $key
-     * @return void
      */
     protected function addEnclosure(&$item, $key)
     {
@@ -178,7 +165,8 @@ class CSVWriter extends AbstractSendableWriter
     }
 
     /**
-     * Return default headers for sending store data via http
+     * Return default headers for sending store data via http.
+     *
      * @return SimpleHeaders
      */
     public function getHttpHeaders()
@@ -188,6 +176,7 @@ class CSVWriter extends AbstractSendableWriter
             $this->headers->setContentType('text/csv', $this->options['charset']);
             //$this->headers->setContentDispositionType(SimpleHeaders::DIPOSITION_ATTACHEMENT);
         }
+
         return $this->headers;
     }
 }

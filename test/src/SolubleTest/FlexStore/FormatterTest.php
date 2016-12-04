@@ -49,7 +49,6 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
         $n = Formatter::create('cool');
     }
 
-
     public function testGetSupported()
     {
         $su = Formatter::getSupported();

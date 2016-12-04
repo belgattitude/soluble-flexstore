@@ -25,9 +25,7 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
      */
     protected $source;
 
-
     /**
-     *
      * @var \Zend\Db\Adapter\Adapter
      */
     protected $adapter;
@@ -44,7 +42,6 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
 
         $this->source = new SqlSource($this->adapter, $select);
 
-
         $this->jsonWriter = new JsonWriter();
         $this->jsonWriter->setStore(new FlexStore($this->source));
     }
@@ -58,8 +55,6 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
         //header_remove();
         parent::tearDown();
     }
-
-
 
     public function testGetData()
     {
@@ -87,7 +82,7 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
         $select->from('product');
 
         $source = new SqlSource($this->adapter, $select);
-        $store =  new FlexStore($source);
+        $store = new FlexStore($source);
 
         $limit = 2;
 
@@ -100,7 +95,6 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($limit, count($data['data']));
     }
 
-
     public function testGetDataWithRequestId()
     {
         $this->jsonWriter->setRequestId(12321321321);
@@ -109,7 +103,6 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
         $d = json_decode($data, $assoc = true);
         $this->assertEquals(12321321321, $d['request_id']);
     }
-
 
     public function testGetDataWithDebug()
     {
@@ -121,9 +114,6 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('query', $d);
     }
 
-    /**
-     *
-     */
     public function testColumnModel()
     {
         $store = new FlexStore($this->getTestSource());
@@ -147,7 +137,6 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @return SelectSource
      */
     protected function getTestSource()
@@ -178,7 +167,6 @@ class JsonWriterTest extends \PHPUnit_Framework_TestCase
             'public_price' => new Expression('ppl.public_price'),
             'currency_reference' => new Expression("'CNY'")
         ]);
-
 
         return $source;
     }

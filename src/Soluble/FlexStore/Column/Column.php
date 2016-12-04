@@ -8,13 +8,11 @@ use Soluble\FlexStore\Formatter\FormatterInterface;
 class Column implements ColumnSettableInterface
 {
     /**
-     *
      * @var string
      */
     protected $name;
 
     /**
-     *
      * @var array
      */
     protected $properties = [
@@ -33,20 +31,21 @@ class Column implements ColumnSettableInterface
         'class' => null
     ];
 
-
     /**
-     * Constructor
-     * @param string $name unique identifier name for the column
-     * @param array $properties associative array with (header,width,filterable,groupable,sortable,hidden,excluded,editable...)
+     * Constructor.
+     *
+     * @param string $name       unique identifier name for the column
+     * @param array  $properties associative array with (header,width,filterable,groupable,sortable,hidden,excluded,editable...)
+     *
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($name, array $properties = null)
     {
         if (!is_string($name)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " Column name must be a string");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name must be a string');
         }
         if (trim($name) == '') {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " Column name cannot be empty");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name cannot be empty');
         }
         $this->name = $name;
         if ($properties !== null) {
@@ -57,7 +56,7 @@ class Column implements ColumnSettableInterface
 
     /**
      * This method ensure some properties are defaulted.
-     * For example header with name and type is string
+     * For example header with name and type is string.
      */
     protected function initDefaults()
     {
@@ -70,7 +69,7 @@ class Column implements ColumnSettableInterface
     }
 
     /**
-     * Get the name of the column
+     * Get the name of the column.
      *
      * @return string
      */
@@ -80,9 +79,12 @@ class Column implements ColumnSettableInterface
     }
 
     /**
-     * Set column datatype
+     * Set column datatype.
+     *
      * @param string|AbstractType $type
-     * @throws Exception\InvalidArgumentException when the type is not supported.
+     *
+     * @throws Exception\InvalidArgumentException when the type is not supported
+     *
      * @return Column
      */
     public function setType($type)
@@ -90,15 +92,14 @@ class Column implements ColumnSettableInterface
         if (is_string($type)) {
             $type = ColumnType::createType($type);
         } elseif (!$type instanceof AbstractType) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " setType() accepts only AbstractType or string.");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' setType() accepts only AbstractType or string.');
         }
         $this->properties['type'] = $type;
+
         return $this;
     }
 
-
     /**
-     *
      * @return AbstractType
      */
     public function getType()
@@ -107,18 +108,18 @@ class Column implements ColumnSettableInterface
     }
 
     /**
-     *
      * @param FormatterInterface $formatter
+     *
      * @return Column
      */
     public function setFormatter(FormatterInterface $formatter)
     {
         $this->properties['formatter'] = $formatter;
+
         return $this;
     }
 
     /**
-     *
      * @return FormatterInterface|null
      */
     public function getFormatter()
@@ -127,40 +128,39 @@ class Column implements ColumnSettableInterface
     }
 
     /**
+     * @param bool $virtual
      *
-     * @param boolean $virtual
      * @return Column
      */
     public function setVirtual($virtual = true)
     {
         $this->properties['virtual'] = (bool) $virtual;
+
         return $this;
     }
 
     /**
-     *
-     * @return boolean
+     * @return bool
      */
     public function isVirtual()
     {
         return $this->properties['virtual'];
     }
 
-
     /**
+     * @param bool $excluded
      *
-     * @param boolean $excluded
      * @return Column
      */
     public function setExcluded($excluded = true)
     {
         $this->properties['excluded'] = (bool) $excluded;
+
         return $this;
     }
 
     /**
-     *
-     * @return boolean
+     * @return bool
      */
     public function isExcluded()
     {
@@ -168,19 +168,19 @@ class Column implements ColumnSettableInterface
     }
 
     /**
+     * @param bool $editable
      *
-     * @param boolean $editable
      * @return Column
      */
     public function setEditable($editable = true)
     {
         $this->properties['editable'] = (bool) $editable;
+
         return $this;
     }
 
     /**
-     *
-     * @return boolean
+     * @return bool
      */
     public function isEditable()
     {
@@ -188,19 +188,19 @@ class Column implements ColumnSettableInterface
     }
 
     /**
+     * @param bool $hidden
      *
-     * @param boolean $hidden
      * @return Column
      */
     public function setHidden($hidden = true)
     {
         $this->properties['hidden'] = (bool) $hidden;
+
         return $this;
     }
 
     /**
-     *
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {
@@ -208,19 +208,19 @@ class Column implements ColumnSettableInterface
     }
 
     /**
+     * @param bool $sortable
      *
-     * @param boolean $sortable
      * @return Column
      */
     public function setSortable($sortable = true)
     {
         $this->properties['sortable'] = (bool) $sortable;
+
         return $this;
     }
 
     /**
-     *
-     * @return boolean
+     * @return bool
      */
     public function isSortable()
     {
@@ -228,19 +228,19 @@ class Column implements ColumnSettableInterface
     }
 
     /**
+     * @param bool $groupable
      *
-     * @param boolean $groupable
      * @return Column
      */
     public function setGroupable($groupable = true)
     {
         $this->properties['groupable'] = (bool) $groupable;
+
         return $this;
     }
 
     /**
-     *
-     * @return boolean
+     * @return bool
      */
     public function isGroupable()
     {
@@ -248,44 +248,45 @@ class Column implements ColumnSettableInterface
     }
 
     /**
+     * @param bool $filterable
      *
-     * @param boolean $filterable
      * @return Column
      */
     public function setFilterable($filterable = true)
     {
         $this->properties['filterable'] = (bool) $filterable;
+
         return $this;
     }
 
     /**
-     *
-     * @return boolean
+     * @return bool
      */
     public function isFilterable()
     {
         return (bool) $this->properties['filterable'];
     }
 
-
     /**
-     * Set recommended width for the column
+     * Set recommended width for the column.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param float|int|string $width
+     *
      * @return Column
      */
     public function setWidth($width)
     {
         if (!is_scalar($width)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " Width parameter must be scalar.");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' Width parameter must be scalar.');
         }
         $this->properties['width'] = $width;
+
         return $this;
     }
 
     /**
-     *
      * @return float|int|string
      */
     public function getWidth()
@@ -294,20 +295,22 @@ class Column implements ColumnSettableInterface
     }
 
     /**
-     * Set table header for this column
+     * Set table header for this column.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param string|null $header
+     *
      * @return Column
      */
     public function setHeader($header)
     {
         $this->properties['header'] = $header;
+
         return $this;
     }
 
     /**
-     *
      * @return string|null
      */
     public function getHeader()
@@ -316,23 +319,27 @@ class Column implements ColumnSettableInterface
     }
 
     /**
-     * Set recommended horizontal align 
+     * Set recommended horizontal align.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param string $align can be left|center|right
+     *
      * @return Column
      */
     public function setAlign($align)
     {
-        if (!is_string($align) || ! in_array(strtolower($align), ['left', 'right', 'center'])) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " Align param must be a string : right, left, center.");
+        if (!is_string($align) || !in_array(strtolower($align), ['left', 'right', 'center'])) {
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' Align param must be a string : right, left, center.');
         }
         $this->properties['align'] = $align;
+
         return $this;
     }
 
     /**
-     * Return recommended horizontal alignment
+     * Return recommended horizontal alignment.
+     *
      * @return string|null
      */
     public function getAlign()
@@ -341,23 +348,27 @@ class Column implements ColumnSettableInterface
     }
 
     /**
-     * Set recommended css class
+     * Set recommended css class.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param string $class css class
+     *
      * @return Column
      */
     public function setClass($class)
     {
         if (!is_string($class)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " Class param must be a string");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' Class param must be a string');
         }
         $this->properties['class'] = $class;
+
         return $this;
     }
 
     /**
-     * Return recommended css class
+     * Return recommended css class.
+     *
      * @return string|null
      */
     public function getClass()
@@ -366,7 +377,6 @@ class Column implements ColumnSettableInterface
     }
 
     /**
-     *
      * @return array
      */
     public function getProperties()
@@ -375,10 +385,12 @@ class Column implements ColumnSettableInterface
     }
 
     /**
-     * Set properties for the column
+     * Set properties for the column.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param array $properties associative array with (header,width,filterable,groupable,sortable,hidden,excluded,editable...)
+     *
      * @return Column
      */
     public function setProperties(array $properties)
@@ -391,11 +403,11 @@ class Column implements ColumnSettableInterface
                 throw new Exception\InvalidArgumentException(__METHOD__ . " property '$key' is not supported in column.");
             }
         }
+
         return $this;
     }
 
     /**
-     *
      * @return string
      */
     public function __toString()

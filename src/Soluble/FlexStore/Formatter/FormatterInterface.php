@@ -11,13 +11,11 @@ interface FormatterInterface
      */
     public function __construct(array $params = []);
 
-
     /**
-     * Format
+     * Format.
      *
-     * @param mixed $value
+     * @param mixed       $value
      * @param ArrayObject $row
-     * @return void
      */
     public function format($value, ArrayObject $row);
 }

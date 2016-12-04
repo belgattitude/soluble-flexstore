@@ -116,8 +116,6 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         $column->setProperties($properties);
     }
 
-
-
     public function testGetSet()
     {
         $column = new Column('cool');
@@ -126,7 +124,6 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('cool', $column->getHeader());
         $column->setHeader('Hello');
         $this->assertEquals('Hello', $column->getHeader());
-
 
         // Width
         $this->assertNull($column->getWidth());
@@ -139,7 +136,6 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($column->isGroupable());
         $column->setGroupable($groupable = false);
         $this->assertFalse($column->isGroupable());
-
 
         // Hidden
         $this->assertFalse($column->isHidden());
@@ -177,7 +173,6 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($column->isEditable());
     }
 
-
     public function testConstructThrowsInvalidArgumentException()
     {
         $this->setExpectedException('Soluble\FlexStore\Column\Exception\InvalidArgumentException');
@@ -187,9 +182,8 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     public function testConstructThrowsInvalidArgumentException2()
     {
         $this->setExpectedException('Soluble\FlexStore\Column\Exception\InvalidArgumentException');
-        $column = new Column(" ");
+        $column = new Column(' ');
     }
-
 
     public function testSetWidthThrowsInvalidArgumentException()
     {
@@ -198,9 +192,8 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         $column->setWidth(['cool']);
     }
 
-
     /**
-     * @covers Soluble\FlexStore\Column\Column::__toString
+     * @covers \Soluble\FlexStore\Column\Column::__toString
      */
     public function test__toString()
     {

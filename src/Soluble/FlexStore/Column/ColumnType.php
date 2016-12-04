@@ -4,37 +4,34 @@ namespace Soluble\FlexStore\Column;
 
 class ColumnType
 {
-    const TYPE_INTEGER  = 'integer';
-    const TYPE_DECIMAL  = 'decimal';
-    const TYPE_STRING   = 'string';
-    const TYPE_BOOLEAN  = 'boolean';
+    const TYPE_INTEGER = 'integer';
+    const TYPE_DECIMAL = 'decimal';
+    const TYPE_STRING = 'string';
+    const TYPE_BOOLEAN = 'boolean';
     const TYPE_DATETIME = 'datetime';
-    const TYPE_BLOB     = 'blob';
-    const TYPE_DATE     = 'date';
-    const TYPE_TIME     = 'time';
-    const TYPE_BIT      = 'bit';
-    const TYPE_NULL     = 'null';
+    const TYPE_BLOB = 'blob';
+    const TYPE_DATE = 'date';
+    const TYPE_TIME = 'time';
+    const TYPE_BIT = 'bit';
+    const TYPE_NULL = 'null';
 
     protected static $typesMap = [
-        self::TYPE_INTEGER  => 'Type\IntegerType',
-        self::TYPE_DECIMAL  => 'Type\DecimalType',
-        self::TYPE_STRING   => 'Type\StringType',
-        self::TYPE_BOOLEAN  => 'Type\BooleanType',
+        self::TYPE_INTEGER => 'Type\IntegerType',
+        self::TYPE_DECIMAL => 'Type\DecimalType',
+        self::TYPE_STRING => 'Type\StringType',
+        self::TYPE_BOOLEAN => 'Type\BooleanType',
         self::TYPE_DATETIME => 'Type\DatetimeType',
-        self::TYPE_BLOB     => 'Type\BlobType',
-        self::TYPE_DATE     => 'Type\DateType',
-        self::TYPE_TIME     => 'Type\TimeType',
-        self::TYPE_BIT      => 'Type\BitType',
-        self::TYPE_NULL     => 'Type\NullType'
+        self::TYPE_BLOB => 'Type\BlobType',
+        self::TYPE_DATE => 'Type\DateType',
+        self::TYPE_TIME => 'Type\TimeType',
+        self::TYPE_BIT => 'Type\BitType',
+        self::TYPE_NULL => 'Type\NullType'
     ];
 
-
-
     /**
-     *
-     * @param string $type_name
-
+     * @param  string                             $type_name
      * @throws Exception\InvalidArgumentException
+     *
      * @return \Soluble\FlexStore\Column\Type\AbstractType
      */
     public static function createType($type_name)
@@ -43,14 +40,16 @@ class ColumnType
             throw new Exception\InvalidArgumentException(__METHOD__ . " Type '$type_name' is not supported.");
         }
         $class = __NAMESPACE__ . '\\' . self::$typesMap[strtolower($type_name)];
+
         return new $class();
     }
 
     /**
-     * Whether a type is supported
+     * Whether a type is supported.
      *
      * @param string $type_name
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isSupported($type_name)
     {
@@ -58,7 +57,7 @@ class ColumnType
     }
 
     /**
-     * Return supported types
+     * Return supported types.
      *
      * @return array
      */

@@ -11,14 +11,12 @@ use ArrayObject;
 class ResultSet extends AbstractResultSet
 {
     /**
-     *
      * @var Paginator
      */
     protected $paginator;
 
     /**
-     *
-     * @var integer
+     * @var int
      */
     protected $totalRows;
 
@@ -28,14 +26,12 @@ class ResultSet extends AbstractResultSet
     protected $source;
 
     /**
-     *
      * @var HydrationOptions
      */
     protected $hydrationOptions;
 
     /**
-     *
-     * @var boolean
+     * @var bool
      */
     protected $hydrate_options_initialized = false;
 
@@ -54,36 +50,36 @@ class ResultSet extends AbstractResultSet
      */
     protected $hydrated_columns;
 
-
-
     /**
-     * Return source column model
+     * Return source column model.
      *
      * @throws Exception\RuntimeException
+     *
      * @return ColumnModel
      */
     public function getColumnModel()
     {
         if ($this->source === null) {
-            throw new Exception\RuntimeException(__METHOD__ . " Prior to get column model, a source must be set.");
+            throw new Exception\RuntimeException(__METHOD__ . ' Prior to get column model, a source must be set.');
         }
         $this->hydrate_options_initialized = false;
+
         return $this->source->getColumnModel();
     }
 
     /**
-     *
      * @param AbstractSource $source
+     *
      * @return ResultSet
      */
     public function setSource(AbstractSource $source)
     {
         $this->source = $source;
+
         return $this;
     }
 
     /**
-     *
      * @return AbstractSource
      */
     public function getSource()
@@ -92,18 +88,18 @@ class ResultSet extends AbstractResultSet
     }
 
     /**
-     *
      * @param HydrationOptions $hydrationOptions
+     *
      * @return ResultSet
      */
     public function setHydrationOptions(HydrationOptions $hydrationOptions)
     {
         $this->hydrationOptions = $hydrationOptions;
+
         return $this;
     }
 
     /**
-     *
      * @return HydrationOptions
      */
     public function getHydrationOptions()
@@ -111,9 +107,7 @@ class ResultSet extends AbstractResultSet
         return $this->hydrationOptions;
     }
 
-
     /**
-     *
      * @return Paginator
      */
     public function getPaginator()
@@ -125,17 +119,21 @@ class ResultSet extends AbstractResultSet
                 $this->getSource()->getOptions()->getOffset()
             );
         }
+
         return $this->paginator;
     }
 
     /**
-     * Set the total rows
+     * Set the total rows.
+     *
      * @param int $totalRows
+     *
      * @return ResultSet
      */
     public function setTotalRows($totalRows)
     {
         $this->totalRows = (int) $totalRows;
+
         return $this;
     }
 
@@ -148,9 +146,7 @@ class ResultSet extends AbstractResultSet
     }
 
     /**
-     *
      * @param ArrayObject $row
-     * @return null
      */
     protected function initColumnModelHydration(ArrayObject $row)
     {
@@ -198,6 +194,7 @@ class ResultSet extends AbstractResultSet
      * the limited columns.
      *
      * @throws Exception\UnknownColumnException
+     *
      * @return array|ArrayObject|null
      */
     public function current()
@@ -210,7 +207,6 @@ class ResultSet extends AbstractResultSet
         if (!$this->hydrate_options_initialized) {
             $this->initColumnModelHydration($row);
         }
-
 
         // 1. Row renderers
         foreach ($this->hydration_renderers as $renderer) {
@@ -236,13 +232,15 @@ class ResultSet extends AbstractResultSet
         if ($this->returnType === self::TYPE_ARRAY) {
             return (array) $row;
         }
+
         return $row;
     }
 
     /**
-     * Cast result set to array of arrays
+     * Cast result set to array of arrays.
      *
      * @return array
+     *
      * @throws Exception\RuntimeException if any row is not castable to an array
      */
     public function toArray()
@@ -261,6 +259,7 @@ class ResultSet extends AbstractResultSet
                 );
             }
         }
+
         return $return;
     }
 
@@ -271,17 +270,16 @@ class ResultSet extends AbstractResultSet
      */
     public function valid()
     {
-        $valid =  $this->zfResultSet->valid();
+        $valid = $this->zfResultSet->valid();
         if (!$valid) {
             $this->hydrate_options_initialized = false;
         }
+
         return $valid;
     }
 
     /**
-     * Iterator: rewind
-     *
-     * @return void
+     * Iterator: rewind.
      */
     public function rewind()
     {

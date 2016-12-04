@@ -12,13 +12,11 @@ use Soluble\FlexStore\Store\StoreInterface;
 class FlexStore implements StoreInterface
 {
     /**
-     *
      * @var Source\SourceInterface
      */
     protected $source;
 
     /**
-     *
      * @param Source\SourceInterface $source
      */
     public function __construct(Source\SourceInterface $source)
@@ -27,7 +25,8 @@ class FlexStore implements StoreInterface
     }
 
     /**
-     * Return store search options
+     * Return store search options.
+     *
      * @return Options
      */
     public function getOptions()
@@ -36,7 +35,6 @@ class FlexStore implements StoreInterface
     }
 
     /**
-     *
      * {@inheritdoc}
      */
     public function getSource()
@@ -45,11 +43,13 @@ class FlexStore implements StoreInterface
     }
 
     /**
-     * Return the underlying store data as a resultset
+     * Return the underlying store data as a resultset.
      *
      * @throws Exception\EmptyQueryException when query is empty
-     * @throws Exception\ErrorException whenever an error occured
+     * @throws Exception\ErrorException      whenever an error occured
+     *
      * @param Options $options
+     *
      * @return ResultSet
      */
     public function getData(Options $options = null)
@@ -58,7 +58,6 @@ class FlexStore implements StoreInterface
     }
 
     /**
-     *
      * {@inheritdoc}
      */
     public function getColumnModel()

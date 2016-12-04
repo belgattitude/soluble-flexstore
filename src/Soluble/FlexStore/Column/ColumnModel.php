@@ -14,25 +14,21 @@ class ColumnModel
     const ADD_COLUMN_BEFORE = 'before';
 
     /**
-     *
      * @var ArrayObject
      */
     protected $columns;
 
     /**
-     *
      * @var Search
      */
     protected $search;
 
     /**
-     *
      * @var ArrayObject
      */
     protected $row_renderers;
 
     /**
-     *
      * @var ColumnsMetadata|null
      */
     protected $metadata;
@@ -44,9 +40,10 @@ class ColumnModel
     }
 
     /**
-     * Add a row renderer
+     * Add a row renderer.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param RowRendererInterface $renderer
      */
     public function addRowRenderer(RowRendererInterface $renderer)
@@ -58,7 +55,7 @@ class ColumnModel
             if (!$this->exists($column)) {
                 $cls = get_class($renderer);
                 $msg = "Renderer '$cls' requires column '$column' to be present in column model.";
-                throw new Exception\MissingColumnException(__METHOD__ . ": " . $msg);
+                throw new Exception\MissingColumnException(__METHOD__ . ': ' . $msg);
             }
         }
 
@@ -66,7 +63,6 @@ class ColumnModel
     }
 
     /**
-     *
      * @return ArrayObject
      */
     public function getRowRenderers()
@@ -77,9 +73,10 @@ class ColumnModel
     /**
      * Return an array object containing all
      * columns that have a formatter (FormatterInterface).
-     * [column_name] => [FormatterInterface]
+     * [column_name] => [FormatterInterface].
      *
      * @see self::getUniqueFormatters()
+     *
      * @return ArrayObject
      */
     public function getFormatters()
@@ -90,16 +87,19 @@ class ColumnModel
                 $arr->offsetSet($key, $formatter);
             }
         }
+
         return $arr;
     }
 
     /**
      * This method returns unique formatters set in the column model
-     * in an ArrayObject
+     * in an ArrayObject.
      *
      *
-     * @param boolean $include_excluded_columns
+     * @param bool $include_excluded_columns
+     *
      * @see self::getFormatters()
+     *
      * @return ArrayObject
      */
     public function getUniqueFormatters($include_excluded_columns = false)
@@ -114,7 +114,6 @@ class ColumnModel
                     $tmp = new ArrayObject([
                                                 'formatter' => $formatter,
                                                 'columns' => new ArrayObject([$column])
-
                     ]);
                     $unique->offsetSet($hash, $tmp);
                 } else {
@@ -127,14 +126,16 @@ class ColumnModel
     }
 
     /**
-     * Add a new column to the column model
+     * Add a new column to the column model.
      *
      * @throws Exception\InvalidArgumentException when mode is not supported
      * @throws Exception\DuplicateColumnException when column name already exists
-     * @throws Exception\ColumnNotFoundException when after_column does not exists
+     * @throws Exception\ColumnNotFoundException  when after_column does not exists
+     *
      * @param Column $column
      * @param string $after_column add the new column after this existing one
-     * @param string $mode change after to before (see self::ADD_COLUMN_AFTER, self::ADD_COLUMN_BEFORE)
+     * @param string $mode         change after to before (see self::ADD_COLUMN_AFTER, self::ADD_COLUMN_BEFORE)
+     *
      * @return ColumnModel
      */
     public function add(Column $column, $after_column = null, $mode = self::ADD_COLUMN_AFTER)
@@ -172,31 +173,33 @@ class ColumnModel
             // Simply append
             $this->columns->offsetSet($name, $column);
         }
+
         return $this;
     }
 
     /**
-     * Tells whether a column exists
+     * Tells whether a column exists.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param string $column
-     * @return boolean
+     *
+     * @return bool
      */
     public function exists($column)
     {
         if (!is_string($column)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " Column name must be a valid string");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name must be a valid string');
         }
         if ($column == '') {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " Column name cannot be empty");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name cannot be empty');
         }
+
         return $this->columns->offsetExists($column);
     }
 
-
-
     /**
-     * Return column that have been excluded in getData() and getColumns()
+     * Return column that have been excluded in getData() and getColumns().
      *
      * @return array
      */
@@ -208,16 +211,18 @@ class ColumnModel
                 $arr[] = $name;
             }
         }
+
         return $arr;
     }
 
     /**
-     * Return column from identifier name
+     * Return column from identifier name.
      *
      * @param string $column column name
      *
      * @throws Exception\InvalidArgumentException
-     * @throws Exception\ColumnNotFoundException when column does not exists in model
+     * @throws Exception\ColumnNotFoundException  when column does not exists in model
+     *
      * @return Column
      */
     public function get($column)
@@ -225,15 +230,17 @@ class ColumnModel
         if (!$this->exists($column)) {
             throw new Exception\ColumnNotFoundException(__METHOD__ . " Column '$column' not present in column model.");
         }
+
         return $this->columns->offsetGet($column);
     }
 
     /**
      * Sort columns in the order specified, columns that exists
      * in the dataset but not in the sorted_columns will be
-     * appended to the end
+     * appended to the end.
      *
      * @param array $sorted_columns
+     *
      * @return ColumnModel
      */
     public function sort(array $sorted_columns)
@@ -254,15 +261,18 @@ class ColumnModel
         // Appending eventual non sorted columns at the end
         $columns = array_merge($columns, (array) $this->columns);
         $this->columns->exchangeArray($columns);
+
         return $this;
     }
 
     /**
-     * Set column that must be excluded in getData() and getColumns()
+     * Set column that must be excluded in getData() and getColumns().
      *
      * @param array|string|ArrayObject $excluded_columns column nams to exclude
-     * @param boolean $excluded whether to set exclude to true (default) or false (opposite: include)
+     * @param bool                     $excluded         whether to set exclude to true (default) or false (opposite: include)
+     *
      * @throws Exception\InvalidArgumentException
+     *
      * @return ColumnModel
      */
     public function exclude($excluded_columns, $excluded = true)
@@ -274,18 +284,20 @@ class ColumnModel
         $excluded_columns = array_map('trim', $excluded_columns);
 
         $this->search()->in($excluded_columns)->setExcluded($excluded);
+
         return $this;
     }
 
-
     /**
      * Exclude all other columns that the one specified
-     * Column sort is preserved in getData()
+     * Column sort is preserved in getData().
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param array|string|ArrayObject $include_only_columns
-     * @param bool $sort automatically apply sortColumns
-     * @param bool $preserve_excluded preserve excluded columns
+     * @param bool                     $sort                 automatically apply sortColumns
+     * @param bool                     $preserve_excluded    preserve excluded columns
+     *
      * @return ColumnModel
      */
     public function includeOnly($include_only_columns, $sort = true, $preserve_excluded = true)
@@ -318,30 +330,33 @@ class ColumnModel
         return $this;
     }
 
-
     /**
-     * Return columns
+     * Return columns.
      *
-     * @param boolean $include_excluded_columns
+     * @param bool $include_excluded_columns
+     *
      * @return ArrayObject
      */
     public function getColumns($include_excluded_columns = false)
     {
-        $arr = new ArrayObject;
+        $arr = new ArrayObject();
         foreach ($this->columns as $key => $column) {
             if ($include_excluded_columns || !$column->isExcluded()) {
                 $arr->offsetSet($key, $column);
             }
         }
+
         return $arr;
     }
 
     /**
-     * Set formatter to specific columns
+     * Set formatter to specific columns.
      *
      * @throws Exception\InvalidArgumentException
-     * @param FormatterInterface $formatter
+     *
+     * @param FormatterInterface       $formatter
      * @param array|string|ArrayObject $columns
+     *
      * @return ColumnModel
      */
     public function setFormatter(FormatterInterface $formatter, $columns)
@@ -363,23 +378,23 @@ class ColumnModel
         if ($this->search === null) {
             $this->search = new Search($this->columns);
         }
+
         return $this->search;
     }
 
-
     /**
-     *
      * @param ColumnsMetadata $metadata
+     *
      * @return ColumnModel
      */
     public function setMetatadata(ColumnsMetadata $metadata)
     {
         $this->metadata = $metadata;
+
         return $this;
     }
 
     /**
-     *
      * @return ArrayObject|null
      */
     public function getMetadata()

@@ -11,20 +11,18 @@ use NumberFormatter as IntlNumberFormatter;
 class NumberFormatter implements FormatterInterface, LocalizableInterface, FormatterNumberInterface
 {
     /**
-     * Formatter instances
+     * Formatter instances.
      *
      * @var array
      */
     protected $formatters = [];
 
     /**
-     *
      * @var array
      */
     protected $params = [];
 
     /**
-     *
      * @var array
      */
     protected $default_params = [
@@ -35,6 +33,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
 
     /**
      * @param array $params
+     *
      * @throws Exception\ExtensionNotLoadedException if ext/intl is not present
      * @throws Exception\InvalidArgumentException
      */
@@ -47,8 +46,6 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
             ));
         }
 
-
-
         // As default locale may include unsupported
         // variants (like 'en_US_POSIX' for example),
         // only the 5 chars will be taken into consideration
@@ -60,8 +57,8 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
 
     /**
      * @throws Exception\InvalidArgumentException
+     *
      * @param array $params
-     * @return void
      */
     protected function setParams($params)
     {
@@ -76,7 +73,6 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
     }
 
     /**
-     *
      * @param string $formatterId
      */
     protected function loadFormatterId($formatterId)
@@ -93,9 +89,10 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
     }
 
     /**
-     * Format a number
+     * Format a number.
      *
-     * @param  float  $number
+     * @param float $number
+     *
      * @return string
      */
     public function format($number, ArrayObject $row = null)
@@ -112,15 +109,17 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
             $this->throwNumberFormatterException($this->formatters[$formatterId], $number);
         }
 
-
         $value = $this->formatters[$formatterId]->format($number);
+
         return $value;
     }
 
     /**
-     * Throws an Exception when number cannot be formatted
+     * Throws an Exception when number cannot be formatted.
+     *
      * @param IntlNumberFormatter $intlFormatter
-     * @param int|string|float $number
+     * @param int|string|float    $number
+     *
      * @throws Exception\RuntimeException
      */
     protected function throwNumberFormatterException(IntlNumberFormatter $intlFormatter, $number)
@@ -135,19 +134,21 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
     }
 
     /**
-     * Set locale to use instead of the default
+     * Set locale to use instead of the default.
      *
-     * @param  string $locale
+     * @param string $locale
+     *
      * @return NumberFormatter
      */
     public function setLocale($locale)
     {
         $this->params['locale'] = (string) $locale;
+
         return $this;
     }
 
     /**
-     * Get the locale to use
+     * Get the locale to use.
      *
      * @return string|null
      */
@@ -157,19 +158,20 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
     }
 
     /**
-     * Set decimals
+     * Set decimals.
      *
      * @param int $decimals
+     *
      * @return NumberFormatter
      */
     public function setDecimals($decimals)
     {
         $this->params['decimals'] = (int) $decimals;
+
         return $this;
     }
 
     /**
-     *
      * @return int
      */
     public function getDecimals()
@@ -178,20 +180,23 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
     }
 
     /**
-     * Set the number pattern, (#,##0.###, ....)
+     * Set the number pattern, (#,##0.###, ....).
      *
      * @see http://php.net/manual/en/numberformatter.setpattern.php
-     * @param  string $pattern
+     *
+     * @param string $pattern
+     *
      * @return NumberFormatter
      */
     public function setPattern($pattern)
     {
         $this->params['pattern'] = $pattern;
+
         return $this;
     }
 
     /**
-     * Get the number pattern
+     * Get the number pattern.
      *
      * @return string|null
      */

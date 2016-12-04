@@ -6,7 +6,6 @@ use ArrayObject;
 use Closure;
 
 /**
- *
  * @method void closure(ArrayObject $row)
  */
 class ClosureRenderer implements RowRendererInterface
@@ -16,15 +15,12 @@ class ClosureRenderer implements RowRendererInterface
      */
     protected $closure;
 
-
     /**
-     *
      * @var array
      */
     protected $required_columns;
 
     /**
-     *
      * @param Closure $closure
      */
     public function __construct(Closure $closure)
@@ -33,11 +29,11 @@ class ClosureRenderer implements RowRendererInterface
         $this->closure = $closure;
     }
 
-
     /**
-     * Magic callable
+     * Magic callable.
+     *
      * @param string $method
-     * @param array $args
+     * @param array  $args
      */
     public function __call($method, $args)
     {
@@ -48,6 +44,7 @@ class ClosureRenderer implements RowRendererInterface
 
     /**
      * @param ArrayObject
+     *
      * @return string
      */
     public function apply(\ArrayObject $row)
@@ -56,7 +53,8 @@ class ClosureRenderer implements RowRendererInterface
     }
 
     /**
-     * Return the list of columns required in order to use this renderer
+     * Return the list of columns required in order to use this renderer.
+     *
      * @return array
      */
     public function getRequiredColumns()
@@ -65,7 +63,6 @@ class ClosureRenderer implements RowRendererInterface
     }
 
     /**
-     *
      * @param array $required_columns
      */
     public function setRequiredColumns(array $required_columns)

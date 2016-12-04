@@ -23,7 +23,6 @@ class SimpleXmlWriterTest extends \PHPUnit_Framework_TestCase
     protected $source;
 
     /**
-     *
      * @var \Zend\Db\Adapter\Adapter
      */
     protected $adapter;
@@ -40,7 +39,6 @@ class SimpleXmlWriterTest extends \PHPUnit_Framework_TestCase
 
         $this->source = new SqlSource($this->adapter, $select);
 
-
         $this->xmlWriter = new SimpleXmlWriter();
         $this->xmlWriter->setStore(new FlexStore($this->source));
     }
@@ -53,7 +51,6 @@ class SimpleXmlWriterTest extends \PHPUnit_Framework_TestCase
     {
     }
 
-
     public function testConstructor()
     {
         $xmlWriter = new SimpleXmlWriter(new FlexStore($this->source));
@@ -61,7 +58,7 @@ class SimpleXmlWriterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Soluble\FlexStore\Writer\SimpleXmlWriter::getData
+     * @covers \Soluble\FlexStore\Writer\SimpleXmlWriter::getData
      */
     public function testGetData()
     {
@@ -74,11 +71,9 @@ class SimpleXmlWriterTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric((string) $xml->total));
         $this->assertTrue(is_numeric((string) $xml->success));
 
-
         $timestamp = DateTime::createFromFormat(DateTime::W3C, (string) $xml->timestamp);
 
         $this->assertEquals($timestamp->format(DateTime::W3C), (string) $xml->timestamp);
-
 
         $this->assertNotEmpty($xml->data->row[0]->reference);
     }
@@ -103,7 +98,7 @@ class SimpleXmlWriterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Soluble\FlexStore\Writer\SimpleXmlWriter::getOptions
+     * @covers \Soluble\FlexStore\Writer\SimpleXmlWriter::getOptions
      */
     public function testGetDataWithOptionsThrowsInvalidArgumentException()
     {
@@ -115,10 +110,8 @@ class SimpleXmlWriterTest extends \PHPUnit_Framework_TestCase
                     ]
         );
 
-
         $data = $this->xmlWriter->getData();
     }
-
 
     public function testGetHTTPHeaders()
     {

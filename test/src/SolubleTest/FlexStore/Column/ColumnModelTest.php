@@ -23,7 +23,6 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
     protected $source;
 
     /**
-     *
      * @var \Zend\Db\Adapter\Adapter
      */
     protected $adapter;
@@ -37,8 +36,6 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $this->adapter = \SolubleTestFactories::getDbAdapter();
         $select = new \Zend\Db\Sql\Select();
         $select->from('user');
-
-
 
         $this->source = new SqlSource($this->adapter, $select);
 
@@ -73,7 +70,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $cm = $store->getColumnModel();
 
         $f = function (\ArrayObject $row) {
-            $row['product_id'] = "My product id:" . $row['product_id'];
+            $row['product_id'] = 'My product id:' . $row['product_id'];
         };
         $clo = new ClosureRenderer($f);
         $cm->addRowRenderer($clo);
@@ -106,10 +103,8 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($column->isVirtual());
         $this->assertFalse($cm->get('product_id')->isVirtual());
 
-
-
         $f = function (\ArrayObject $row) {
-            $row['cool'] = "My cool value is :" . $row['product_id'];
+            $row['cool'] = 'My cool value is :' . $row['product_id'];
         };
         $clo = new ClosureRenderer($f);
         $clo->setRequiredColumns(['product_id', 'reference']);
@@ -143,16 +138,15 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
 
         $f2 = function (\ArrayObject $row) {
             if (!$row->offsetExists('pas_cool')) {
-                throw new \Exception("pascool column in row");
+                throw new \Exception('pascool column in row');
             }
-            $row['cool'] = "My cool value is :" . $row['product_id'];
+            $row['cool'] = 'My cool value is :' . $row['product_id'];
         };
         $clo = new ClosureRenderer($f2);
         $cm->addRowRenderer($clo);
 
         $data = $store->getData()->toArray();
     }
-
 
     public function testRendererThrowsMissingColumnException()
     {
@@ -177,7 +171,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $cm->add($column);
 
         $f2 = function (\ArrayObject $row) {
-            $row['cool'] = "My cool value is :" . $row['product_id'];
+            $row['cool'] = 'My cool value is :' . $row['product_id'];
         };
         $clo = new ClosureRenderer($f2);
         $clo->setRequiredColumns(['notexists']);
@@ -185,7 +179,6 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
 
         $data = $store->getData()->toArray();
     }
-
 
     public function testSearch()
     {
@@ -205,7 +198,6 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
 
         $store = new FlexStore($source);
         $cm = $store->getColumnModel();
-
 
         $results = $cm->search()->regexp('/price/');
         $this->assertInstanceOf('Soluble\FlexStore\Column\ColumnModel\Search\Result', $results);
@@ -232,12 +224,10 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $test = $cm->search()->in(['price'])->toArray();
         $this->assertEquals(['price'], $test);
 
-
         $cool = new Column('notincool');
         $cm->add($cool);
         $test = $cm->search()->notIn(['notincool'])->toArray();
         $this->assertNotContains('notincool', $test);
-
 
         $cool = new Column('cooldate');
         $cool->setType('date');
@@ -245,12 +235,10 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $test = $cm->search()->findByType('date')->toArray();
         $this->assertContains('cooldate', $test);
 
-
         $cool = new Column('cool');
         $cm->add($cool);
         $test = $cm->search()->in(['cool'])->toArray();
         $this->assertEquals(['cool'], $test);
-
 
         $cool2 = new Column('cool2');
         $cm->add($cool2, 'cool');
@@ -262,10 +250,8 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $cool3 = new Column('cool3');
         $cm->add($cool3);
 
-
         $test = $cm->search()->in(['cool3'])->toArray();
         $this->assertEquals(['cool3'], $test);
-
 
         $this->assertEquals($formatterEur, $cm->get('price')->getFormatter());
         $this->assertEquals($formatterDb, $cm->get('list_price')->getFormatter());
@@ -338,7 +324,6 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $source = new SqlSource($this->adapter, $select);
         $cm = $source->getColumnModel();
 
-
         $cc = new Column('picture_url');
         $cc->setType('string');
 
@@ -348,17 +333,17 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $cm->exclude(['reference']);
 
         $fct = function (\ArrayObject $row) {
-            $row['picture_url'] = "http://" . $row['reference'];
+            $row['picture_url'] = 'http://' . $row['reference'];
         };
         $cm->addRowRenderer(new \Soluble\FlexStore\Renderer\ClosureRenderer($fct));
 
         $data = $source->getData()->toArray();
         $expected = [
-            'picture_url' => "http://TESTREF10",
-            'price' => "10.200000",
-            'list_price' => "15.300000",
-            'product_id' => "10",
-            'public_price' => "18.200000",
+            'picture_url' => 'http://TESTREF10',
+            'price' => '10.200000',
+            'list_price' => '15.300000',
+            'product_id' => '10',
+            'public_price' => '18.200000',
         ];
         $this->assertEquals($expected, $data[0]);
     }
@@ -386,22 +371,21 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $cm->add($cc);
         try {
             $cm->add($cc);
-            $this->assertFalse(true, " should throw DuplicateColumnException");
+            $this->assertFalse(true, ' should throw DuplicateColumnException');
         } catch (\Soluble\FlexStore\Column\Exception\DuplicateColumnException $ex) {
             $this->assertTrue(true);
         }
 
         // column must appear at the end
         $arr = array_keys((array) $cm->getColumns());
-        $this->assertEquals('test', $arr[count($arr)-1]);
-
+        $this->assertEquals('test', $arr[count($arr) - 1]);
 
         // TEST INSERT AFTER
         $cc2 = new Column('insert_after');
 
         try {
             $cm->add($cc2, 'not_existentcolumn');
-            $this->assertFalse(true, " should throw ColumnNotFoundException");
+            $this->assertFalse(true, ' should throw ColumnNotFoundException');
         } catch (\Soluble\FlexStore\Column\Exception\ColumnNotFoundException $ex) {
             $this->assertTrue(true);
         }
@@ -412,11 +396,10 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $arr = array_keys((array) $cm->getColumns());
         $this->assertEquals('insert_after', $arr[1]);
 
-
         $cc2 = new Column('insert_after_end');
         $cm->add($cc2, 'test', ColumnModel::ADD_COLUMN_AFTER);
         $arr = array_keys((array) $cm->getColumns());
-        $this->assertEquals('insert_after_end', $arr[count($arr)-1]);
+        $this->assertEquals('insert_after_end', $arr[count($arr) - 1]);
 
          // TEST INSERT BEFORE
          $cc = new Column('insert_before');
@@ -424,12 +407,11 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $arr = array_keys((array) $cm->getColumns());
         $this->assertEquals('insert_before', $arr[0]);
 
-
          // TEST MODE EXCEPTION
          $cc = new Column('invalid_mode');
         try {
             $cm->add($cc, 'product_id', 'invalid_mode');
-            $this->assertFalse(true, " should throw InvalidArgumentException");
+            $this->assertFalse(true, ' should throw InvalidArgumentException');
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
             $this->assertTrue(true);
         }
@@ -453,29 +435,29 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $cm = $source->getColumnModel();
 
         try {
-            $cm->exists("");
-            $this->assertFalse(true, " should throw InvalidArgumentException");
+            $cm->exists('');
+            $this->assertFalse(true, ' should throw InvalidArgumentException');
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
             $this->assertTrue(true);
         }
 
         try {
             $cm->sort(['product_id', 'undefined_col']);
-            $this->assertFalse(true, " should throw InvalidArgumentException");
+            $this->assertFalse(true, ' should throw InvalidArgumentException');
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
             $this->assertTrue(true);
         }
 
         try {
             $cm->exclude(new \stdClass());
-            $this->assertFalse(true, " should throw InvalidArgumentException");
+            $this->assertFalse(true, ' should throw InvalidArgumentException');
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
             $this->assertTrue(true);
         }
 
         try {
             $cm->includeOnly(new \stdClass());
-            $this->assertFalse(true, " should throw InvalidArgumentException");
+            $this->assertFalse(true, ' should throw InvalidArgumentException');
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
             $this->assertTrue(true);
         }
@@ -483,7 +465,7 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         try {
             $formatter = new \Soluble\FlexStore\Formatter\NumberFormatter();
             $cm->setFormatter($formatter, new \stdClass());
-            $this->assertFalse(true, " should throw InvalidArgumentException");
+            $this->assertFalse(true, ' should throw InvalidArgumentException');
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
             $this->assertTrue(true);
         }
@@ -553,8 +535,6 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $cm->exclude($excluded);
         $this->assertEquals($excluded, $cm->getExcluded());
     }
-
-
 
     public function testFindVirtual()
     {
@@ -678,15 +658,15 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
 
         $include_only = ['email', 'user_id', 'username'];
 
-        $cm->includeOnly($include_only, $sort=false);
+        $cm->includeOnly($include_only, $sort = false);
         $this->assertEquals(['user_id', 'email', 'username'], array_keys((array) $cm->getColumns()));
 
         $cm->exclude(['user_id']);
-        $cm->includeOnly($include_only, $sort=true, $preserve_excluded=false);
+        $cm->includeOnly($include_only, $sort = true, $preserve_excluded = false);
         $this->assertEquals(['email', 'user_id', 'username'], array_keys((array) $cm->getColumns()));
 
         $cm->exclude(['user_id', 'username']);
-        $cm->includeOnly($include_only, $sort=true, $preserve_excluded=true);
+        $cm->includeOnly($include_only, $sort = true, $preserve_excluded = true);
         $this->assertEquals(['email'], array_keys((array) $cm->getColumns()));
     }
 

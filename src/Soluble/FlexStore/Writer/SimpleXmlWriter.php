@@ -11,7 +11,6 @@ use Soluble\FlexStore\Store\StoreInterface;
 class SimpleXmlWriter extends AbstractSendableWriter
 {
     /**
-     *
      * @var SimpleHeaders
      */
     protected $headers;
@@ -21,11 +20,11 @@ class SimpleXmlWriter extends AbstractSendableWriter
      * @var array
      */
     protected $options = [
-        /**
+        /*
          * XML tag for response
          */
         'body_tag' => 'response',
-        /**
+        /*
          * XML tag for rows
          */
         'row_tag' => 'row',
@@ -34,45 +33,47 @@ class SimpleXmlWriter extends AbstractSendableWriter
     ];
 
     /**
-     *
-     * @param StoreInterface|null $store
+     * @param StoreInterface|null     $store
      * @param array|\Traversable|null $options
      */
     public function __construct(StoreInterface $store = null, $options = null)
     {
         if (version_compare(PHP_VERSION, '5.4.0', '<')) {
             $this->php_54_compatibility = false;
-        };
+        }
 
         parent::__construct($store, $options);
     }
 
     /**
-     *
      * @param string $row_tag
+     *
      * @return SimpleXmlWriter
      */
     public function setRowTag($row_tag)
     {
         $this->options['row_tag'] = $row_tag;
+
         return $this;
     }
 
     /**
-     *
      * @param string $body_tag
+     *
      * @return SimpleXmlWriter
      */
     public function setBodyTag($body_tag)
     {
         $this->options['body_tag'] = $body_tag;
+
         return $this;
     }
 
     /**
-     *
      * @throws Exception\RuntimeException
+     *
      * @param Options $options
+     *
      * @return string xml encoded data
      */
     public function getData(Options $options = null)
@@ -82,10 +83,8 @@ class SimpleXmlWriter extends AbstractSendableWriter
             $options = $this->store->getOptions();
         }
 
-
         // Get unformatted data when using xml writer
         $options->getHydrationOptions()->disableFormatters();
-
 
         $data = $this->store->getData($options);
         $bt = $this->options['body_tag'];
@@ -109,14 +108,14 @@ class SimpleXmlWriter extends AbstractSendableWriter
 
         $string = $xml->asXML();
         if ($string === false) {
-            throw new Exception\RuntimeException(__METHOD__ . " XML creation failed.");
+            throw new Exception\RuntimeException(__METHOD__ . ' XML creation failed.');
         }
+
         return (string) $string;
     }
 
     /**
-     *
-     * @param array $result
+     * @param array            $result
      * @param SimpleXMLElement $xml
      */
     protected function createXmlNode($result, SimpleXMLElement $xml)
@@ -152,7 +151,8 @@ class SimpleXmlWriter extends AbstractSendableWriter
     }
 
     /**
-     * Return default headers for sending store data via http
+     * Return default headers for sending store data via http.
+     *
      * @return SimpleHeaders
      */
     public function getHttpHeaders()
@@ -162,6 +162,7 @@ class SimpleXmlWriter extends AbstractSendableWriter
             $this->headers->setContentType('application/xml', $this->options['encoding']);
             $this->headers->setContentDispositionType(SimpleHeaders::DIPOSITION_ATTACHEMENT);
         }
+
         return $this->headers;
     }
 }

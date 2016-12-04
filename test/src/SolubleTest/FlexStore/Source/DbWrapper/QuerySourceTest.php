@@ -17,13 +17,10 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
      */
     protected $source;
 
-
     /**
-     *
      * @var AdapterInterface
      */
     protected $adapter;
-
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -35,7 +32,7 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
 
         $this->adapter = AdapterFactory::createAdapterFromZendDb2($zendAdapter);
 
-        $query = "select * from user";
+        $query = 'select * from user';
 
         $this->source = new QuerySource($this->adapter, $query);
     }
@@ -47,7 +44,6 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
-
 
     public function testGetData()
     {
@@ -61,8 +57,6 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('user_id', $d[0]);
         $this->assertArrayHasKey('email', $d[0]);
 
-
-
         $options = new Options();
         $options->setLimit(10, 0);
 
@@ -75,8 +69,6 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('email', $d2[0]);
         $this->assertEquals($d[0], $d2[0]);
     }
-
-
 
     public function testGetMetadata()
     {
@@ -102,10 +94,9 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
     }
 
-
     public function testCalcFoundRowsAndWithZeroLimit()
     {
-        $source = new QuerySource($this->adapter, "select * from product");
+        $source = new QuerySource($this->adapter, 'select * from product');
 
         $options = new Options();
         $options->setLimit(0, 0);
@@ -120,10 +111,9 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('LIMIT 0 OFFSET 0', $query);
     }
 
-
     public function testCalcFoundRowsAndOptions()
     {
-        $source = new QuerySource($this->adapter, "SELECT * from product");
+        $source = new QuerySource($this->adapter, 'SELECT * from product');
 
         $options = new Options();
         $options->setLimit(2, 0);
@@ -139,14 +129,13 @@ class QuerySourceTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('LIMIT 2 OFFSET 0', $query);
     }
 
-
     /**
-     *
      * @return QuerySource
      */
     protected function getNewSource()
     {
-        $source = new QuerySource($this->adapter, "select * from user");
+        $source = new QuerySource($this->adapter, 'select * from user');
+
         return $source;
     }
 }

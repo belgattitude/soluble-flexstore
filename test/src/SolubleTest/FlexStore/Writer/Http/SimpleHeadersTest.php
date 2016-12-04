@@ -20,7 +20,7 @@ class SimpleHeadersTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->headers = new SimpleHeaders;
+        $this->headers = new SimpleHeaders();
     }
 
     /**
@@ -88,7 +88,6 @@ class SimpleHeadersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Content-Type: application/pdf; charset=utf-8', $lines[0]);
         $this->assertEquals('Content-Disposition: inline; filename="test.pdf"', $lines[1]);
         $this->assertEquals('Content-Length: 10', $lines[2]);
-
 
         // with only attachement
         $headers = new SimpleHeaders();

@@ -11,13 +11,11 @@ use ArrayObject;
 class Result implements ColumnSettableInterface
 {
     /**
-     *
      * @var ArrayObject
      */
     protected $columns;
 
     /**
-     *
      * @var array
      */
     protected $results;
@@ -29,8 +27,8 @@ class Result implements ColumnSettableInterface
     }
 
     /**
-     *
      * @param FormatterInterface $formatter
+     *
      * @return Result
      */
     public function setFormatter(FormatterInterface $formatter)
@@ -38,14 +36,15 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setFormatter($formatter);
         }
+
         return $this;
     }
 
-
     /**
-     *
      * @throws Exception\InvalidArgumentException
+     *
      * @param string|\Soluble\FlexStore\Column\Type\AbstractType $type
+     *
      * @return Result
      */
     public function setType($type)
@@ -53,13 +52,13 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setType($type);
         }
+
         return $this;
     }
 
-
     /**
+     * @param bool $virtual
      *
-     * @param boolean $virtual
      * @return Result
      */
     public function setVirtual($virtual = true)
@@ -67,12 +66,13 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setVirtual($virtual);
         }
+
         return $this;
     }
 
     /**
+     * @param bool $excluded
      *
-     * @param boolean $excluded
      * @return Result
      */
     public function setExcluded($excluded = true)
@@ -80,12 +80,13 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setExcluded($excluded);
         }
+
         return $this;
     }
 
     /**
+     * @param bool $editable
      *
-     * @param boolean $editable
      * @return Result
      */
     public function setEditable($editable = true)
@@ -93,12 +94,13 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setEditable($editable);
         }
+
         return $this;
     }
 
     /**
+     * @param bool $hidden
      *
-     * @param boolean $hidden
      * @return Result
      */
     public function setHidden($hidden = true)
@@ -106,12 +108,13 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setHidden($hidden);
         }
+
         return $this;
     }
 
     /**
+     * @param bool $sortable
      *
-     * @param boolean $sortable
      * @return Result
      */
     public function setSortable($sortable = true)
@@ -119,12 +122,13 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setSortable($sortable);
         }
+
         return $this;
     }
 
     /**
+     * @param bool $groupable
      *
-     * @param boolean $groupable
      * @return Result
      */
     public function setGroupable($groupable = true)
@@ -132,12 +136,13 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setGroupable($groupable);
         }
+
         return $this;
     }
 
     /**
+     * @param bool $filterable
      *
-     * @param boolean $filterable
      * @return Result
      */
     public function setFilterable($filterable = true)
@@ -145,14 +150,17 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setFilterable($filterable);
         }
+
         return $this;
     }
 
     /**
-     * Set recommended width for the column
+     * Set recommended width for the column.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param float|int|string $width
+     *
      * @return Result
      */
     public function setWidth($width)
@@ -160,14 +168,17 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setWidth($width);
         }
+
         return $this;
     }
 
     /**
-     * Set recommended horizontal align 
+     * Set recommended horizontal align.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param string $align can be left|center|right
+     *
      * @return Column
      */
     public function setAlign($align)
@@ -178,10 +189,12 @@ class Result implements ColumnSettableInterface
     }
 
     /**
-     * Set recommended css class
+     * Set recommended css class.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param string $class css class
+     *
      * @return Column
      */
     public function setClass($class)
@@ -191,12 +204,13 @@ class Result implements ColumnSettableInterface
         }
     }
 
-
     /**
-     * Set table header for this column
+     * Set table header for this column.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param string|null $header
+     *
      * @return Result
      */
     public function setHeader($header)
@@ -204,11 +218,11 @@ class Result implements ColumnSettableInterface
         foreach ($this->results as $name) {
             $this->columns->offsetGet($name)->setHeader($header);
         }
+
         return $this;
     }
 
     /**
-     *
      * @return array
      */
     public function toArray()

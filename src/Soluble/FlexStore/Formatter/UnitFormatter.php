@@ -8,13 +8,11 @@ use ArrayObject;
 class UnitFormatter extends NumberFormatter
 {
     /**
-     *
      * @var string|null
      */
     protected $unit_column;
 
     /**
-     *
      * @var array
      */
     protected $default_params = [
@@ -32,13 +30,13 @@ class UnitFormatter extends NumberFormatter
         parent::__construct($params);
     }
 
-
-
     /**
-     * Currency format a number
+     * Currency format a number.
      *
      * @throws Exception\RuntimeException
-     * @param  float|string|int  $number
+     *
+     * @param float|string|int $number
+     *
      * @return string
      */
     public function format($number, ArrayObject $row = null)
@@ -56,7 +54,6 @@ class UnitFormatter extends NumberFormatter
             $this->throwNumberFormatterException($this->formatters[$formatterId], $number);
         }
 
-
         if ($this->unit_column !== null) {
             if (!isset($row[$this->unit_column])) {
                 throw new Exception\RuntimeException(__METHOD__ . " Cannot determine unit code based on column '{$this->unit_column}'.");
@@ -65,7 +62,7 @@ class UnitFormatter extends NumberFormatter
         } elseif ($this->params['unit'] != '') {
             $value = $this->formatters[$formatterId]->format($number) . ' ' . $this->params['unit'];
         } else {
-            throw new Exception\RuntimeException(__METHOD__ . " Unit code must be set prior to use the UnitFormatter");
+            throw new Exception\RuntimeException(__METHOD__ . ' Unit code must be set prior to use the UnitFormatter');
         }
 
         if (intl_is_failure($this->formatters[$formatterId]->getErrorCode())) {
@@ -76,10 +73,10 @@ class UnitFormatter extends NumberFormatter
     }
 
     /**
-     *
-     *
      * @throws Exception\InvalidArgumentException
-     * @param  string|RowColumn $unit
+     *
+     * @param string|RowColumn $unit
+     *
      * @return UnitFormatter
      */
     public function setUnit($unit)
@@ -87,14 +84,14 @@ class UnitFormatter extends NumberFormatter
         if ($unit instanceof RowColumn) {
             $this->unit_column = $unit->getColumnName();
         } elseif (!is_string($unit) || trim($unit) == '') {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " Unit must be an non empty string (or a RowColumn object)");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' Unit must be an non empty string (or a RowColumn object)');
         }
         $this->params['unit'] = $unit;
+
         return $this;
     }
 
     /**
-     *
      * @return string
      */
     public function getUnit()

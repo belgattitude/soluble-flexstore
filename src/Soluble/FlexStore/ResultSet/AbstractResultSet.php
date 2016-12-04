@@ -9,17 +9,17 @@ use Zend\Db\ResultSet\ResultSet as ZFResultSet;
 abstract class AbstractResultSet implements ResultSetInterface
 {
     const TYPE_ARRAYOBJECT = 'arrayobject';
-    const TYPE_ARRAY  = 'array';
+    const TYPE_ARRAY = 'array';
 
     /**
-     * Return type to use when returning an object from the set
+     * Return type to use when returning an object from the set.
      *
      * @var string
      */
     protected $returnType = self::TYPE_ARRAYOBJECT;
 
     /**
-     * Allowed return types
+     * Allowed return types.
      *
      * @var array
      */
@@ -28,30 +28,25 @@ abstract class AbstractResultSet implements ResultSetInterface
         self::TYPE_ARRAY,
     ];
 
-
-
     /**
      * @var ArrayObject
      */
     protected $arrayObjectPrototype = null;
 
-
     /**
-     *
      * @var ZFResultSet
      */
     protected $zfResultSet;
 
-
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ZFResultSet      $resultSet
      * @param string           $returnType
      * @param null|ArrayObject $arrayObjectPrototype
      */
 
-/*    
+/*
 public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
 {
     $this->zfResultSet = $resultSet;
@@ -61,12 +56,13 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 }
 */
+
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param ZFResultSet|ResultInterface      $resultSet
-     * @param string           $returnType
-     * @param null|ArrayObject $arrayObjectPrototype
+     * @param ZFResultSet|ResultInterface $resultSet
+     * @param string                      $returnType
+     * @param null|ArrayObject            $arrayObjectPrototype
      */
     public function __construct($resultSet, $returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
     {
@@ -74,22 +70,24 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
         $this->returnType = (in_array($returnType, [self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT])) ? $returnType : self::TYPE_ARRAYOBJECT;
     }
 
-
     /**
-     * Set the row object prototype
+     * Set the row object prototype.
      *
-     * @param  ArrayObject $arrayObjectPrototype
+     * @param ArrayObject $arrayObjectPrototype
+     *
      * @throws Exception\InvalidArgumentException
+     *
      * @return AbstractResultSet
      */
     public function setArrayObjectPrototype($arrayObjectPrototype)
     {
         $this->zfResultSet->setArrayObjectPrototype($arrayObjectPrototype);
+
         return $this;
     }
 
     /**
-     * Get the row object prototype
+     * Get the row object prototype.
      *
      * @return ArrayObject
      */
@@ -99,7 +97,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 
     /**
-     * Get the return type to use when returning objects from the set
+     * Get the return type to use when returning objects from the set.
      *
      * @return string
      */
@@ -108,21 +106,18 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
         return $this->zfResultSet->getReturnType();
     }
 
-
     /**
-     *
      * @return AbstractResultSet
      */
     public function buffer()
     {
         $this->zfResultSet->buffer();
+
         return $this;
     }
 
-
     /**
-     *
-     * @return boolean
+     * @return bool
      */
     public function isBuffered()
     {
@@ -130,7 +125,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 
     /**
-     * Get the data source used to create the result set
+     * Get the data source used to create the result set.
      *
      * @return null|Iterator
      */
@@ -140,7 +135,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 
     /**
-     * Retrieve count of fields in individual rows of the result set
+     * Retrieve count of fields in individual rows of the result set.
      *
      * @return int
      */
@@ -150,9 +145,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 
     /**
-     * Iterator: move pointer to next item
-     *
-     * @return void
+     * Iterator: move pointer to next item.
      */
     public function next()
     {
@@ -160,7 +153,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 
     /**
-     * Iterator: retrieve current key
+     * Iterator: retrieve current key.
      *
      * @return mixed
      */
@@ -170,7 +163,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 
     /**
-     * Iterator: get current item
+     * Iterator: get current item.
      *
      * @return array
      */
@@ -190,9 +183,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 
     /**
-     * Iterator: rewind
-     *
-     * @return void
+     * Iterator: rewind.
      */
     public function rewind()
     {
@@ -200,7 +191,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 
     /**
-     * Countable: return count of rows
+     * Countable: return count of rows.
      *
      * @return int
      */
@@ -210,9 +201,10 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     }
 
     /**
-     * Cast result set to array of arrays
+     * Cast result set to array of arrays.
      *
      * @return array
+     *
      * @throws Exception\RuntimeException if any row is not castable to an array
      */
     public function toArray()

@@ -10,8 +10,8 @@ use Soluble\FlexStore\Writer\AbstractWriter;
 class JsonModelWriter extends AbstractWriter
 {
     /**
-     *
      * @param Options $options
+     *
      * @return \Zend\View\Model\JsonModel
      */
     public function getData(Options $options = null)
@@ -38,6 +38,7 @@ class JsonModelWriter extends AbstractWriter
         }
 
         $json = new ZendJsonModel($d);
+
         return $json;
     }
 }

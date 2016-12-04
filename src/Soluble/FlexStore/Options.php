@@ -7,51 +7,47 @@ use Soluble\FlexStore\Options\HydrationOptions;
 class Options
 {
     /**
-     *
      * @var HydrationOptions
      */
     protected $hydrationOptions;
 
     /**
-     *
-     * @var integer|null
+     * @var int|null
      */
     protected $limit;
 
     /**
-     *
-     * @var integer|null
+     * @var int|null
      */
     protected $offset;
 
-
-
     /**
-     * Set the (maximum) number of results to return
+     * Set the (maximum) number of results to return.
      *
      * @param int $limit
      * @param int $offset
+     *
      * @return Options
      */
     public function setLimit($limit, $offset = null)
     {
         if ($limit === null) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ": limit parameter cannot be null, use unsetLimit instead.");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ': limit parameter cannot be null, use unsetLimit instead.');
         }
         $l = filter_var($limit, FILTER_VALIDATE_INT);
         if (!is_int($l)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ": limit parameter must be an int.");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ': limit parameter must be an int.');
         }
         $this->limit = $l;
         if ($offset !== null) {
             $this->setOffset($offset);
         }
+
         return $this;
     }
 
     /**
-     *
-     * @return integer|null
+     * @return int|null
      */
     public function getLimit()
     {
@@ -60,9 +56,10 @@ class Options
 
     /**
      * Unset limit of results
-     * Provides fluent interface
+     * Provides fluent interface.
      *
-     * @param boolean $unset_offset whether to unset offset as well
+     * @param bool $unset_offset whether to unset offset as well
+     *
      * @return Options
      */
     public function unsetLimit($unset_offset = true)
@@ -71,12 +68,14 @@ class Options
         if ($unset_offset) {
             $this->offset = null;
         }
+
         return $this;
     }
 
     /**
-     * Tells whether the option contains a limit
-     * @return boolean
+     * Tells whether the option contains a limit.
+     *
+     * @return bool
      */
     public function hasLimit()
     {
@@ -84,8 +83,9 @@ class Options
     }
 
     /**
-     * Tells whether the option contains an offset
-     * @return boolean
+     * Tells whether the option contains an offset.
+     *
+     * @return bool
      */
     public function hasOffset()
     {
@@ -93,29 +93,33 @@ class Options
     }
 
     /**
-     * Set the offset (the record to start reading when using limit)
+     * Set the offset (the record to start reading when using limit).
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param int $offset
+     *
      * @return Options
      */
     public function setOffset($offset)
     {
         if ($offset === null) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ": offset parameter cannot be null, use unsetOffset instead.");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ': offset parameter cannot be null, use unsetOffset instead.');
         }
         $o = filter_var($offset, FILTER_VALIDATE_INT);
         if (!is_int($o)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ": offset parameter must be an int.");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ': offset parameter must be an int.');
         }
         $this->offset = $o;
+
         return $this;
     }
 
     /**
      * Return the offset when using limit
      * Offset gives the record number to start reading
-     * from when a paging query is in use
+     * from when a paging query is in use.
+     *
      * @return int|null
      */
     public function getOffset()
@@ -124,17 +128,18 @@ class Options
     }
 
     /**
-     * Unset previously set offset
+     * Unset previously set offset.
+     *
      * @return Options
      */
     public function unsetOffset()
     {
         $this->offset = null;
+
         return $this;
     }
 
     /**
-     *
      * @return HydrationOptions
      */
     public function getHydrationOptions()
@@ -142,6 +147,7 @@ class Options
         if ($this->hydrationOptions === null) {
             $this->hydrationOptions = new HydrationOptions();
         }
+
         return $this->hydrationOptions;
     }
 }

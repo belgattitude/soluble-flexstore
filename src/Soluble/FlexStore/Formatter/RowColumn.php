@@ -5,13 +5,11 @@ namespace Soluble\FlexStore\Formatter;
 class RowColumn
 {
     /**
-     *
      * @var string
      */
     protected $column_name;
 
     /**
-     *
      * @param string $column_name
      */
     public function __construct($column_name)
@@ -20,7 +18,6 @@ class RowColumn
     }
 
     /**
-     *
      * @return string
      */
     public function getColumnName()

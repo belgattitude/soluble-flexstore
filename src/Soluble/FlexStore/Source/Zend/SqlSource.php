@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @author Vanvelthem Sébastien
  */
 
@@ -29,51 +28,45 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
     protected $sql;
 
     /**
-     *
      * @var Select
      */
     protected $select;
 
     /**
-     *
      * @var Adapter
      */
     protected $adapter;
 
     /**
-     * Initial params received in the constructor
+     * Initial params received in the constructor.
+     *
      * @var ArrayObject
      */
     protected $params;
 
     /**
-     *
      * @var string
      */
     protected $query_string;
 
     /**
-     *
      * @var \Zend\Db\Adapter\Driver\Mysqli\Statement
      */
     protected static $cache_stmt_prototype;
 
     /**
-     *
      * @var \Zend\Db\Adapter\Driver\ResultInterface
      */
     protected static $cache_result_prototype;
 
     /**
-     *
      * @var ColumnModel
      */
     protected $columnModel;
 
     /**
-     *
      * @param Adapter $adapter
-     * @param Select $select
+     * @param Select  $select
      */
     public function __construct(Adapter $adapter, Select $select = null)
     {
@@ -86,16 +79,17 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
 
     /**
      * @param Select $select
+     *
      * @return SqlSource
      */
     public function setSelect(Select $select)
     {
         $this->select = $select;
+
         return $this;
     }
 
     /**
-     *
      * @return Select
      */
     public function getSelect()
@@ -104,7 +98,6 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
     }
 
     /**
-     *
      * @return Select
      */
     public function select()
@@ -112,14 +105,14 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
         if ($this->select === null) {
             $this->select = $this->sql->select();
         }
+
         return $this->select;
     }
 
-
     /**
-     *
-     * @param Select $select
+     * @param Select  $select
      * @param Options $options
+     *
      * @return Select
      */
     protected function assignOptions(Select $select, Options $options)
@@ -131,10 +124,9 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
             }
 
             if ($options->getLimit() > 0) {
-
                 /**
                  * For mysql queries, to allow counting rows we must prepend
-                 * SQL_CALC_FOUND_ROWS to the select quantifiers
+                 * SQL_CALC_FOUND_ROWS to the select quantifiers.
                  */
                 $calc_found_rows = 'SQL_CALC_FOUND_ROWS';
                 $quant_state = $select->getRawState($select::QUANTIFIER);
@@ -150,14 +142,16 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
                 }
             }
         }
+
         return $select;
     }
 
     /**
-     *
      * @param Options $options
+     *
      * @throws Exception\EmptyQueryException
      * @throws Exception\ErrorException
+     *
      * @return ResultSet
      */
     public function getData(Options $options = null)
@@ -167,7 +161,6 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
         }
 
         $select = $this->assignOptions(clone $this->getSelect(), $options);
-
 
         $sql = new Sql($this->adapter);
 
@@ -201,12 +194,10 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
         } catch (\Exception $e) {
             throw new Exception\ErrorException(__METHOD__ . ': Cannot retrieve data (' . $e->getMessage() . ')');
         }
+
         return $r;
     }
 
-    /**
-     *
-     */
     public function loadDefaultColumnModel()
     {
         $sql = new Sql($this->adapter);
@@ -219,6 +210,7 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
 
     /**
      * {@inheritdoc}
+     *
      * @throws Exception\UnsupportedFeatureException
      */
     public function getMetadataReader()
@@ -226,6 +218,7 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
         if ($this->metadataReader === null) {
             $this->setMetadataReader($this->getDefaultMetadataReader());
         }
+
         return $this->metadataReader;
     }
 
@@ -247,22 +240,26 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
     }
 
     /**
-     * Return the query string that was executed
+     * Return the query string that was executed.
+     *
      * @throws Exception\InvalidUsageException
+     *
      * @return string
      */
     public function getQueryString()
     {
         if ($this->query_string == '') {
-            throw new Exception\InvalidUsageException(__METHOD__ . ": Invalid usage, getQueryString must be called after data has been loaded (performance reason).");
+            throw new Exception\InvalidUsageException(__METHOD__ . ': Invalid usage, getQueryString must be called after data has been loaded (performance reason).');
         }
+
         return str_replace("\n", ' ', $this->query_string);
     }
 
     /**
-     * Return the query string
+     * Return the query string.
      *
      * @throws Exception\InvalidUsageException
+     *
      * @return string
      */
     public function __toString()
@@ -272,8 +269,9 @@ class SqlSource extends AbstractSource implements QueryableSourceInterface
         } elseif ($this->select !== null) {
             $sql = $this->sql->getSqlStringForSqlObject($this->select);
         } else {
-            throw new Exception\InvalidUsageException(__METHOD__ . ": No select given.");
+            throw new Exception\InvalidUsageException(__METHOD__ . ': No select given.');
         }
+
         return $sql;
     }
 }

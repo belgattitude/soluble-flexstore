@@ -20,7 +20,7 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->nf = new NumberFormatter;
+        $this->nf = new NumberFormatter();
     }
 
     /**

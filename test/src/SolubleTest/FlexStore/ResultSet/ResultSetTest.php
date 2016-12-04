@@ -18,7 +18,6 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
     protected $resultset;
 
     /**
-     *
      * @var Store
      */
     protected $store;
@@ -35,14 +34,13 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
 
         $this->store = $this->getStore($select);
 
-
         $this->resultset = $this->store->getData();
     }
-
 
     protected function getStore(Select $select = null)
     {
         $store = new FlexStore(new SqlSource($this->adapter, $select));
+
         return $store;
     }
 
@@ -55,7 +53,7 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Soluble\FlexStore\ResultSet\AbstractResultSet::toArray
+     * @covers \Soluble\FlexStore\ResultSet\AbstractResultSet::toArray
      */
     public function testGetArray()
     {
@@ -79,13 +77,9 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
         $sql_string = $sql->getSqlStringForSqlObject($select);
         $r = $adapter->query($sql_string, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
 
-
         $rs = new ResultSet($r);
         $rs->getColumnModel();
     }
-
-
-
 
     public function testGetSource()
     {
@@ -112,7 +106,6 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
         $resultset = $store->getData();
         $this->assertEquals(2, $resultset->getFieldCount());
 
-
         $select = new \Zend\Db\Sql\Select();
         $select->from('product_brand')->limit(1);
 
@@ -126,8 +119,6 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
         // With limit in the rquery
         $select = new \Zend\Db\Sql\Select();
         $select->from('product_brand')->limit(10)->columns(['reference']);
-
-
 
         $store = $this->getStore($select);
         //$options = new \Soluble\FlexStore\Options();
@@ -153,13 +144,8 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, count($resultset));
     }
 
-
-
-
-
-
     /**
-     * @covers Soluble\FlexStore\ResultSet\ResultSet::getPaginator
+     * @covers \Soluble\FlexStore\ResultSet\ResultSet::getPaginator
      */
     public function testGetPaginatorThrowsInvalidUsageException()
     {
@@ -169,13 +155,12 @@ class ResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Soluble\FlexStore\ResultSet\ResultSet::getPaginator
+     * @covers \Soluble\FlexStore\ResultSet\ResultSet::getPaginator
      */
     public function testGetPaginator()
     {
         $select = new \Zend\Db\Sql\Select();
         $select->from('product_brand');
-
 
         $store = $this->getStore($select);
         $source = $store->getSource();

@@ -10,7 +10,6 @@ abstract class AbstractType
     abstract public function getName();
 
     /**
-     *
      * @return string
      */
     public function __toString()

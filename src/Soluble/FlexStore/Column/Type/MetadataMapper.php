@@ -24,12 +24,11 @@ class MetadataMapper
         MetadataType::TYPE_TIME => ColumnType::TYPE_TIME,
         MetadataType::TYPE_STRING => ColumnType::TYPE_STRING,
         MetadataType::TYPE_NULL => ColumnType::TYPE_NULL
-
     ];
 
     /**
-     *
      * @param string $metadata_type
+     *
      * @return AbstractType
      */
     public static function getColumnTypeByMetadataType($metadata_type)
@@ -38,12 +37,13 @@ class MetadataMapper
             $mt = (string) $metadata_type;
             throw new Exception\InvalidArgumentException(__METHOD__ . " Cannot map the metadata type '$mt' to a column model type");
         }
+
         return ColumnType::createType(self::$mapper[$metadata_type]);
     }
 
     /**
-     *
      * @param ColumnsMetadata $metadata_columns
+     *
      * @return ColumnModel
      */
     public static function getColumnModelFromMetadata(ColumnsMetadata $metadata_columns)
@@ -56,6 +56,7 @@ class MetadataMapper
             $column->setVirtual(false);
             $cm->add($column);
         }
+
         return $cm;
     }
 }

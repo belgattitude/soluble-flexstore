@@ -4,7 +4,7 @@ namespace Soluble\FlexStore\Formatter;
 
 use Soluble\FlexStore\Exception;
 use ArrayObject;
-use \NumberFormatter as IntlNumberFormatter;
+use NumberFormatter as IntlNumberFormatter;
 
 /**
  * columns
@@ -12,19 +12,16 @@ use \NumberFormatter as IntlNumberFormatter;
  *    - formatter:
  *          - money
  *              - currency_code
- *              - locale
- *
+ *              - locale.
  */
 class CurrencyFormatter extends NumberFormatter
 {
     /**
-     *
      * @var string|null
      */
     protected $currency_column;
 
     /**
-     *
      * @var array
      */
     protected $default_params = [
@@ -43,7 +40,6 @@ class CurrencyFormatter extends NumberFormatter
     }
 
     /**
-     *
      * @param string $formatterId
      */
     protected function loadFormatterId($formatterId)
@@ -60,10 +56,12 @@ class CurrencyFormatter extends NumberFormatter
     }
 
     /**
-     * Currency format a number
+     * Currency format a number.
      *
      * @throws Exception\RuntimeException
-     * @param  float|string|int  $number
+     *
+     * @param float|string|int $number
+     *
      * @return string
      */
     public function format($number, ArrayObject $row = null)
@@ -87,7 +85,7 @@ class CurrencyFormatter extends NumberFormatter
             );
         } else {
             if ($this->params['currency_code'] == '') {
-                throw new Exception\RuntimeException(__METHOD__ . " Currency code must be set prior to use the currency formatter");
+                throw new Exception\RuntimeException(__METHOD__ . ' Currency code must be set prior to use the currency formatter');
             }
 
             $value = $this->formatters[$formatterId]->formatCurrency(
@@ -104,8 +102,10 @@ class CurrencyFormatter extends NumberFormatter
     }
 
     /**
-     * Parse a
+     * Parse a.
+     *
      * @param string $value
+     *
      * @return array|null
      */
     public function parse($value)
@@ -124,14 +124,17 @@ class CurrencyFormatter extends NumberFormatter
         if ($value === false) {
             return;
         }
+
         return ['value' => $result, 'currency' => $currency];
     }
 
     /**
-     * The 3-letter ISO 4217 currency code indicating the currency to use
+     * The 3-letter ISO 4217 currency code indicating the currency to use.
      *
      * @throws Exception\InvalidArgumentException
-     * @param  string|RowColumn $currencyCode
+     *
+     * @param string|RowColumn $currencyCode
+     *
      * @return CurrencyFormatter
      */
     public function setCurrencyCode($currencyCode)
@@ -139,7 +142,7 @@ class CurrencyFormatter extends NumberFormatter
         if ($currencyCode instanceof RowColumn) {
             $this->currency_column = $currencyCode->getColumnName();
         } elseif (!is_string($currencyCode) || trim($currencyCode) == '') {
-            throw new Exception\InvalidArgumentException(__METHOD__ . " Currency code must be an non empty string (or a RowColumn object)");
+            throw new Exception\InvalidArgumentException(__METHOD__ . ' Currency code must be an non empty string (or a RowColumn object)');
         }
         $this->params['currency_code'] = $currencyCode;
 
@@ -147,7 +150,7 @@ class CurrencyFormatter extends NumberFormatter
     }
 
     /**
-     * Get the 3-letter ISO 4217 currency code indicating the currency to use
+     * Get the 3-letter ISO 4217 currency code indicating the currency to use.
      *
      * @return string
      */

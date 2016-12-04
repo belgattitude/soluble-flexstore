@@ -20,7 +20,7 @@ class CurrencyFormatTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->currencyFormatter = new CurrencyFormatter;
+        $this->currencyFormatter = new CurrencyFormatter();
     }
 
     /**
@@ -98,7 +98,6 @@ class CurrencyFormatTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $parsed);
         $this->assertEquals('GBP', $parsed['currency']);
         $this->assertEquals(-10.24, $parsed['value']);
-
 
         $params = [
             'locale' => 'fr_FR',

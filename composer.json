@@ -22,7 +22,7 @@
     },
     "require": {
         "php": "^5.4 || ^7.0",
-        "soluble/metadata": "^1.0.1",
+        "soluble/metadata": "^1.0.1a",
         "soluble/spreadsheet": "0.*",
         "ramsey/array_column": "~1.1",
         "zendframework/zend-paginator": "^2.3 || ^3.0",

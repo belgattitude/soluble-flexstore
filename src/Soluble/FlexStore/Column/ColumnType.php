@@ -29,7 +29,8 @@ class ColumnType
     ];
 
     /**
-     * @param  string                             $type_name
+     * @param string $type_name
+     *
      * @throws Exception\InvalidArgumentException
      *
      * @return \Soluble\FlexStore\Column\Type\AbstractType

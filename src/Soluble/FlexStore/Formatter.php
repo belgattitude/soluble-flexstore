@@ -18,7 +18,8 @@ class Formatter
     ];
 
     /**
-     * @param  string                             $formatter_name
+     * @param string $formatter_name
+     *
      * @throws Exception\InvalidArgumentException
      *
      * @return \Soluble\FlexStore\Formatter\FormatterInterface

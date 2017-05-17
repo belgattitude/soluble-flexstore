@@ -8,7 +8,11 @@
 
 ### Added
  
-- License headers 
+- License headers
+ 
+### Fixes
+ 
+- A lot of bugfix thanks to phpstan 
 
 ## 0.11.5 (2017-03-01)
 

@@ -1,23 +1,23 @@
 filter:
     paths: [src/*]
-    excluded_paths: [test/*, vendor/*, bin/*, doc/*]
+    excluded_paths: [tests/*, vendor/*, bin/*, docs/*]
 before_commands:
     - "composer update --prefer-source"
 tools:
     external_code_coverage: 
         timeout: 600
     php_cpd:
-        excluded_dirs: ["vendor", "test", "bin", "doc"]    
+        excluded_dirs: ["vendor", "tests", "bin", "docs"]
     php_pdepend:
-        excluded_dirs: ["vendor", "test", "bin", "doc"]
+        excluded_dirs: ["vendor", "tests", "bin", "docs"]
     php_loc: 
-        excluded_dirs: ["vendor", "test", "bin", "doc"]
+        excluded_dirs: ["vendor", "tests", "bin", "docs"]
     php_cs_fixer:
         config:
             level: psr2
     php_pdepend:
         enabled: true
-        excluded_dirs: ["vendor", "test", "bin", "doc"]
+        excluded_dirs: ["vendor", "tests", "bin", "docs"]
     php_analyzer:
         enabled: true
         filter:

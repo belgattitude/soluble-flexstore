@@ -6,7 +6,7 @@
         "flexstore",
         "sql"
     ],
-    "homepage": "http://soluble.io",
+    "homepage": "https://github.com/belgattitude/soluble-flexstore",
     "type": "library",
     "authors": [
         {
@@ -15,36 +15,63 @@
             "role": "Lead developer"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Soluble\\FlexStore\\": "src/Soluble/FlexStore"
-        }
-    },
     "require": {
         "php": "^5.4 || ^7.0",
         "soluble/metadata": "^1.0.1",
         "soluble/spreadsheet": "0.*",
         "ramsey/array_column": "~1.1.3",
-        "zendframework/zend-paginator": "^2.3.0 || ^3.0.0",
+        "zendframework/zend-paginator": "^2.4.0 || ^3.0.0",
         "soluble/dbwrapper": "^1.2.1",
         "symfony/polyfill-iconv": "^1.3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8 || ^5.4",
-        "friendsofphp/php-cs-fixer": "^2.0.0",
+        "pds/skeleton": "@dev",
+        "phpstan/phpstan": "^0.7.0",
+        "friendsofphp/php-cs-fixer": "^2.1.0",
         "zendframework/zend-cache": "^2.3 || ^3.0",
         "zendframework/zend-json": "^2.3 || ^3.0",
         "zendframework/zend-validator": "^2.3 || ^3.0",
         "zendframework/zend-inputfilter": "^2.3 || ^3.0",
         "zendframework/zend-db": "^2.4.0 || ^3.0",
+        "zendframework/zend-view": "^2.8.2",
         "phpoffice/phpexcel": "^1.8",
         "symfony/polyfill-mbstring": "^1.1.1"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Soluble\\FlexStore\\": "src/Soluble/FlexStore"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SolubleTest\\FlexStore\\": "tests/src/SolubleTest/FlexStore"
+        },
+        "files": ["tests/SolubleTestFactories.php"]
     },
     "suggest": {
         "soluble/dbwrapper": "soluble-dbwrapper datasource support (universal database wrapper).",
         "zendframework/zend-db": "zendframework db select datasource support"
     },
     "archive": {
-        "exclude": ["test", "doc", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore", "phpcs.xml"]
+        "exclude": ["test", "docs", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore", "phpcs.xml"]
+    },
+    "scripts": {
+        "check": [
+            "@phpds",
+            "@cs-check",
+            "@phpstan",
+            "@test"
+        ],
+        "fix": [
+            "@cs-fix"
+        ],
+        "cs-check": "vendor/bin/php-cs-fixer --diff --dry-run -v fix",
+        "cs-fix": "vendor/bin/php-cs-fixer -v fix",
+        "phpstan": "vendor/bin/phpstan analyse -l 3 -c phpstan.neon src tests",
+        "phpds": "vendor/bin/pds-skeleton validate",
+        "test": "phpunit"
     }
+
 }

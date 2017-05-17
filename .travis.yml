@@ -4,8 +4,8 @@ dist: trusty
 group: edge
 
 php:  
-  - 5.4
   - 5.5
+  - 5.6
   - 7.0
   - hhvm-3.12
   
@@ -21,7 +21,7 @@ env:
         - SEND_COVERAGE=false
 
 before_script:
-  - mkdir -p test/logs
+  - mkdir -p tests/logs
   - mkdir -p tests/tmp/cache 
   - mkdir -p build/logs
   - mysql -e "DROP DATABASE IF EXISTS phpunit_soluble_schema_db;" -u root
@@ -33,8 +33,9 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer --prefer-source --dev install
 script: 
-  - phpunit -v 
+  - phpunit -v
+  - ./vendor/bin/php-cs-fixer --diff --dry-run -v fix
 
 after_script:
   - if [[ $SEND_COVERAGE == true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [[ $SEND_COVERAGE == true ]]; then php ocular.phar code-coverage:upload --format=php-clover test/build/logs/clover.xml; fi
+  - if [[ $SEND_COVERAGE == true ]]; then php ocular.phar code-coverage:upload --format=php-clover tests/build/logs/clover.xml; fi

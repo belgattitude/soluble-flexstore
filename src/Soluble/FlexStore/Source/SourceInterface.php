@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * soluble-flexstore library
+ *
+ * @author    Vanvelthem Sébastien
+ * @link      https://github.com/belgattitude/soluble-flexstore
+ * @copyright Copyright (c) 20016-2017 Vanvelthem Sébastien
+ * @license   MIT License https://github.com/belgattitude/soluble-flexstore/blob/master/LICENSE.md
+ *
+ */
+
 namespace Soluble\FlexStore\Source;
 
 use Soluble\FlexStore\Options;
@@ -27,4 +37,11 @@ interface SourceInterface
      * @return \Soluble\FlexStore\Options
      */
     public function getOptions();
+
+    /**
+     * Return underlying query (sql) string if it exists.
+     *
+     * @return string
+     */
+    public function getQueryString();
 }

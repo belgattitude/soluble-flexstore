@@ -1,11 +1,13 @@
 <?php
 
 $header = <<<'EOF'
+soluble-flexstore library
 
-(c) Sébastien Vanvelthem
-
-This source file is subject to the MIT license that is bundled
-with this source code in the file LICENSE.
+@author    Vanvelthem Sébastien 
+@link      https://github.com/belgattitude/soluble-flexstore
+@copyright Copyright (c) 20016-2017 Vanvelthem Sébastien
+@license   MIT License https://github.com/belgattitude/soluble-flexstore/blob/master/LICENSE.md
+   
 EOF;
 
 return PhpCsFixer\Config::create()
@@ -14,7 +16,7 @@ return PhpCsFixer\Config::create()
         '@PSR1' => true,
         '@PSR2' => true,
         'psr4' => true,
-        //'header_comment' => array('header' => $header),
+        'header_comment' => array('header' => $header), // disable when code is okay
         'array_syntax' => ['syntax' => 'short'],
 
         //'strict_comparison' => true,
@@ -114,7 +116,7 @@ return PhpCsFixer\Config::create()
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->in(['src', 'test'])
+            ->in(['src', 'tests'])
     )
-;
+    ;
 

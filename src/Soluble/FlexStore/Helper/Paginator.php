@@ -1,7 +1,13 @@
 <?php
 
-/**
- * @author Vanvelthem Sébastien
+/*
+ * soluble-flexstore library
+ *
+ * @author    Vanvelthem Sébastien
+ * @link      https://github.com/belgattitude/soluble-flexstore
+ * @copyright Copyright (c) 20016-2017 Vanvelthem Sébastien
+ * @license   MIT License https://github.com/belgattitude/soluble-flexstore/blob/master/LICENSE.md
+ *
  */
 
 namespace Soluble\FlexStore\Helper;
@@ -48,11 +54,7 @@ class Paginator extends ZendPaginator
         }
 
         if (class_exists('\Zend\Paginator\Adapter\NullFill')) {
-            // In ZF 2.4+
             $adapter = new \Zend\Paginator\Adapter\NullFill($totalRows);
-        } elseif (class_exists('\Zend\Paginator\Adapter\Null')) {
-            // In ZF < 2.4
-            $adapter = new \Zend\Paginator\Adapter\Null($totalRows);
         } else {
             throw new Exception\RuntimeException(__METHOD__ . " Missing Zend\Paginator\Adapter.");
         }

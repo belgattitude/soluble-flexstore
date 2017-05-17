@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * soluble-flexstore library
+ *
+ * @author    Vanvelthem Sébastien
+ * @link      https://github.com/belgattitude/soluble-flexstore
+ * @copyright Copyright (c) 20016-2017 Vanvelthem Sébastien
+ * @license   MIT License https://github.com/belgattitude/soluble-flexstore/blob/master/LICENSE.md
+ *
+ */
+
 namespace Soluble\FlexStore\ResultSet;
 
 use Soluble\FlexStore\Source\AbstractSource;
@@ -132,7 +142,7 @@ class ResultSet extends AbstractResultSet
      */
     public function setTotalRows($totalRows)
     {
-        $this->totalRows = (int) $totalRows;
+        $this->totalRows = $totalRows;
 
         return $this;
     }
@@ -201,7 +211,7 @@ class ResultSet extends AbstractResultSet
     {
         $row = $this->zfResultSet->current();
         if ($row === null) {
-            return;
+            return null;
         }
 
         if (!$this->hydrate_options_initialized) {

@@ -1,7 +1,13 @@
 <?php
 
-/**
- * @author Vanvelthem Sébastien
+/*
+ * soluble-flexstore library
+ *
+ * @author    Vanvelthem Sébastien
+ * @link      https://github.com/belgattitude/soluble-flexstore
+ * @copyright Copyright (c) 20016-2017 Vanvelthem Sébastien
+ * @license   MIT License https://github.com/belgattitude/soluble-flexstore/blob/master/LICENSE.md
+ *
  */
 
 namespace Soluble\FlexStore\Source\DbWrapper;
@@ -82,7 +88,7 @@ class QuerySource extends AbstractSource implements QueryableSourceInterface
      * @param string  $query
      * @param Options $options
      *
-     * @return query
+     * @return string query
      */
     protected function assignOptions($query, Options $options)
     {

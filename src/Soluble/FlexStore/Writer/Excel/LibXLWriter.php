@@ -1,9 +1,20 @@
 <?php
 
+/*
+ * soluble-flexstore library
+ *
+ * @author    Vanvelthem Sébastien
+ * @link      https://github.com/belgattitude/soluble-flexstore
+ * @copyright Copyright (c) 20016-2017 Vanvelthem Sébastien
+ * @license   MIT License https://github.com/belgattitude/soluble-flexstore/blob/master/LICENSE.md
+ *
+ */
+
 namespace Soluble\FlexStore\Writer\Excel;
 
 use Soluble\FlexStore\Writer\AbstractSendableWriter;
 use Soluble\FlexStore\Writer\Exception;
+use Soluble\FlexStore\Writer\Excel\Exception\ExtensionNotLoadedException;
 use Soluble\Spreadsheet\Library\LibXL;
 use Soluble\FlexStore\Writer\Http\SimpleHeaders;
 use Soluble\FlexStore\Column\ColumnType;
@@ -174,7 +185,7 @@ class LibXLWriter extends AbstractSendableWriter
     }
 
     /**
-     * @throws Exception\ExtensionNotLoadedException
+     * @throws ExtensionNotLoadedException
      * @throws Exception\InvalidArgumentException
      *
      * @param string $file_format
@@ -185,7 +196,7 @@ class LibXLWriter extends AbstractSendableWriter
     public function getExcelBook($file_format = null, $locale = 'en_US.UTF-8')
     {
         if (!extension_loaded('excel')) {
-            throw new Exception\ExtensionNotLoadedException(__METHOD__ . ' LibXLWriter requires excel (php_exccel) extension to be loaded');
+            throw new ExtensionNotLoadedException(__METHOD__ . ' LibXLWriter requires excel (php_exccel) extension to be loaded');
         }
 
         if ($this->excelBook === null) {
@@ -238,7 +249,12 @@ class LibXLWriter extends AbstractSendableWriter
 
         $filename = tempnam($temp_dir, 'libxl');
 
-        $book->save($filename);
+        try {
+            $book->save($filename);
+        } catch (\Exception $e) {
+            unlink($filename);
+            throw $e;
+        }
 
         $data = file_get_contents($filename);
         unlink($filename);
@@ -267,6 +283,7 @@ class LibXLWriter extends AbstractSendableWriter
             if ($formatter instanceof \Soluble\FlexStore\Formatter\FormatterNumberInterface) {
                 $type = 'number';
                 $decimals = $formatter->getDecimals();
+
                 if ($formatter instanceof \Soluble\FlexStore\Formatter\CurrencyFormatter) {
                     $currency = $formatter->getCurrencyCode();
                     if ($currency instanceof \Soluble\FlexStore\Formatter\RowColumn) {
@@ -376,11 +393,11 @@ class LibXLWriter extends AbstractSendableWriter
     protected function getDefaultTextFormat(ExcelBook $book)
     {
         $format = $book->addFormat();
-/* Not yet supported, waiting php_excel 1.1
-        $format->horizontalAlign($this->getFormatStyle('horizontalFormat'));
-        $format->verticalAlign($this->getFormatStyle('verticalFormat'));
- *
- */
+        /* Not yet supported, waiting php_excel 1.1
+                $format->horizontalAlign($this->getFormatStyle('horizontalFormat'));
+                $format->verticalAlign($this->getFormatStyle('verticalFormat'));
+         *
+         */
         return $format;
     }
 
@@ -513,8 +530,8 @@ class LibXLWriter extends AbstractSendableWriter
     public function getFormatStyles()
     {
         $styles = [
-                'horizontalAlign' => ExcelFormat::ALIGNH_LEFT,
-                'verticalAlign' => ExcelFormat::ALIGNV_TOP
+            'horizontalAlign' => ExcelFormat::ALIGNH_LEFT,
+            'verticalAlign' => ExcelFormat::ALIGNV_TOP
         ];
 
         return $styles;

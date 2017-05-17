@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * soluble-flexstore library
+ *
+ * @author    Vanvelthem Sébastien
+ * @link      https://github.com/belgattitude/soluble-flexstore
+ * @copyright Copyright (c) 20016-2017 Vanvelthem Sébastien
+ * @license   MIT License https://github.com/belgattitude/soluble-flexstore/blob/master/LICENSE.md
+ *
+ */
+
 namespace Soluble\FlexStore\ResultSet;
 
 use ArrayObject;
@@ -60,11 +70,10 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     /**
      * Constructor.
      *
-     * @param ZFResultSet|ResultInterface $resultSet
-     * @param string                      $returnType
-     * @param null|ArrayObject            $arrayObjectPrototype
+     * @param ZFResultSet $resultSet
+     * @param string      $returnType
      */
-    public function __construct($resultSet, $returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
+    public function __construct($resultSet, $returnType = self::TYPE_ARRAYOBJECT)
     {
         $this->zfResultSet = $resultSet;
         $this->returnType = (in_array($returnType, [self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT])) ? $returnType : self::TYPE_ARRAYOBJECT;
@@ -127,7 +136,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     /**
      * Get the data source used to create the result set.
      *
-     * @return null|Iterator
+     * @return null|\Iterator
      */
     public function getDataSource()
     {
@@ -165,7 +174,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     /**
      * Iterator: get current item.
      *
-     * @return array
+     * @return array|\ArrayObject|null
      */
     public function current()
     {

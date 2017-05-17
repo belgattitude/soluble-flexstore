@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.12.0 (2017-05-17)
+
+### Removed
+
+- Removed support for zend-paginator <= 2.4 due to invalid `Zend\Paginator\Adapter\Null` class name.
+
+### Added
+ 
+- License headers 
+
 ## 0.11.5 (2017-03-01)
 
 ### Fixes

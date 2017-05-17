@@ -3,22 +3,24 @@ sudo: required
 dist: trusty
 group: edge
 
-php:  
-  - 5.5
-  - 5.6
+php:
   - 7.0
   - hhvm-3.12
   
 matrix:
     include:
+        - php: 5.5
+          env: CS_FIX=false
         - php: 5.6
           env: SEND_COVERAGE=true
+
     allow_failures:
         - php: hhvm-3.12
           
 env:
     global:
         - SEND_COVERAGE=false
+        - CS_FIX=true
 
 before_script:
   - mkdir -p tests/logs
@@ -34,7 +36,7 @@ before_script:
   - travis_retry composer --prefer-source --dev --ignore-platform-reqs install
 script: 
   - phpunit -v
-  - ./vendor/bin/php-cs-fixer --diff --dry-run -v fix
+  - if [[ $CS_FIX == true ]]; then ./vendor/bin/php-cs-fixer --diff --dry-run -v fix; fi
 
 after_script:
   - if [[ $SEND_COVERAGE == true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi

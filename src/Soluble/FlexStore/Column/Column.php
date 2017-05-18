@@ -54,7 +54,7 @@ class Column implements ColumnSettableInterface
         if (!is_string($name)) {
             throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name must be a string');
         }
-        if (trim($name) == '') {
+        if (trim($name) === '') {
             throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name cannot be empty');
         }
         $this->name = $name;
@@ -70,10 +70,10 @@ class Column implements ColumnSettableInterface
      */
     protected function initDefaults()
     {
-        if ($this->properties['header'] == '') {
+        if ($this->properties['header'] === null) {
             $this->setHeader($this->name);
         }
-        if ($this->properties['type'] == '') {
+        if ($this->properties['type'] === null) {
             $this->setType(ColumnType::createType(ColumnType::TYPE_STRING));
         }
     }

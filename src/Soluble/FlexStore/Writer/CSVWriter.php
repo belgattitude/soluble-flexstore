@@ -81,7 +81,7 @@ class CSVWriter extends AbstractSendableWriter
         $options->getHydrationOptions()->disableFormatters();
         $data = $this->store->getData($options)->toArray();
 
-        if (strtoupper($this->options['charset']) != $charset && !function_exists('iconv')) {
+        if (strtoupper($this->options['charset']) !== $charset && !function_exists('iconv')) {
             throw new Exception\RuntimeException('CSV writer requires iconv extension');
         }
 
@@ -90,7 +90,7 @@ class CSVWriter extends AbstractSendableWriter
             $iconv_output_charset .= '//TRANSLIT//IGNORE';
         }
 
-        if (count($data) == 0) {
+        if (count($data) === 0) {
             $columns = $this->store->getColumnModel()->getColumns();
             $header_line = implode($this->options['field_separator'], array_keys((array) $columns));
             $csv .= $header_line . $this->options['line_separator'];
@@ -109,17 +109,17 @@ class CSVWriter extends AbstractSendableWriter
 
                 array_walk($row, [$this, 'escapeLineDelimiter']);
 
-                if ($this->options['enclosure'] != '') {
+                if ($this->options['enclosure'] !== '') {
                     array_walk($row, [$this, 'addEnclosure']);
                 }
 
                 $line = implode($this->options['field_separator'], $row);
 
-                if ($charset != $internal_encoding) {
+                if ($charset !== $internal_encoding) {
                     $l = (string) $line;
-                    if ($l != '') {
+                    if ($l !== '') {
                         $l = @iconv($internal_encoding, $iconv_output_charset, $l);
-                        if ($l === false || strlen($l) == 0) {
+                        if ($l === false || strlen($l) === 0) {
                             throw new Exception\CharsetConversionException("Cannot convert the charset to '" . $this->options['charset'] . "' from charset '$internal_encoding', using '$iconv_output_charset' value: '$line'.");
                         } else {
                             $line = $l;
@@ -167,7 +167,7 @@ class CSVWriter extends AbstractSendableWriter
     {
         $enc = $this->options['enclosure'];
         $escape = $this->options['escape'];
-        if ($escape == '') {
+        if ($escape === '') {
             $item = $enc . str_replace($enc, '', $item) . $enc;
         } else {
             $item = $enc . str_replace($enc, $escape . $enc, $item) . $enc;

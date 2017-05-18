@@ -170,11 +170,11 @@ class ColumnModel
 
             $new_columns = new ArrayObject();
             foreach ($this->columns as $key => $col) {
-                if ($mode == self::ADD_COLUMN_BEFORE && $key == $after_column) {
+                if ($mode === self::ADD_COLUMN_BEFORE && $key === $after_column) {
                     $new_columns->offsetSet($name, $column);
                 }
                 $new_columns->offsetSet($key, $col);
-                if ($mode == self::ADD_COLUMN_AFTER && $key == $after_column) {
+                if ($mode === self::ADD_COLUMN_AFTER && $key === $after_column) {
                     $new_columns->offsetSet($name, $column);
                 }
             }
@@ -201,7 +201,7 @@ class ColumnModel
         if (!is_string($column)) {
             throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name must be a valid string');
         }
-        if ($column == '') {
+        if ($column === '') {
             throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name cannot be empty');
         }
 

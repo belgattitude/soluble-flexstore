@@ -28,7 +28,7 @@
         "phpunit/phpunit": "^4.8 || ^5.4",
         "pds/skeleton": "@dev",
         "phpstan/phpstan": "^0.7.0",
-        "friendsofphp/php-cs-fixer": "^2.1.0",
+        "friendsofphp/php-cs-fixer": "^2.3.1",
         "zendframework/zend-cache": "^2.3 || ^3.0",
         "zendframework/zend-json": "^2.3 || ^3.0",
         "zendframework/zend-validator": "^2.3 || ^3.0",
@@ -55,7 +55,7 @@
         "zendframework/zend-db": "zendframework db select datasource support"
     },
     "archive": {
-        "exclude": ["test", "docs", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore", "phpcs.xml"]
+        "exclude": ["tests", "docs", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore", "phpcs.xml"]
     },
     "scripts": {
         "check": [

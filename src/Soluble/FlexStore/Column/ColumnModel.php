@@ -163,7 +163,7 @@ class ColumnModel
                 throw new Exception\ColumnNotFoundException(__METHOD__ . ': ' . $msg);
             }
 
-            if (!in_array($mode, [self::ADD_COLUMN_BEFORE, self::ADD_COLUMN_AFTER])) {
+            if (!in_array($mode, [self::ADD_COLUMN_BEFORE, self::ADD_COLUMN_AFTER], true)) {
                 $msg = "Cannot add column '$name', invalid mode specified '$mode'";
                 throw new Exception\InvalidArgumentException(__METHOD__ . ': ' . $msg);
             }

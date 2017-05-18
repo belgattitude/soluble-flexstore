@@ -20,7 +20,7 @@ return PhpCsFixer\Config::create()
         'array_syntax' => ['syntax' => 'short'],
 
         //'strict_comparison' => true,
-        //'strict_param' => true,
+        'strict_param' => true,
 
         /**
          * Extended code rules

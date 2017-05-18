@@ -130,7 +130,7 @@ class SimpleHeaders
      */
     public function setContentDispositionType($content_disposition_type)
     {
-        if (!in_array($content_disposition_type, $this->disposition_types)) {
+        if (!in_array($content_disposition_type, $this->disposition_types, true)) {
             $supported = implode(',', $this->disposition_types);
             throw new Exception\InvalidArgumentException(__METHOD__ . " Content disposition type '$content_disposition_type' not in supported types: $supported");
         }

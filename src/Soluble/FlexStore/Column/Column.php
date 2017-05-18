@@ -339,7 +339,7 @@ class Column implements ColumnSettableInterface
      */
     public function setAlign($align)
     {
-        if (!is_string($align) || !in_array(strtolower($align), ['left', 'right', 'center'])) {
+        if (!is_string($align) || !in_array(strtolower($align), ['left', 'right', 'center'], true)) {
             throw new Exception\InvalidArgumentException(__METHOD__ . ' Align param must be a string : right, left, center.');
         }
         $this->properties['align'] = $align;

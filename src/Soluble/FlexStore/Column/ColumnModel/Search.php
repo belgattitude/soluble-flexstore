@@ -47,7 +47,7 @@ class Search
     {
         $results = [];
         foreach ($this->columns as $name => $column) {
-            if (!in_array($name, $columns)) {
+            if (!in_array($name, $columns, true)) {
                 $results[] = $name;
             }
         }

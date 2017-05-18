@@ -76,7 +76,7 @@ public function __constructOld(ZFResultSet $resultSet, $returnType = self::TYPE_
     public function __construct($resultSet, $returnType = self::TYPE_ARRAYOBJECT)
     {
         $this->zfResultSet = $resultSet;
-        $this->returnType = (in_array($returnType, [self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT])) ? $returnType : self::TYPE_ARRAYOBJECT;
+        $this->returnType = (in_array($returnType, [self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT], true)) ? $returnType : self::TYPE_ARRAYOBJECT;
     }
 
     /**

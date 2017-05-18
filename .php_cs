@@ -5,7 +5,7 @@ soluble-flexstore library
 
 @author    Vanvelthem Sébastien 
 @link      https://github.com/belgattitude/soluble-flexstore
-@copyright Copyright (c) 20016-2017 Vanvelthem Sébastien
+@copyright Copyright (c) 2016-2017 Vanvelthem Sébastien
 @license   MIT License https://github.com/belgattitude/soluble-flexstore/blob/master/LICENSE.md
    
 EOF;
@@ -16,7 +16,7 @@ return PhpCsFixer\Config::create()
         '@PSR1' => true,
         '@PSR2' => true,
         'psr4' => true,
-        'header_comment' => array('header' => $header), // disable when code is okay
+        //'header_comment' => array('header' => $header), // disable when code is okay
         'array_syntax' => ['syntax' => 'short'],
 
         //'strict_comparison' => true,

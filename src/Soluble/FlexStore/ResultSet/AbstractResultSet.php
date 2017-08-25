@@ -49,7 +49,6 @@ abstract class AbstractResultSet implements ResultSetInterface
     protected $zfResultSet;
 
     /**
-     *
      * @param ZFResultSet $resultSet
      * @param string      $returnType
      */

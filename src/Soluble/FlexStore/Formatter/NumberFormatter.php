@@ -28,7 +28,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
     protected $formatters = [];
 
     /**
-     * @var array
+     * @var IntlNumberFormatter[]
      */
     protected $params = [];
 

@@ -131,7 +131,7 @@ class CurrencyFormatter extends NumberFormatter
         $currency = null;
         $result = $this->formatters[$formatterId]->parseCurrency($value, $currency);
 
-        if ($value === false) {
+        if ($result === false) {
             return null;
         }
 

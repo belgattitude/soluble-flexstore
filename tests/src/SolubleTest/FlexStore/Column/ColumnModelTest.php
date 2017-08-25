@@ -421,14 +421,14 @@ class ColumnModelTest extends \PHPUnit_Framework_TestCase
         $arr = array_keys((array) $cm->getColumns());
         $this->assertEquals('insert_after_end', $arr[count($arr) - 1]);
 
-         // TEST INSERT BEFORE
-         $cc = new Column('insert_before');
+        // TEST INSERT BEFORE
+        $cc = new Column('insert_before');
         $cm->add($cc, 'product_id', ColumnModel::ADD_COLUMN_BEFORE);
         $arr = array_keys((array) $cm->getColumns());
         $this->assertEquals('insert_before', $arr[0]);
 
-         // TEST MODE EXCEPTION
-         $cc = new Column('invalid_mode');
+        // TEST MODE EXCEPTION
+        $cc = new Column('invalid_mode');
         try {
             $cm->add($cc, 'product_id', 'invalid_mode');
             $this->assertFalse(true, ' should throw InvalidArgumentException');

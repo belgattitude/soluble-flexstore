@@ -55,8 +55,8 @@ class CSVWriter extends AbstractSendableWriter
             $options = $this->store->getOptions();
         }
 
-// TODO - TEST database connection charset !!!
-//
+        // TODO - TEST database connection charset !!!
+        //
 
         ini_set('default_charset', 'UTF-8');
 

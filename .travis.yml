@@ -14,7 +14,6 @@ matrix:
             - CS_FIX=true
         - php: 7.2
 
-
 env:
     global:
         - SEND_COVERAGE=false
@@ -31,7 +30,7 @@ before_script:
   - mysql -e "SHOW DATABASES;" -u root
   - mysql -e "CONNECT phpunit_soluble_schema_db; SHOW TABLES;" -u root  
   - composer self-update
-  - composer install --prefer-source --dev --ignore-platform-reqs
+  - composer install --prefer-source --dev
 script: 
   - phpunit -v
   - if [[ $CS_FIX == true ]]; then ./vendor/bin/php-cs-fixer --diff --dry-run -v fix; fi

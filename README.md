@@ -1,6 +1,6 @@
 # soluble/flexstore
 
-[![PHP Version](http://img.shields.io/badge/php-5.4+-ff69b4.svg)](https://packagist.org/packages/soluble/flexstore)
+[![PHP Version](http://img.shields.io/badge/php-5.6+-ff69b4.svg)](https://packagist.org/packages/soluble/flexstore)
 [![HHVM Status](http://hhvm.h4cc.de/badge/soluble/flexstore.svg?style=flat)](http://hhvm.h4cc.de/package/soluble/flexstore)
 [![Build Status](https://travis-ci.org/belgattitude/soluble-flexstore.svg?branch=master)](https://travis-ci.org/belgattitude/soluble-flexstore)
 [![Code Coverage](https://scrutinizer-ci.com/g/belgattitude/soluble-flexstore/badges/coverage.png?s=aaa552f6313a3a50145f0e87b252c84677c22aa9)](https://scrutinizer-ci.com/g/belgattitude/soluble-flexstore)
@@ -21,7 +21,7 @@
 
 ## Requirements
 
-- PHP engine 5.4+, 7.0+
+- PHP engine 5.6+, 7.0+
 
 ## Documentation
 

@@ -21,6 +21,9 @@ use Soluble\Metadata\ColumnsMetadata;
 
 class MetadataMapper
 {
+    /**
+     * @var string[]
+     */
     protected static $mapper = [
         MetadataType::TYPE_BIT => ColumnType::TYPE_BIT,
         MetadataType::TYPE_BOOLEAN => ColumnType::TYPE_BOOLEAN,
@@ -44,7 +47,7 @@ class MetadataMapper
     public static function getColumnTypeByMetadataType($metadata_type)
     {
         if (!array_key_exists($metadata_type, self::$mapper)) {
-            $mt = (string) $metadata_type;
+            $mt = $metadata_type;
             throw new Exception\InvalidArgumentException(__METHOD__ . " Cannot map the metadata type '$mt' to a column model type");
         }
 

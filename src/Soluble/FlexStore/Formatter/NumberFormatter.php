@@ -28,7 +28,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
     protected $formatters = [];
 
     /**
-     * @var IntlNumberFormatter[]
+     * @var array
      */
     protected $params = [];
 
@@ -152,7 +152,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      */
     public function setLocale($locale)
     {
-        $this->params['locale'] = (string) $locale;
+        $this->params['locale'] = $locale;
 
         return $this;
     }
@@ -172,11 +172,11 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      *
      * @param int $decimals
      *
-     * @return NumberFormatter
+     * @return self
      */
     public function setDecimals($decimals)
     {
-        $this->params['decimals'] = (int) $decimals;
+        $this->params['decimals'] = $decimals;
 
         return $this;
     }

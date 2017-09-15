@@ -145,13 +145,13 @@ class CurrencyFormatter extends NumberFormatter
      *
      * @param string|RowColumn $currencyCode
      *
-     * @return CurrencyFormatter
+     * @return self
      */
     public function setCurrencyCode($currencyCode)
     {
         if ($currencyCode instanceof RowColumn) {
             $this->currency_column = $currencyCode->getColumnName();
-        } elseif (!is_string($currencyCode) || trim($currencyCode) == '') {
+        } elseif (!is_string($currencyCode) || trim($currencyCode) === '') {
             throw new Exception\InvalidArgumentException(__METHOD__ . ' Currency code must be an non empty string (or a RowColumn object)');
         }
         $this->params['currency_code'] = $currencyCode;

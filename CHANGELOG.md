@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.12.1 (2017-09-15)
+
+### Fixed
+
+- Minor doc patches using phpstan
+
 ## 0.12.0 (2017-05-17)
 
 ### Removed

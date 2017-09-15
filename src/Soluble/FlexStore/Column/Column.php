@@ -144,7 +144,7 @@ class Column implements ColumnSettableInterface
      */
     public function setVirtual($virtual = true)
     {
-        $this->properties['virtual'] = (bool) $virtual;
+        $this->properties['virtual'] = $virtual;
 
         return $this;
     }
@@ -164,7 +164,7 @@ class Column implements ColumnSettableInterface
      */
     public function setExcluded($excluded = true)
     {
-        $this->properties['excluded'] = (bool) $excluded;
+        $this->properties['excluded'] = $excluded;
 
         return $this;
     }
@@ -184,7 +184,7 @@ class Column implements ColumnSettableInterface
      */
     public function setEditable($editable = true)
     {
-        $this->properties['editable'] = (bool) $editable;
+        $this->properties['editable'] = $editable;
 
         return $this;
     }
@@ -204,7 +204,7 @@ class Column implements ColumnSettableInterface
      */
     public function setHidden($hidden = true)
     {
-        $this->properties['hidden'] = (bool) $hidden;
+        $this->properties['hidden'] = $hidden;
 
         return $this;
     }
@@ -224,7 +224,7 @@ class Column implements ColumnSettableInterface
      */
     public function setSortable($sortable = true)
     {
-        $this->properties['sortable'] = (bool) $sortable;
+        $this->properties['sortable'] = $sortable;
 
         return $this;
     }
@@ -244,7 +244,7 @@ class Column implements ColumnSettableInterface
      */
     public function setGroupable($groupable = true)
     {
-        $this->properties['groupable'] = (bool) $groupable;
+        $this->properties['groupable'] = $groupable;
 
         return $this;
     }
@@ -264,7 +264,7 @@ class Column implements ColumnSettableInterface
      */
     public function setFilterable($filterable = true)
     {
-        $this->properties['filterable'] = (bool) $filterable;
+        $this->properties['filterable'] = $filterable;
 
         return $this;
     }

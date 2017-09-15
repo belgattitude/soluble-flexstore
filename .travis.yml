@@ -6,17 +6,19 @@ group: edge
 
 matrix:
     include:
-        - php: 5.5
-          env: CS_FIX=false
+        - php: 5.6
         - php: 7.0
         - php: 7.1
-        - php: 5.6
-          env: SEND_COVERAGE=true
+          env:
+            - SEND_COVERAGE=true
+            - CS_FIX=true
+        - php: 7.2
+
 
 env:
     global:
         - SEND_COVERAGE=false
-        - CS_FIX=true
+        - CS_FIX=false
 
 before_script:
   - mkdir -p tests/logs
@@ -28,8 +30,8 @@ before_script:
   - zcat tests/data/mysql/data.sql.gz | mysql -u root phpunit_soluble_schema_db
   - mysql -e "SHOW DATABASES;" -u root
   - mysql -e "CONNECT phpunit_soluble_schema_db; SHOW TABLES;" -u root  
-  - travis_retry composer self-update
-  - travis_retry composer --prefer-source --dev --ignore-platform-reqs install
+  - composer self-update
+  - composer install --prefer-source --dev --ignore-platform-reqs
 script: 
   - phpunit -v
   - if [[ $CS_FIX == true ]]; then ./vendor/bin/php-cs-fixer --diff --dry-run -v fix; fi

@@ -5,14 +5,18 @@ group: edge
 
 
 matrix:
-    include:
-        - php: 5.6
-        - php: 7.0
-        - php: 7.1
-          env:
-            - SEND_COVERAGE=true
-            - CS_FIX=true
-        - php: 7.2
+  include:
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+      env:
+        - SEND_COVERAGE=true
+        - CS_FIX=true
+    - php: 7.2
+  allow_failures:
+    # PHP7.2 failure is due to php-cs-fixer deps
+    # can safely be removed when updated when fixed upstream
+    - php: 7.2
 
 env:
     global:
@@ -30,7 +34,7 @@ before_script:
   - mysql -e "SHOW DATABASES;" -u root
   - mysql -e "CONNECT phpunit_soluble_schema_db; SHOW TABLES;" -u root  
   - composer self-update
-  - composer install --prefer-source --dev
+  - composer install --ignore-platform-reqs
 script: 
   - phpunit -v
   - if [[ $CS_FIX == true ]]; then ./vendor/bin/php-cs-fixer --diff --dry-run -v fix; fi

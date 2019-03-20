@@ -2,5 +2,5 @@ parameters:
 	# For zend-expressive tests, the routes.php and pipeline.php
 	# will break with phpstan.
 	ignoreErrors:
-		- '#Call to an undefined method ArrayObject::toArray()#'
+		#- '#Call to an undefined method ArrayObject::toArray()#'
 		#- '#but returns PHPUnit_Framework_MockObject_MockObject#'

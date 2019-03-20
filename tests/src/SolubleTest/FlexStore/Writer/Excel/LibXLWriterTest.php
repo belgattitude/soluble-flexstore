@@ -12,6 +12,7 @@
 
 namespace SolubleTest\FlexStore\Writer\Excel;
 
+use PHPUnit\Framework\TestCase;
 use Soluble\FlexStore\Source\Zend\SqlSource;
 use Soluble\FlexStore\Writer\Excel\LibXLWriter;
 use Zend\Db\Sql\Select;
@@ -21,7 +22,7 @@ use PHPExcel_IOFactory;
 use Soluble\Spreadsheet\Library\LibXL;
 use Soluble\FlexStore\Formatter;
 
-class LibXLWriterTest extends \PHPUnit_Framework_TestCase
+class LibXLWriterTest extends TestCase
 {
     /**
      * @var SqlSource
@@ -416,14 +417,14 @@ class LibXLWriterTest extends \PHPUnit_Framework_TestCase
 
     public function testSetFormatThrowsInvalidArgumentException()
     {
-        $this->setExpectedException('Soluble\FlexStore\Writer\Exception\InvalidArgumentException');
+        $this->expectException('Soluble\FlexStore\Writer\Exception\InvalidArgumentException');
         $xlsWriter = new LibXLWriter();
         $xlsWriter->setFormat('cool');
     }
 
     public function testExcelBookThrowsInvalidArgumentException()
     {
-        $this->setExpectedException('Soluble\FlexStore\Writer\Exception\InvalidArgumentException');
+        $this->expectException('Soluble\FlexStore\Writer\Exception\InvalidArgumentException');
         $xlsWriter = new LibXLWriter();
         $xlsWriter->getExcelBook('coo:');
     }

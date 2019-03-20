@@ -120,7 +120,7 @@ class UseCasesTest extends TestCase
             $options = new Options();
             $options->setLimit(1);
             $data = $store->getData($options);
-            $this->assertEquals(1, count($data));
+            $this->assertCount(1, $data);
 
             // with initial limit
             $queryOne = $this->getQueryOne($key, $limit = 2);
@@ -129,7 +129,7 @@ class UseCasesTest extends TestCase
             $options = new Options();
             $options->setLimit(1);
             $data = $store->getData($options);
-            $this->assertEquals(1, count($data));
+            $this->assertCount(1, $data);
         }
     }
 

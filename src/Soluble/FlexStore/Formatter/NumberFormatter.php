@@ -123,6 +123,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
         if ($this->params['normalize_whitespace'] === true) {
             $value = preg_replace('/\xc2\xa0/', ' ', $value);
         }
+
         return $value;
     }
 

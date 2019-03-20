@@ -55,7 +55,7 @@ class UnitFormatter extends NumberFormatter
         $locale = $this->params['locale'];
 
         //$formatterId = md5($locale);
-        $formatterId = $locale . (string)$this->params['pattern'];
+        $formatterId = $locale . (string) $this->params['pattern'];
 
         if (!array_key_exists($formatterId, $this->formatters)) {
             $this->loadFormatterId($formatterId);

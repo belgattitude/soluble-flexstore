@@ -85,7 +85,6 @@ class NumberFormatterTest extends TestCase
         self::assertEquals('1 123,457', $f->format(1123.4567));
         self::assertEquals('-1 123,457', $f->format(-1123.4567));
 
-
         $f->setLocale('en_US');
         $this->assertEquals('1,123.457', $f->format(1123.4567));
         $this->assertEquals('-1,123.457', $f->format(-1123.4567));

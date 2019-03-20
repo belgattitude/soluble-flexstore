@@ -97,7 +97,7 @@ class StoreTest extends TestCase
         $this->assertInstanceOf('Soluble\FlexStore\Options', $options);
         $options->setLimit(2);
         $data = $store->getData()->toArray();
-        $this->assertEquals(2, count($data));
+        $this->assertCount(2, $data);
     }
 
     public function testGetSource()

@@ -150,7 +150,7 @@ class ResultSetTest extends TestCase
         $total = $resultset->getTotalRows();
 
         $this->assertEquals(10, $total);
-        $this->assertEquals(10, count($resultset));
+        $this->assertCount(10, $resultset);
         $this->assertEquals(10, $resultset->count());
 
         // With no limit
@@ -164,7 +164,7 @@ class ResultSetTest extends TestCase
         $total = $resultset->getTotalRows();
 
         $this->assertEquals(93, $total);
-        $this->assertEquals(10, count($resultset));
+        $this->assertCount(10, $resultset);
     }
 
     /**

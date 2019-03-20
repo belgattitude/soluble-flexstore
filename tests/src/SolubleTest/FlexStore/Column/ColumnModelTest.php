@@ -709,7 +709,7 @@ class ColumnModelTest extends TestCase
         $d = $data->toArray();
         $first = array_keys($d[0]);
 
-        $this->assertEquals(3, count($first));
+        $this->assertCount(3, $first);
         $this->assertEquals('displayname', array_shift($first));
         $this->assertEquals('username', array_shift($first));
     }

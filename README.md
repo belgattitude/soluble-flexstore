@@ -1,7 +1,6 @@
 # soluble/flexstore
 
 [![PHP Version](http://img.shields.io/badge/php-5.6+-ff69b4.svg)](https://packagist.org/packages/soluble/flexstore)
-[![HHVM Status](http://hhvm.h4cc.de/badge/soluble/flexstore.svg?style=flat)](http://hhvm.h4cc.de/package/soluble/flexstore)
 [![Build Status](https://travis-ci.org/belgattitude/soluble-flexstore.svg?branch=master)](https://travis-ci.org/belgattitude/soluble-flexstore)
 [![Code Coverage](https://scrutinizer-ci.com/g/belgattitude/soluble-flexstore/badges/coverage.png?s=aaa552f6313a3a50145f0e87b252c84677c22aa9)](https://scrutinizer-ci.com/g/belgattitude/soluble-flexstore)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/belgattitude/soluble-flexstore/badges/quality-score.png?s=6f3ab91f916bf642f248e82c29857f94cb50bb33)](https://scrutinizer-ci.com/g/belgattitude/soluble-flexstore)
@@ -32,7 +31,7 @@
 Instant installation via [composer](http://getcomposer.org/).
 
 ```console
-$ composer require soluble/flexstore:0.*
+$ composer require soluble/flexstore
 ```
 Most modern frameworks will include Composer out of the box, but ensure the following file is included:
 

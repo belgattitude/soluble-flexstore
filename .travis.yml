@@ -32,7 +32,7 @@ before_script:
   - mysql -e "SHOW DATABASES;" -u root
   - mysql -e "CONNECT phpunit_soluble_schema_db; SHOW TABLES;" -u root  
   - composer self-update
-  - composer install --ignore-platform-reqs
+  - composer install
 script: 
   - phpunit -v
   - if [[ $CS_FIX == true ]]; then ./vendor/bin/php-cs-fixer --diff --dry-run -v fix; fi

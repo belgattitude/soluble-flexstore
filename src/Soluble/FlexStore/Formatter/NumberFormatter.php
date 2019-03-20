@@ -38,7 +38,8 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
     protected $default_params = [
         'decimals' => 2,
         'locale' => null,
-        'pattern' => null
+        'pattern' => null,
+        'normalize_whitespace' => true
     ];
 
     /**
@@ -110,7 +111,6 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
         $locale = $this->params['locale'];
         //$formatterId = md5($locale);
         $formatterId = $locale . (string) $this->params['pattern'];
-
         if (!array_key_exists($formatterId, $this->formatters)) {
             $this->loadFormatterId($formatterId);
         }
@@ -120,7 +120,9 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
         }
 
         $value = $this->formatters[$formatterId]->format($number);
-
+        if ($this->params['normalize_whitespace'] === true) {
+            $value = preg_replace('/\xc2\xa0/', ' ', $value);
+        }
         return $value;
     }
 

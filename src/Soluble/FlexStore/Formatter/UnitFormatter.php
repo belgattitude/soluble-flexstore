@@ -29,7 +29,8 @@ class UnitFormatter extends NumberFormatter
         'decimals' => 2,
         'locale' => null,
         'pattern' => null,
-        'unit' => null
+        'unit' => null,
+        'normalize_whitespace' => true,
     ];
 
     /**
@@ -54,7 +55,7 @@ class UnitFormatter extends NumberFormatter
         $locale = $this->params['locale'];
 
         //$formatterId = md5($locale);
-        $formatterId = $locale . (string) $this->params['pattern'];
+        $formatterId = $locale . (string)$this->params['pattern'];
 
         if (!array_key_exists($formatterId, $this->formatters)) {
             $this->loadFormatterId($formatterId);
@@ -77,6 +78,10 @@ class UnitFormatter extends NumberFormatter
 
         if (intl_is_failure($this->formatters[$formatterId]->getErrorCode())) {
             $this->throwNumberFormatterException($this->formatters[$formatterId], $number);
+        }
+
+        if ($this->params['normalize_whitespace'] === true) {
+            $value = preg_replace('/\xc2\xa0/', ' ', $value);
         }
 
         return $value;

@@ -82,7 +82,8 @@ class UnitFormatterTest extends TestCase
         ];
         $f = new UnitFormatter($params);
         self::assertEquals('1 123,457 Kg', $f->format(1123.4567));
-        self::assertEquals('-1 123,456 Kg', $f->format(-1123.4563));
+
+        self::assertEquals('-1 123,456 Kg', $f->format(-1123.4563));
 
         $f->setLocale('en_US');
         $this->assertEquals('1,123.457 Kg', $f->format(1123.4567));

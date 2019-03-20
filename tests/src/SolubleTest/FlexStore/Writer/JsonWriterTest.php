@@ -137,6 +137,7 @@ class JsonWriterTest extends TestCase
         ]);
 
         $cm->search()->regexp('/price/')->setFormatter($formatter);
+
         $formatted_data = $store->getData()->toArray();
         $this->assertEquals('CN¥15.30', $formatted_data[0]['list_price']);
 

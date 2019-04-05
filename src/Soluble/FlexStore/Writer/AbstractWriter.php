@@ -122,18 +122,18 @@ abstract class AbstractWriter
      *
      * @throws Exception\InvalidArgumentException
      *
-     * @param array|Traversable $options
-     *
      * @return AbstractWriter
      */
-    public function setOptions($options)
+    public function setOptions(iterable $options)
     {
-        if (!is_array($options) && !$options instanceof Traversable) {
-            throw new Exception\InvalidArgumentException(sprintf(
+        if (!is_iterable($options)) {
+            throw new Exception\InvalidArgumentException(
+                sprintf(
                 '"%s" expects an array or Traversable; received "%s"',
                 __METHOD__,
-                (is_object($options) ? get_class($options) : gettype($options))
-            ));
+                gettype($options)
+            )
+            );
         }
 
         foreach ($options as $key => $value) {

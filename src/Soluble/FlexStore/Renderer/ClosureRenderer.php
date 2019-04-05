@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /*
  * soluble-flexstore library
  *
@@ -52,12 +53,7 @@ class ClosureRenderer implements RowRendererInterface
         }
     }
 
-    /**
-     * @param ArrayObject
-     *
-     * @return string
-     */
-    public function apply(\ArrayObject $row)
+    public function apply(\ArrayObject $row): void
     {
         $this->closure($row);
     }
@@ -67,7 +63,7 @@ class ClosureRenderer implements RowRendererInterface
      *
      * @return array
      */
-    public function getRequiredColumns()
+    public function getRequiredColumns(): array
     {
         return $this->required_columns;
     }

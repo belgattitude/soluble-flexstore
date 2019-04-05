@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * soluble-flexstore library
  *
@@ -16,17 +18,12 @@ use ArrayObject;
 
 interface RowRendererInterface
 {
-    /**
-     * Modify row.
-     *
-     * @param ArrayObject
-     */
-    public function apply(ArrayObject $row);
+    public function apply(ArrayObject $row): void;
 
     /**
      * Return the list of columns in order to run the renderer.
      *
      * @return array
      */
-    public function getRequiredColumns();
+    public function getRequiredColumns(): array;
 }

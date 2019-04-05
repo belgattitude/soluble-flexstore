@@ -223,15 +223,15 @@ class ColumnModelTest extends TestCase
         $formatterDb = new CurrencyFormatter([
                     'currency_code' => new \Soluble\FlexStore\Formatter\RowColumn('currency_reference')
         ]);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\RowColumn', $formatterDb->getCurrencyCode());
+        $this->assertInstanceOf(\Soluble\FlexStore\Formatter\RowColumn::class, $formatterDb->getCurrencyCode());
         $results->setFormatter($formatterDb);
         foreach ($results->toArray() as $name) {
-            /*
-             * @var CurrencyFormatter $f
+            /**
+             * @var CurrencyFormatter
              */
             $f = $cm->get($name)->getFormatter();
             $this->assertEquals($formatterDb, $f);
-            $this->assertInstanceOf('Soluble\FlexStore\Formatter\RowColumn', $f->getCurrencyCode());
+            $this->assertInstanceOf(\Soluble\FlexStore\Formatter\RowColumn::class, $f->getCurrencyCode());
         }
 
         $formatterEur = new CurrencyFormatter([

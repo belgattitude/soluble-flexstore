@@ -43,12 +43,10 @@ class ColumnModelTest extends TestCase
      */
     protected $columnModel;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
+
+    protected function setUp(): void
     {
+        parent::setUp();
         $this->adapter = \SolubleTestFactories::getDbAdapter();
         $select = new \Zend\Db\Sql\Select();
         $select->from('user');

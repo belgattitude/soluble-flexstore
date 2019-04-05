@@ -39,28 +39,21 @@ class PaginatorTest extends TestCase
     public function testSomeException()
     {
         try {
-            $p = new Paginator(10, 'cc');
+            $p = new Paginator(0, -5, 0);
             $this->assertFalse(true, 'should throw an InvalidUsagException');
         } catch (\Soluble\FlexStore\Exception\InvalidUsageException $ex) {
             $this->assertTrue(true);
         }
 
         try {
-            $p = new Paginator('0', -5, 0);
+            $p = new Paginator(20, 10, -2);
             $this->assertFalse(true, 'should throw an InvalidUsagException');
         } catch (\Soluble\FlexStore\Exception\InvalidUsageException $ex) {
             $this->assertTrue(true);
         }
 
         try {
-            $p = new Paginator('20', 10, -2);
-            $this->assertFalse(true, 'should throw an InvalidUsagException');
-        } catch (\Soluble\FlexStore\Exception\InvalidUsageException $ex) {
-            $this->assertTrue(true);
-        }
-
-        try {
-            $p = new Paginator('-15', 10, 0);
+            $p = new Paginator(-15, 10, 0);
             $this->assertFalse(true, 'should throw an InvalidUsagException');
         } catch (\Soluble\FlexStore\Exception\InvalidUsageException $ex) {
             $this->assertTrue(true);
@@ -69,7 +62,7 @@ class PaginatorTest extends TestCase
 
     public function testConstruct()
     {
-        $p = new Paginator('150', '10', '20');
+        $p = new Paginator(150, 10, 20);
         $this->assertEquals(10, $p->getItemCountPerPage());
         $this->assertEquals(3, $p->getCurrentPageNumber());
         $this->assertEquals(150, $p->getTotalItemCount());

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * soluble-flexstore library
  *
@@ -21,7 +23,7 @@ class Paginator extends ZendPaginator
     /**
      * Default set of scrolling.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $scrollingTypes = [
         'all' => 'Zend\Paginator\ScrollingStyle\All',
@@ -37,19 +39,15 @@ class Paginator extends ZendPaginator
      *
      * @throws Exception\InvalidUsageException
      */
-    public function __construct($totalRows, $limit, $offset = 0)
+    public function __construct(int $totalRows, int $limit, int $offset = 0)
     {
-        $totalRows = filter_var($totalRows, FILTER_VALIDATE_INT);
-        $limit = filter_var($limit, FILTER_VALIDATE_INT);
-        $offset = filter_var($offset, FILTER_VALIDATE_INT);
-
-        if (!is_int($limit) || $limit < 0) {
+        if ($limit < 0) {
             throw new Exception\InvalidUsageException(__METHOD__ . ' expects limit to be an integer greater than 0');
         }
-        if (!is_int($totalRows) || $totalRows < 0) {
+        if ($totalRows < 0) {
             throw new Exception\InvalidUsageException(__METHOD__ . ' expects total rows to be an integer greater than 0');
         }
-        if (!is_int($offset) || $offset < 0) {
+        if ($offset < 0) {
             throw new Exception\InvalidUsageException(__METHOD__ . ' expects offset to be an integer greater than 0');
         }
 
@@ -67,48 +65,37 @@ class Paginator extends ZendPaginator
     /**
      * Loads a scrolling style.
      *
-     * @param string $scrollingStyle
+     * @param string|ScrollingStyleInterface $scrollingStyle
      *
      * @return ScrollingStyleInterface
      *
      * @throws Exception\InvalidArgumentException
      */
-    protected function _loadScrollingStyle($scrollingStyle = null)
+    protected function _loadScrollingStyle($scrollingStyle = null): ScrollingStyleInterface
     {
         if ($scrollingStyle === null) {
             $scrollingStyle = static::$defaultScrollingStyle;
         }
 
-        switch (strtolower(gettype($scrollingStyle))) {
-            case 'object':
-                if (!$scrollingStyle instanceof ScrollingStyleInterface) {
-                    throw new Exception\InvalidArgumentException(
-                        'Scrolling style must implement Zend\Paginator\ScrollingStyle\ScrollingStyleInterface'
-                    );
-                }
-
-                return $scrollingStyle;
-
-            case 'string':
-                if (!array_key_exists(strtolower($scrollingStyle), $this->scrollingTypes)) {
-                    throw new Exception\InvalidArgumentException(
-                        "Scrolling type '$scrollingStyle' is not supported, look for (" .
-                        implode(',', array_keys($this->scrollingTypes)) .
-                        ')'
-                    );
-                }
-                $cls = $this->scrollingTypes[strtolower($scrollingStyle)];
-
-                return new $cls();
-
-            case 'null':
-                // Fall through to default case
-
-            default:
+        if (is_string($scrollingStyle)) {
+            if (!array_key_exists(strtolower($scrollingStyle), $this->scrollingTypes)) {
                 throw new Exception\InvalidArgumentException(
-                    'Scrolling style must be a class ' .
-                    'name or object implementing Zend\Paginator\ScrollingStyle\ScrollingStyleInterface'
+                    "Scrolling type '$scrollingStyle' is not supported, look for (" .
+                    implode(',', array_keys($this->scrollingTypes)) .
+                    ')'
                 );
+            }
+            $cls = $this->scrollingTypes[strtolower($scrollingStyle)];
+
+            return new $cls();
         }
+
+        if (!$scrollingStyle instanceof ScrollingStyleInterface) {
+            throw new Exception\InvalidArgumentException(
+                'Scrolling style must implement Zend\Paginator\ScrollingStyle\ScrollingStyleInterface'
+            );
+        }
+
+        return $scrollingStyle;
     }
 }

@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Soluble\FlexStore\Formatter;
 
-
 use Soluble\FlexStore\Exception;
 use ArrayObject;
 use NumberFormatter as IntlNumberFormatter;

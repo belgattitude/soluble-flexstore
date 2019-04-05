@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /*
  * soluble-flexstore library
@@ -33,7 +34,6 @@ class Options
 
     /**
      * Set the (maximum) number of results to return.
-     *
      */
     public function setLimit(int $limit, ?int $offset = null): self
     {
@@ -94,6 +94,7 @@ class Options
     public function setOffset(int $offset): self
     {
         $this->offset = $offset;
+
         return $this;
     }
 

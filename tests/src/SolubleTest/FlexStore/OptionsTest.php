@@ -65,7 +65,4 @@ class OptionsTest extends TestCase
         $this->assertNull($this->options->getLimit());
         $this->assertFalse($this->options->hasLimit());
     }
-
-
-
 }

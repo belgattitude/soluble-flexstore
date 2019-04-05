@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * soluble-flexstore library
  *
@@ -12,6 +14,7 @@
 
 namespace Soluble\FlexStore\ResultSet;
 
+use Soluble\FlexStore\Exception\InvalidUsageException;
 use Soluble\FlexStore\Source\AbstractSource;
 use Soluble\FlexStore\Helper\Paginator;
 use Soluble\FlexStore\Options\HydrationOptions;
@@ -26,7 +29,7 @@ class ResultSet extends AbstractResultSet
     protected $paginator;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $totalRows;
 
@@ -36,7 +39,7 @@ class ResultSet extends AbstractResultSet
     protected $source;
 
     /**
-     * @var HydrationOptions
+     * @var HydrationOptions|null
      */
     protected $hydrationOptions;
 
@@ -64,10 +67,8 @@ class ResultSet extends AbstractResultSet
      * Return source column model.
      *
      * @throws Exception\RuntimeException
-     *
-     * @return ColumnModel
      */
-    public function getColumnModel()
+    public function getColumnModel(): ColumnModel
     {
         if ($this->source === null) {
             throw new Exception\RuntimeException(__METHOD__ . ' Prior to get column model, a source must be set.');
@@ -79,53 +80,45 @@ class ResultSet extends AbstractResultSet
 
     /**
      * @param AbstractSource $source
-     *
-     * @return ResultSet
      */
-    public function setSource(AbstractSource $source)
+    public function setSource(AbstractSource $source): self
     {
         $this->source = $source;
 
         return $this;
     }
 
-    /**
-     * @return AbstractSource
-     */
-    public function getSource()
+    public function getSource(): AbstractSource
     {
         return $this->source;
     }
 
-    /**
-     * @param HydrationOptions $hydrationOptions
-     *
-     * @return ResultSet
-     */
-    public function setHydrationOptions(HydrationOptions $hydrationOptions)
+    public function setHydrationOptions(HydrationOptions $hydrationOptions): self
     {
         $this->hydrationOptions = $hydrationOptions;
 
         return $this;
     }
 
-    /**
-     * @return HydrationOptions
-     */
-    public function getHydrationOptions()
+    public function getHydrationOptions(): ?HydrationOptions
     {
         return $this->hydrationOptions;
     }
 
-    /**
-     * @return Paginator
-     */
-    public function getPaginator()
+    public function getPaginator(): Paginator
     {
         if ($this->paginator === null) {
+            $limit = $this->getSource()->getOptions()->getLimit();
+            $totalRows = $this->getTotalRows() ?? 0;
+            if (!is_int($limit)) {
+                throw new InvalidUsageException(sprintf(
+                    'Paginator requires a limit to be set.'
+                ));
+            }
+
             $this->paginator = new Paginator(
                 $this->getTotalRows(),
-                $this->getSource()->getOptions()->getLimit(),
+                $limit,
                 $this->getSource()->getOptions()->getOffset()
             );
         }
@@ -135,30 +128,20 @@ class ResultSet extends AbstractResultSet
 
     /**
      * Set the total rows.
-     *
-     * @param int $totalRows
-     *
-     * @return ResultSet
      */
-    public function setTotalRows($totalRows)
+    public function setTotalRows(int $totalRows): self
     {
         $this->totalRows = $totalRows;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalRows()
+    public function getTotalRows(): ?int
     {
         return $this->totalRows;
     }
 
-    /**
-     * @param ArrayObject $row
-     */
-    protected function initColumnModelHydration(ArrayObject $row)
+    protected function initColumnModelHydration(ArrayObject $row): void
     {
         $this->hydration_formatters = new ArrayObject();
         $this->hydration_renderers = new ArrayObject();
@@ -249,11 +232,9 @@ class ResultSet extends AbstractResultSet
     /**
      * Cast result set to array of arrays.
      *
-     * @return array
-     *
-     * @throws Exception\RuntimeException if any row is not castable to an array
+     * @throws Exception\RuntimeException if any row cannot be casted to an array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $return = [];
         foreach ($this as $row) {
@@ -275,10 +256,8 @@ class ResultSet extends AbstractResultSet
 
     /**
      * Iterator: is pointer valid?
-     *
-     * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         $valid = $this->zfResultSet->valid();
         if (!$valid) {
@@ -291,7 +270,7 @@ class ResultSet extends AbstractResultSet
     /**
      * Iterator: rewind.
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->hydrate_options_initialized = false;
         $this->zfResultSet->rewind();

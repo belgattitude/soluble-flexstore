@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.13.0 (2019-04-05)
+
+### Added
+
+- Preliminary support for PHP7.1+
+
+
 ## 0.12.1 (2017-09-15)
 
 ### Fixed

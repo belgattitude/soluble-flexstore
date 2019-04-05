@@ -145,7 +145,7 @@ class JsonWriterTest extends TestCase
         $json_data = json_decode($writer->getData(), $assoc = true);
 
         $this->assertNotEquals('CN¥15.30', $json_data['data'][0]['list_price']);
-        $this->assertEquals('15.30', $json_data['data'][0]['list_price']);
+        $this->assertEquals(15.3, (float) $json_data['data'][0]['list_price']);
     }
 
     /**

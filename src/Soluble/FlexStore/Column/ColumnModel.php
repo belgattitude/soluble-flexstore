@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * soluble-flexstore library
  *
@@ -56,7 +58,7 @@ class ColumnModel
      *
      * @param RowRendererInterface $renderer
      */
-    public function addRowRenderer(RowRendererInterface $renderer)
+    public function addRowRenderer(RowRendererInterface $renderer): void
     {
         // Test if all required columns are present in column model
         $required_columns = $renderer->getRequiredColumns();
@@ -86,10 +88,8 @@ class ColumnModel
      * [column_name] => [FormatterInterface].
      *
      * @see self::getUniqueFormatters()
-     *
-     * @return ArrayObject
      */
-    public function getFormatters()
+    public function getFormatters(): ArrayObject
     {
         $arr = new ArrayObject();
         foreach ($this->columns as $key => $column) {
@@ -109,10 +109,8 @@ class ColumnModel
      * @param bool $include_excluded_columns
      *
      * @see self::getFormatters()
-     *
-     * @return ArrayObject
      */
-    public function getUniqueFormatters($include_excluded_columns = false)
+    public function getUniqueFormatters(bool $include_excluded_columns = false): ArrayObject
     {
         $unique = new ArrayObject();
 
@@ -142,13 +140,10 @@ class ColumnModel
      * @throws Exception\DuplicateColumnException when column name already exists
      * @throws Exception\ColumnNotFoundException  when after_column does not exists
      *
-     * @param Column $column
      * @param string $after_column add the new column after this existing one
      * @param string $mode         change after to before (see self::ADD_COLUMN_AFTER, self::ADD_COLUMN_BEFORE)
-     *
-     * @return ColumnModel
      */
-    public function add(Column $column, $after_column = null, $mode = self::ADD_COLUMN_AFTER)
+    public function add(Column $column, string $after_column = null, string $mode = self::ADD_COLUMN_AFTER): self
     {
         $name = $column->getName();
         if ($this->exists($name)) {
@@ -191,17 +186,10 @@ class ColumnModel
      * Tells whether a column exists.
      *
      * @throws Exception\InvalidArgumentException
-     *
-     * @param string $column
-     *
-     * @return bool
      */
-    public function exists($column)
+    public function exists(string $column): bool
     {
-        if (!is_string($column)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name must be a valid string');
-        }
-        if ($column === '') {
+        if (trim($column) === '') {
             throw new Exception\InvalidArgumentException(__METHOD__ . ' Column name cannot be empty');
         }
 
@@ -213,7 +201,7 @@ class ColumnModel
      *
      * @return array
      */
-    public function getExcluded()
+    public function getExcluded(): array
     {
         $arr = [];
         foreach ($this->columns as $name => $column) {
@@ -232,10 +220,8 @@ class ColumnModel
      *
      * @throws Exception\InvalidArgumentException
      * @throws Exception\ColumnNotFoundException  when column does not exists in model
-     *
-     * @return Column
      */
-    public function get($column)
+    public function get($column): Column
     {
         if (!$this->exists($column)) {
             throw new Exception\ColumnNotFoundException(__METHOD__ . " Column '$column' not present in column model.");
@@ -249,11 +235,9 @@ class ColumnModel
      * in the dataset but not in the sorted_columns will be
      * appended to the end.
      *
-     * @param array $sorted_columns
-     *
-     * @return ColumnModel
+     * @param string[] $sorted_columns
      */
-    public function sort(array $sorted_columns)
+    public function sort(array $sorted_columns): self
     {
         $diff = array_diff_assoc($sorted_columns, array_unique($sorted_columns));
         if (count($diff) > 0) {
@@ -278,19 +262,12 @@ class ColumnModel
     /**
      * Set column that must be excluded in getData() and getColumns().
      *
-     * @param array|string|ArrayObject $excluded_columns column nams to exclude
-     * @param bool                     $excluded         whether to set exclude to true (default) or false (opposite: include)
-     *
-     * @throws Exception\InvalidArgumentException
-     *
-     * @return ColumnModel
+     * @param string[] $excluded_columns column names to exclude
+     * @param bool     $excluded         whether to set exclude to true (default) or false (opposite: include)
      */
-    public function exclude($excluded_columns, $excluded = true)
+    public function exclude(array $excluded_columns, bool $excluded = true): self
     {
-        if (!is_array($excluded_columns) && !is_string($excluded_columns) && !$excluded_columns instanceof ArrayObject) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ' Requires $excluded_columns param to be array|ArrayObject|string');
-        }
-        // trim column
+        // trim column names automatically
         $excluded_columns = array_map('trim', $excluded_columns);
 
         $this->search()->in($excluded_columns)->setExcluded($excluded);
@@ -304,21 +281,14 @@ class ColumnModel
      *
      * @throws Exception\InvalidArgumentException
      *
-     * @param array|string|ArrayObject $include_only_columns
-     * @param bool                     $sort                 automatically apply sortColumns
-     * @param bool                     $preserve_excluded    preserve excluded columns
-     *
-     * @return ColumnModel
+     * @param string[] $include_only_columns
+     * @param bool     $sort                 automatically apply sortColumns
+     * @param bool     $preserve_excluded    preserve excluded columns
      */
-    public function includeOnly($include_only_columns, $sort = true, $preserve_excluded = true)
+    public function includeOnly(array $include_only_columns, bool $sort = true, bool $preserve_excluded = true): self
     {
-        if (!is_array($include_only_columns)
-                && !is_string($include_only_columns) && !$include_only_columns instanceof ArrayObject) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ' Requires $include_only_columns param to be array|ArrayObject|string');
-        }
-
         // trim column
-        $include_only_columns = array_map('trim', (array) $include_only_columns);
+        $include_only_columns = array_map('trim', $include_only_columns);
 
         if ($preserve_excluded) {
             $previous_excluded_cols = $this->getExcluded();
@@ -342,12 +312,8 @@ class ColumnModel
 
     /**
      * Return columns.
-     *
-     * @param bool $include_excluded_columns
-     *
-     * @return ArrayObject
      */
-    public function getColumns($include_excluded_columns = false)
+    public function getColumns($include_excluded_columns = false): ArrayObject
     {
         $arr = new ArrayObject();
         foreach ($this->columns as $key => $column) {
@@ -364,26 +330,17 @@ class ColumnModel
      *
      * @throws Exception\InvalidArgumentException
      *
-     * @param FormatterInterface       $formatter
-     * @param array|string|ArrayObject $columns
-     *
-     * @return ColumnModel
+     * @param FormatterInterface $formatter
+     * @param string[]           $columns
      */
-    public function setFormatter(FormatterInterface $formatter, $columns)
+    public function setFormatter(FormatterInterface $formatter, array $columns): self
     {
-        if (!is_array($columns)
-                && !is_string($columns) && !$columns instanceof ArrayObject) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ' Requires $columns param to be array|ArrayObject|string');
-        }
         $this->search()->in($columns)->setFormatter($formatter);
 
         return $this;
     }
 
-    /**
-     * @return ColumnModel\Search
-     */
-    public function search()
+    public function search(): Search
     {
         if ($this->search === null) {
             $this->search = new Search($this->columns);
@@ -392,22 +349,14 @@ class ColumnModel
         return $this->search;
     }
 
-    /**
-     * @param ColumnsMetadata $metadata
-     *
-     * @return ColumnModel
-     */
-    public function setMetatadata(ColumnsMetadata $metadata)
+    public function setMetatadata(ColumnsMetadata $metadata): self
     {
         $this->metadata = $metadata;
 
         return $this;
     }
 
-    /**
-     * @return ArrayObject|null
-     */
-    public function getMetadata()
+    public function getMetadata(): ?ArrayObject
     {
         return $this->metadata;
     }

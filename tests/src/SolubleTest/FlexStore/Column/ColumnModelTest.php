@@ -468,28 +468,6 @@ class ColumnModelTest extends TestCase
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
             $this->assertTrue(true);
         }
-
-        try {
-            $cm->exclude(new \stdClass());
-            $this->assertFalse(true, ' should throw InvalidArgumentException');
-        } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
-            $this->assertTrue(true);
-        }
-
-        try {
-            $cm->includeOnly(new \stdClass());
-            $this->assertFalse(true, ' should throw InvalidArgumentException');
-        } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
-            $this->assertTrue(true);
-        }
-
-        try {
-            $formatter = new \Soluble\FlexStore\Formatter\NumberFormatter();
-            $cm->setFormatter($formatter, new \stdClass());
-            $this->assertFalse(true, ' should throw InvalidArgumentException');
-        } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
-            $this->assertTrue(true);
-        }
     }
 
     public function testAddRowRenderer()
@@ -635,26 +613,6 @@ class ColumnModelTest extends TestCase
         $source = new SqlSource($this->adapter, $select);
         $cm = $source->getColumnModel();
         $cm->get('this_column_not_exists');
-    }
-
-    public function testGetColumnThrowsInvalidArgumentException()
-    {
-        $this->expectException('Soluble\FlexStore\Column\Exception\InvalidArgumentException');
-        $select = new \Zend\Db\Sql\Select();
-        $select->from('user')->columns(['user_id', 'password', 'username']);
-        $source = new SqlSource($this->adapter, $select);
-        $cm = $source->getColumnModel();
-        $cm->get(new \stdClass());
-    }
-
-    public function testHasColumnThrowsInvalidArgumentException()
-    {
-        $this->expectException('Soluble\FlexStore\Column\Exception\InvalidArgumentException');
-        $select = new \Zend\Db\Sql\Select();
-        $select->from('user')->columns(['user_id', 'password', 'username']);
-        $source = new SqlSource($this->adapter, $select);
-        $cm = $source->getColumnModel();
-        $cm->exists(new \stdClass());
     }
 
     public function testIncludeOnly()

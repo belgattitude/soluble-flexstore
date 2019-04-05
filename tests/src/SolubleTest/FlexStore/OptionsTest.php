@@ -66,33 +66,6 @@ class OptionsTest extends TestCase
         $this->assertFalse($this->options->hasLimit());
     }
 
-    public function testSetLimitThrowsInvalidException()
-    {
-        $this->expectException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $this->options->setLimit(['cool']);
-    }
 
-    public function testSetLimitThrowsInvalidException2()
-    {
-        $this->expectException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $this->options->setLimit(2.12);
-    }
 
-    public function testSetLimitThrowsInvalidException3()
-    {
-        $this->expectException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $this->options->setLimit(null);
-    }
-
-    public function testSetLimitThrowsInvalidException4()
-    {
-        $this->expectException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $this->options->setLimit(10, ['cool']);
-    }
-
-    public function testSetLimitThrowsInvalidException5()
-    {
-        $this->expectException('Soluble\FlexStore\Exception\InvalidArgumentException');
-        $this->options->setLimit(10, 2.12);
-    }
 }

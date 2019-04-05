@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /*
  * soluble-flexstore library
  *
@@ -34,21 +34,10 @@ class Options
     /**
      * Set the (maximum) number of results to return.
      *
-     * @param int $limit
-     * @param int $offset
-     *
-     * @return Options
      */
-    public function setLimit($limit, $offset = null)
+    public function setLimit(int $limit, ?int $offset = null): self
     {
-        if ($limit === null) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ': limit parameter cannot be null, use unsetLimit instead.');
-        }
-        $l = filter_var($limit, FILTER_VALIDATE_INT);
-        if (!is_int($l)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ': limit parameter must be an int.');
-        }
-        $this->limit = $l;
+        $this->limit = $limit;
         if ($offset !== null) {
             $this->setOffset($offset);
         }
@@ -56,10 +45,7 @@ class Options
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getLimit()
+    public function getLimit(): ?int
     {
         return $this->limit;
     }
@@ -72,7 +58,7 @@ class Options
      *
      * @return Options
      */
-    public function unsetLimit($unset_offset = true)
+    public function unsetLimit($unset_offset = true): self
     {
         $this->limit = null;
         if ($unset_offset) {
@@ -87,7 +73,7 @@ class Options
      *
      * @return bool
      */
-    public function hasLimit()
+    public function hasLimit(): bool
     {
         return $this->limit !== null;
     }
@@ -97,31 +83,17 @@ class Options
      *
      * @return bool
      */
-    public function hasOffset()
+    public function hasOffset(): bool
     {
         return $this->offset !== null;
     }
 
     /**
      * Set the offset (the record to start reading when using limit).
-     *
-     * @throws Exception\InvalidArgumentException
-     *
-     * @param int $offset
-     *
-     * @return Options
      */
-    public function setOffset($offset)
+    public function setOffset(int $offset): self
     {
-        if ($offset === null) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ': offset parameter cannot be null, use unsetOffset instead.');
-        }
-        $o = filter_var($offset, FILTER_VALIDATE_INT);
-        if (!is_int($o)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ': offset parameter must be an int.');
-        }
-        $this->offset = $o;
-
+        $this->offset = $offset;
         return $this;
     }
 
@@ -149,10 +121,7 @@ class Options
         return $this;
     }
 
-    /**
-     * @return HydrationOptions
-     */
-    public function getHydrationOptions()
+    public function getHydrationOptions(): HydrationOptions
     {
         if ($this->hydrationOptions === null) {
             $this->hydrationOptions = new HydrationOptions();

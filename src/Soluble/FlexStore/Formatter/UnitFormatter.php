@@ -50,7 +50,7 @@ class UnitFormatter extends NumberFormatter
      *
      * @return string
      */
-    public function format($number, ArrayObject $row = null)
+    public function format($number, ArrayObject $row = null): string
     {
         $locale = $this->params['locale'];
 

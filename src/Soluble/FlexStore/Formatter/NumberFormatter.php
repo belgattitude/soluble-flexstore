@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * soluble-flexstore library
  *
@@ -83,10 +85,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
         }
     }
 
-    /**
-     * @param string $formatterId
-     */
-    protected function loadFormatterId($formatterId)
+    protected function loadFormatterId(string $formatterId): void
     {
         $locale = $this->params['locale'];
         $this->formatters[$formatterId] = new IntlNumberFormatter(
@@ -106,7 +105,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      *
      * @return string
      */
-    public function format($number, ArrayObject $row = null)
+    public function format($number, ArrayObject $row = null): string
     {
         $locale = $this->params['locale'];
         //$formatterId = md5($locale);
@@ -115,7 +114,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
             $this->loadFormatterId($formatterId);
         }
 
-        if ($number !== null && !is_numeric($number)) {
+        if (!is_numeric($number)) {
             $this->throwNumberFormatterException($this->formatters[$formatterId], $number);
         }
 
@@ -135,7 +134,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      *
      * @throws Exception\RuntimeException
      */
-    protected function throwNumberFormatterException(IntlNumberFormatter $intlFormatter, $number)
+    protected function throwNumberFormatterException(IntlNumberFormatter $intlFormatter, $number): void
     {
         $error_code = $intlFormatter->getErrorCode();
         if (is_scalar($number)) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * soluble-flexstore library
  *
@@ -11,6 +13,7 @@
  */
 
 namespace Soluble\FlexStore\Formatter;
+
 
 use Soluble\FlexStore\Exception;
 use ArrayObject;
@@ -49,10 +52,7 @@ class CurrencyFormatter extends NumberFormatter
         parent::__construct($params);
     }
 
-    /**
-     * @param string $formatterId
-     */
-    protected function loadFormatterId($formatterId)
+    protected function loadFormatterId(string $formatterId): void
     {
         $locale = $this->params['locale'];
         $this->formatters[$formatterId] = new IntlNumberFormatter(
@@ -74,7 +74,7 @@ class CurrencyFormatter extends NumberFormatter
      *
      * @return string
      */
-    public function format($number, ArrayObject $row = null)
+    public function format($number, ArrayObject $row = null): string
     {
         $locale = $this->params['locale'];
 
@@ -90,7 +90,7 @@ class CurrencyFormatter extends NumberFormatter
                 throw new Exception\RuntimeException(__METHOD__ . " Cannot determine currency code based on column '{$this->currency_column}'.");
             }
             $value = $this->formatters[$formatterId]->formatCurrency(
-                $number,
+                (float) $number,
                 $row[$this->currency_column]
             );
         } else {
@@ -99,7 +99,7 @@ class CurrencyFormatter extends NumberFormatter
             }
 
             $value = $this->formatters[$formatterId]->formatCurrency(
-                $number,
+                (float) $number,
                 $this->params['currency_code']
             );
         }

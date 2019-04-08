@@ -36,6 +36,7 @@
         "zendframework/zend-db": "^2.4.0 || ^3.0",
         "zendframework/zend-view": "^2.8.2",
         "phpoffice/phpexcel": "^1.8",
+        "soluble/php_excel_dev": "dev-master",
         "symfony/polyfill-mbstring": "^1.1.1"
     },
     "autoload": {

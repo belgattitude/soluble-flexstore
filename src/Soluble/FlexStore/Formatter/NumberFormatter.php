@@ -95,7 +95,6 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
                 self::NARROW_NO_BREAK_SPACE_HEX,
                 self::NO_BREAK_SPACE_HEX
             ], true)) {
-
             $formatter->setSymbol(IntlNumberFormatter::GROUPING_SEPARATOR_SYMBOL, ' ');
         }
     }
@@ -225,8 +224,10 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
         return $this->params['pattern'];
     }
 
-    public function setDisableUseOfNonBreakingSpaces(bool $disable=true): self {
+    public function setDisableUseOfNonBreakingSpaces(bool $disable = true): self
+    {
         $this->params['disableUseOfNonBreakingSpaces'] = $disable;
+
         return $this;
     }
 }

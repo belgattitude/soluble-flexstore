@@ -51,7 +51,7 @@ class CurrencyFormatTest extends TestCase
     public function testGetSet()
     {
         $f = $this->currencyFormatter;
-        self::assertTrue(is_string($f->getLocale()));
+        self::assertInternalType('string', $f->getLocale());
         self::assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
         self::assertNull($f->getPattern());
         self::assertEquals(2, $f->getDecimals());
@@ -114,7 +114,6 @@ class CurrencyFormatTest extends TestCase
         $formatted = preg_replace('~\xc2\xa0~', ' ', $f->format(1123.4567));
 
         self::assertEquals('1 123,457 €', $formatted);
-
 
         $formatted = preg_replace('~\xc2\xa0~', ' ', $f->format(null));
         self::assertEquals('0,000 €', $formatted);

@@ -167,11 +167,9 @@ class CurrencyFormatter extends NumberFormatter
                 self::NARROW_NO_BREAK_SPACE_HEX,
                 self::NO_BREAK_SPACE_HEX
             ], true)) {
-
             $formatter->setSymbol(IntlNumberFormatter::MONETARY_GROUPING_SEPARATOR_SYMBOL, ' ');
             // This does not work on php 7.3 (bug) !
             //$formatter->setSymbol(IntlNumberFormatter::MONETARY_SEPARATOR_SYMBOL, ' ');
-
         }
     }
 

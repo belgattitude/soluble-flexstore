@@ -41,7 +41,7 @@ class CurrencyFormatter extends NumberFormatter
         'locale' => null,
         'pattern' => null,
         'currency_code' => null,
-        'force_non_breaking_whitespace' => false
+        'disableUseOfNonBreakingSpaces' => false
     ];
 
     /**
@@ -146,10 +146,8 @@ class CurrencyFormatter extends NumberFormatter
      * @throws Exception\InvalidArgumentException
      *
      * @param string|RowColumn $currencyCode
-     *
-     * @return self
      */
-    public function setCurrencyCode($currencyCode)
+    public function setCurrencyCode($currencyCode): self
     {
         if ($currencyCode instanceof RowColumn) {
             $this->currency_column = $currencyCode->getColumnName();
@@ -161,10 +159,26 @@ class CurrencyFormatter extends NumberFormatter
         return $this;
     }
 
+    protected function initWhitespaceSeparator(IntlNumberFormatter $formatter): void
+    {
+        parent::initWhitespaceSeparator($formatter);
+        if ($this->params['disableUseOfNonBreakingSpaces'] === true
+            && in_array(bin2hex($formatter->getSymbol(IntlNumberFormatter::MONETARY_GROUPING_SEPARATOR_SYMBOL)), [
+                self::NARROW_NO_BREAK_SPACE_HEX,
+                self::NO_BREAK_SPACE_HEX
+            ], true)) {
+
+            $formatter->setSymbol(IntlNumberFormatter::MONETARY_GROUPING_SEPARATOR_SYMBOL, ' ');
+            // This does not work on php 7.3 (bug) !
+            //$formatter->setSymbol(IntlNumberFormatter::MONETARY_SEPARATOR_SYMBOL, ' ');
+
+        }
+    }
+
     /**
      * Get the 3-letter ISO 4217 currency code indicating the currency to use.
      *
-     * @return string
+     * @return string|RowColumn
      */
     public function getCurrencyCode()
     {

@@ -30,7 +30,7 @@ class UnitFormatter extends NumberFormatter
         'locale' => null,
         'pattern' => null,
         'unit' => null,
-        'force_non_breaking_whitespace' => false,
+        'disableUseOfNonBreakingSpaces' => false,
     ];
 
     /**

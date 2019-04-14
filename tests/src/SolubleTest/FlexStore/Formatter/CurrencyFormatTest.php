@@ -105,13 +105,19 @@ class CurrencyFormatTest extends TestCase
 
         $params = [
             'locale' => 'fr_FR',
-            'decimals' => 3
+            'decimals' => 3,
+            'disableUseOfNonBreakingSpaces' => true
         ];
         $f = new CurrencyFormatter($params);
         $f->setCurrencyCode('EUR');
-        self::assertEquals('1 123,457 €', $f->format(1123.4567));
 
-        self::assertEquals('0,000 €', $f->format(null));
+        $formatted = preg_replace('~\xc2\xa0~', ' ', $f->format(1123.4567));
+
+        self::assertEquals('1 123,457 €', $formatted);
+
+
+        $formatted = preg_replace('~\xc2\xa0~', ' ', $f->format(null));
+        self::assertEquals('0,000 €', $formatted);
     }
 
     public function testFormatThrowsRuntimeException()

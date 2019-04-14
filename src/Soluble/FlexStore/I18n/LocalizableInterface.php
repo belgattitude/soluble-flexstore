@@ -19,12 +19,12 @@ interface LocalizableInterface
      *
      * @return string $locale
      */
-    public function getLocale();
+    public function getLocale(): ?string;
 
     /**
      * Set locale.
      *
      * @param string $locale
      */
-    public function setLocale($locale);
+    public function setLocale(?string $locale);
 }

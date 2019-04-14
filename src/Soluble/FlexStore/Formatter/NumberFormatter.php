@@ -44,7 +44,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
         'decimals' => 2,
         'locale' => null,
         'pattern' => null,
-        'force_non_breaking_whitespace' => false
+        'disableUseOfNonBreakingSpaces' => false
     ];
 
     /**
@@ -90,11 +90,12 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
 
     protected function initWhitespaceSeparator(IntlNumberFormatter $formatter): void
     {
-        if ($this->params['force_non_breaking_whitespace'] === true
+        if ($this->params['disableUseOfNonBreakingSpaces'] === true
         && in_array(bin2hex($formatter->getSymbol(IntlNumberFormatter::GROUPING_SEPARATOR_SYMBOL)), [
                 self::NARROW_NO_BREAK_SPACE_HEX,
                 self::NO_BREAK_SPACE_HEX
             ], true)) {
+
             $formatter->setSymbol(IntlNumberFormatter::GROUPING_SEPARATOR_SYMBOL, ' ');
         }
     }
@@ -162,10 +163,8 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      * Set locale to use instead of the default.
      *
      * @param string $locale
-     *
-     * @return NumberFormatter
      */
-    public function setLocale($locale)
+    public function setLocale(?string $locale): self
     {
         $this->params['locale'] = $locale;
 
@@ -177,7 +176,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      *
      * @return string|null
      */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->params['locale'];
     }
@@ -186,10 +185,8 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      * Set decimals.
      *
      * @param int $decimals
-     *
-     * @return self
      */
-    public function setDecimals($decimals)
+    public function setDecimals($decimals): self
     {
         $this->params['decimals'] = $decimals;
 
@@ -199,7 +196,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
     /**
      * @return int
      */
-    public function getDecimals()
+    public function getDecimals(): int
     {
         return $this->params['decimals'];
     }
@@ -210,10 +207,8 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      * @see http://php.net/manual/en/numberformatter.setpattern.php
      *
      * @param string $pattern
-     *
-     * @return NumberFormatter
      */
-    public function setPattern($pattern)
+    public function setPattern($pattern): self
     {
         $this->params['pattern'] = $pattern;
 
@@ -225,8 +220,13 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
      *
      * @return string|null
      */
-    public function getPattern()
+    public function getPattern(): ?string
     {
         return $this->params['pattern'];
+    }
+
+    public function setDisableUseOfNonBreakingSpaces(bool $disable=true): self {
+        $this->params['disableUseOfNonBreakingSpaces'] = $disable;
+        return $this;
     }
 }

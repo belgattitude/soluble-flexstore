@@ -63,7 +63,8 @@ class NumberFormatterTest extends TestCase
         $params = [
             'locale' => 'fr_FR',
             'pattern' => '#,##0.###',
-            'decimals' => 3
+            'decimals' => 3,
+            'disableUseOfNonBreakingSpaces' => true
         ];
 
         $f = new NumberFormatter($params);
@@ -76,7 +77,8 @@ class NumberFormatterTest extends TestCase
         self::assertEquals('-1,123.457', $f->format(-1123.4567));
 
         $params = [
-            'locale' => 'fr_BE'
+            'locale' => 'fr_BE',
+            'disableUseOfNonBreakingSpaces' => true
         ];
         $f = new NumberFormatter($params);
         self::assertEquals('1 123,46', $f->format(1123.4567));

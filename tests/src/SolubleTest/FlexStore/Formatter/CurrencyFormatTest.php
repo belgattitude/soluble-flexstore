@@ -99,7 +99,7 @@ class CurrencyFormatTest extends TestCase
         $this->assertEquals('-£10.24', $moneyFormatter->format(-10.239));
 
         $parsed = $moneyFormatter->parse('-£10.24');
-        $this->assertInternalType('array', $parsed);
+        $this->assertTrue(is_array($parsed));
         $this->assertEquals('GBP', $parsed['currency']);
         $this->assertEquals(-10.24, $parsed['value']);
 

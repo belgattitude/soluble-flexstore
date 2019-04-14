@@ -50,7 +50,7 @@ class LibXLWriterTest extends TestCase
 
         $libxl_lic = \SolubleTestFactories::getLibXLLicense();
 
-        \Soluble\Spreadsheet\Library\LibXL::setDefaultLicense($libxl_lic);
+        LibXL::setDefaultLicense($libxl_lic);
     }
 
     /**

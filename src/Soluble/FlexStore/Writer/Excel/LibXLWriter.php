@@ -103,6 +103,7 @@ class LibXLWriter extends AbstractSendableWriter
      * Set file format (xls, xlsx), default is xlsx.
      *
      * @param string $file_format
+     *
      * @throws Exception\InvalidArgumentException
      */
     public function setFormat($file_format): self

@@ -48,7 +48,7 @@ class UnitFormatterTest extends TestCase
     public function testGetSet()
     {
         $f = $this->uf;
-        self::assertInternalType('string', $f->getLocale());
+        self::assertTrue(is_string($f->getLocale()));
         self::assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
         self::assertNull($f->getPattern());
         self::assertNull($f->getUnit());

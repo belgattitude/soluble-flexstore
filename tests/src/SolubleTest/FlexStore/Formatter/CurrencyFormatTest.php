@@ -51,7 +51,7 @@ class CurrencyFormatTest extends TestCase
     public function testGetSet()
     {
         $f = $this->currencyFormatter;
-        self::assertInternalType('string', $f->getLocale());
+        self::assertTrue(is_string($f->getLocale()));
         self::assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
         self::assertNull($f->getPattern());
         self::assertEquals(2, $f->getDecimals());

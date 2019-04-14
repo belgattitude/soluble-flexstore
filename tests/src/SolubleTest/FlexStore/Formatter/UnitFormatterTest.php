@@ -28,6 +28,7 @@ class UnitFormatterTest extends TestCase
      */
     protected function setUp()
     {
+        parent::__construct();
         $this->uf = new UnitFormatter();
     }
 

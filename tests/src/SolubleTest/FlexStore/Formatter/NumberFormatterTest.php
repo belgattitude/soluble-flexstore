@@ -77,11 +77,14 @@ class NumberFormatterTest extends TestCase
         self::assertEquals('-1,123.457', $f->format(-1123.4567));
 
         $params = [
-            'locale' => 'fr_BE',
-            'disableUseOfNonBreakingSpaces' => true
+            'locale' => 'fr-BE',
+            'decimals' => 2
         ];
+
+        $expected = (new \NumberFormatter('fr-BE', \NumberFormatter::DECIMAL))->format(1123.46);
+
         $f = new NumberFormatter($params);
-        self::assertEquals('1 123,46', $f->format(1123.4567));
+        self::assertEquals($expected, $f->format(1123.4567));
 
         $params = [
             'locale' => 'en_GB'

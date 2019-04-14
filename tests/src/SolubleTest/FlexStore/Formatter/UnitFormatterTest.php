@@ -84,15 +84,6 @@ class UnitFormatterTest extends TestCase
         self::assertEquals('-1,123.457 Kg', $f->format(-1123.4567));
 
         $params = [
-            'locale' => 'fr_BE',
-            'unit' => 'm³',
-            'disableUseOfNonBreakingSpaces' => true
-        ];
-
-        $f = new UnitFormatter($params);
-
-        self::assertEquals('1 128,46 m³', $f->format(1128.4567));
-        $params = [
             'locale' => 'en_GB',
             'unit' => 'm²'
         ];

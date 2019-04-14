@@ -16,6 +16,11 @@ matrix:
   allow_failures:
     - php: nightly
 
+addons:
+  apt:
+    packages:
+      - language-pack-fr
+
 env:
     global:
         - SEND_COVERAGE=false

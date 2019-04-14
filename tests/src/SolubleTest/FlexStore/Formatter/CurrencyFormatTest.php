@@ -35,14 +35,6 @@ class CurrencyFormatTest extends TestCase
         $this->currencyFormatter = new CurrencyFormatter();
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
-
     public function testConstruct()
     {
         $params = [

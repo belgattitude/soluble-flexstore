@@ -34,14 +34,6 @@ class SimpleHeadersTest extends TestCase
         $this->headers = new SimpleHeaders();
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
-
     public function testAll()
     {
         $headers = new SimpleHeaders();

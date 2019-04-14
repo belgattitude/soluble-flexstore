@@ -54,14 +54,6 @@ class SimpleXmlWriterTest extends TestCase
         $this->xmlWriter->setStore(new FlexStore($this->source));
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
-
     public function testConstructor()
     {
         $xmlWriter = new SimpleXmlWriter(new FlexStore($this->source));

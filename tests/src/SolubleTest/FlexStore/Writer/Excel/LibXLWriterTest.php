@@ -95,11 +95,6 @@ class LibXLWriterTest extends TestCase
         return $source;
     }
 
-    protected function tearDown()
-    {
-        ini_set('error_reporting', E_ALL | E_STRICT);
-    }
-
     public function testColumnModelWithColumnExclusion()
     {
         $output_file = \SolubleTestFactories::getCachePath() . DIRECTORY_SEPARATOR . 'tmp_phpunit_lbxl_test5.xlsx';

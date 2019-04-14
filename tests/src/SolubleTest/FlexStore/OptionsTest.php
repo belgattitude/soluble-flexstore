@@ -34,14 +34,6 @@ class OptionsTest extends TestCase
         $this->options = new Options();
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
-
     public function testSetGetLimitAndOffset()
     {
         $this->assertNull($this->options->getLimit());

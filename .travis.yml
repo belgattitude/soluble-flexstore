@@ -16,11 +16,6 @@ matrix:
   allow_failures:
     - php: nightly
 
-addons:
-  apt:
-    packages:
-      - language-pack-fr
-
 env:
     global:
         - SEND_COVERAGE=false
@@ -39,7 +34,7 @@ before_script:
   - composer self-update
   - composer install
 script: 
-  - phpunit -v
+  - ./vendor/bin/phpunit -v
   - if [[ $CS_FIX == true ]]; then ./vendor/bin/php-cs-fixer --diff --dry-run -v fix; fi
 
 after_script:

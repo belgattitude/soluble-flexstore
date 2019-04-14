@@ -48,14 +48,6 @@ class QuerySourceTest extends TestCase
         $this->source = new QuerySource($this->adapter, $query);
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
-
     public function testGetData()
     {
         $source1 = $this->getNewSource();

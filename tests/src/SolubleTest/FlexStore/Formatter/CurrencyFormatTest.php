@@ -31,6 +31,7 @@ class CurrencyFormatTest extends TestCase
      */
     protected function setUp()
     {
+        parent::__construct();
         $this->currencyFormatter = new CurrencyFormatter();
     }
 

@@ -243,6 +243,7 @@ class ColumnModelTest extends TestCase
         $cool->setType('date');
         $cm->add($cool);
         $test = $cm->search()->findByType('date')->toArray();
+
         self::assertContains('cooldate', $test);
 
         $cool = new Column('cool');

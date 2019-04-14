@@ -316,7 +316,7 @@ class CSVWriterTest extends TestCase
 
         $this->csvWriter->setStore(new FlexStore($this->getSource($select)));
         $data = $this->csvWriter->getData();
-        self::assertContains('alpha\; beta\;', $data);
+        self::assertStringContainsStringIgnoringCase('alpha\; beta\;', $data);
     }
 
     public function testGetDataEnclosureDelimiterWithoutEscape()
@@ -343,7 +343,7 @@ class CSVWriterTest extends TestCase
         $this->csvWriter->setStore(new FlexStore($this->getSource($select)));
         $data = $this->csvWriter->getData();
 
-        self::assertContains('"alpha; beta;"', $data);
+        self::assertStringContainsStringIgnoringCase('"alpha; beta;"', $data);
     }
 
     public function testGetHTTPHeaders()

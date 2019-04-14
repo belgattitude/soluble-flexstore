@@ -111,7 +111,7 @@ class QuerySourceTest extends TestCase
         // Edge, test if SQL_CALC_FOUND_ROWS was really injected
         $query = $source->getQueryString();
         self::assertNotContains('SQL_CALC_FOUND_ROWS', $query);
-        self::assertContains('LIMIT 0 OFFSET 0', $query);
+        self::assertStringContainsStringIgnoringCase('LIMIT 0 OFFSET 0', $query);
     }
 
     public function testCalcFoundRowsAndOptions()
@@ -128,8 +128,8 @@ class QuerySourceTest extends TestCase
 
         // Edge, test if SQL_CALC_FOUND_ROWS was really injected
         $query = $source->getQueryString();
-        self::assertContains('SQL_CALC_FOUND_ROWS', $query);
-        self::assertContains('LIMIT 2 OFFSET 0', $query);
+        self::assertStringContainsStringIgnoringCase('SQL_CALC_FOUND_ROWS', $query);
+        self::assertStringContainsStringIgnoringCase('LIMIT 2 OFFSET 0', $query);
     }
 
     /**

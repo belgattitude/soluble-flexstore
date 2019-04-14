@@ -100,7 +100,7 @@ class SqlSourceTest extends TestCase
         // Edge, test if SQL_CALC_FOUND_ROWS was really injected
         $query = $source->__toString();
         self::assertNotContains('SQL_CALC_FOUND_ROWS', $query);
-        self::assertContains('LIMIT 0 OFFSET 0', $query);
+        self::assertStringContainsStringIgnoringCase('LIMIT 0 OFFSET 0', $query);
     }
 
     public function testCalcFoundRowsAndOptions()
@@ -118,8 +118,8 @@ class SqlSourceTest extends TestCase
 
         // Edge, test if SQL_CALC_FOUND_ROWS was really injected
         $query = $source->__toString();
-        self::assertContains('SQL_CALC_FOUND_ROWS', $query);
-        self::assertContains('LIMIT 2 OFFSET 0', $query);
+        self::assertStringContainsStringIgnoringCase('SQL_CALC_FOUND_ROWS', $query);
+        self::assertStringContainsStringIgnoringCase('LIMIT 2 OFFSET 0', $query);
 
         // Second edge case, when the query already contains
         // a quantifier : it should not be overridden
@@ -131,7 +131,7 @@ class SqlSourceTest extends TestCase
         $source = new SqlSource($this->adapter, $select);
         $source->getData($options);
         $query = $source->__toString();
-        self::assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
+        self::assertStringContainsStringIgnoringCase('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
 
         // Third edge case, when the query already contains
         // a quantifier but in string version : it should not be overridden
@@ -143,7 +143,7 @@ class SqlSourceTest extends TestCase
         $source = new SqlSource($this->adapter, $select);
         $source->getData($options);
         $query = $source->getQueryString();
-        self::assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
+        self::assertStringContainsStringIgnoringCase('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
     }
 
     public function testCustomQuery()

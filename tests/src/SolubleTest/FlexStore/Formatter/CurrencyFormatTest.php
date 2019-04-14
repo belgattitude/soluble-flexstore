@@ -51,7 +51,7 @@ class CurrencyFormatTest extends TestCase
     public function testGetSet()
     {
         $f = $this->currencyFormatter;
-        $this->assertInternalType('string', $f->getLocale());
+        $this->assertTrue(is_string($f->getLocale()));
         $this->assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
         $this->assertNull($f->getPattern());
         $this->assertEquals(2, $f->getDecimals());
@@ -71,7 +71,7 @@ class CurrencyFormatTest extends TestCase
         $params = [
             'cool' => 0
         ];
-        $f = new CurrencyFormatter($params);
+        new CurrencyFormatter($params);
     }
 
     public function testFormat()

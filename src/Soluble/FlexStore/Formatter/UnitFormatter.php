@@ -30,7 +30,7 @@ class UnitFormatter extends NumberFormatter
         'locale' => null,
         'pattern' => null,
         'unit' => null,
-        'normalize_whitespace' => true,
+        'force_non_breaking_whitespace' => false,
     ];
 
     /**
@@ -78,10 +78,6 @@ class UnitFormatter extends NumberFormatter
 
         if (intl_is_failure($this->formatters[$formatterId]->getErrorCode())) {
             $this->throwNumberFormatterException($this->formatters[$formatterId], $number);
-        }
-
-        if ($this->params['normalize_whitespace'] === true) {
-            $value = preg_replace('/\xc2\xa0/', ' ', $value);
         }
 
         return $value;

@@ -22,6 +22,9 @@ use NumberFormatter as IntlNumberFormatter;
 
 class NumberFormatter implements FormatterInterface, LocalizableInterface, FormatterNumberInterface
 {
+    public const NO_BREAK_SPACE_HEX = 'c2a0';
+    public const NARROW_NO_BREAK_SPACE_HEX = 'e280af';
+
     /**
      * Formatter instances.
      *
@@ -41,7 +44,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
         'decimals' => 2,
         'locale' => null,
         'pattern' => null,
-        'normalize_whitespace' => true
+        'force_non_breaking_whitespace' => false
     ];
 
     /**
@@ -85,17 +88,31 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
         }
     }
 
+    protected function initWhitespaceSeparator(IntlNumberFormatter $formatter):void {
+        if ($this->params['force_non_breaking_whitespace'] === true
+        && in_array(bin2hex($formatter->getSymbol(IntlNumberFormatter::GROUPING_SEPARATOR_SYMBOL)), [
+                self::NARROW_NO_BREAK_SPACE_HEX,
+                self::NO_BREAK_SPACE_HEX
+            ])) {
+            $formatter->setSymbol(IntlNumberFormatter::GROUPING_SEPARATOR_SYMBOL, ' ');
+        }
+    }
+
     protected function loadFormatterId(string $formatterId): void
     {
         $locale = $this->params['locale'];
-        $this->formatters[$formatterId] = new IntlNumberFormatter(
+        $formatter = new IntlNumberFormatter(
             $locale,
             IntlNumberFormatter::DECIMAL
         );
-        $this->formatters[$formatterId]->setAttribute(IntlNumberFormatter::FRACTION_DIGITS, $this->params['decimals']);
+        $formatter->setAttribute(IntlNumberFormatter::FRACTION_DIGITS, $this->params['decimals']);
         if ($this->params['pattern'] !== null) {
-            $this->formatters[$formatterId]->setPattern($this->params['pattern']);
+            $formatter->setPattern($this->params['pattern']);
         }
+
+        $this->initWhitespaceSeparator($formatter);
+
+        $this->formatters[$formatterId] = $formatter;
     }
 
     /**
@@ -118,12 +135,7 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
             $this->throwNumberFormatterException($this->formatters[$formatterId], $number);
         }
 
-        $value = $this->formatters[$formatterId]->format($number);
-        if ($this->params['normalize_whitespace'] === true) {
-            $value = preg_replace('/\xc2\xa0/', ' ', $value);
-        }
-
-        return $value;
+        return $this->formatters[$formatterId]->format($number);
     }
 
     /**

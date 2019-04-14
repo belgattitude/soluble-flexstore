@@ -40,7 +40,8 @@ class CurrencyFormatter extends NumberFormatter
         'decimals' => 2,
         'locale' => null,
         'pattern' => null,
-        'currency_code' => null
+        'currency_code' => null,
+        'force_non_breaking_whitespace' => false
     ];
 
     /**
@@ -54,14 +55,16 @@ class CurrencyFormatter extends NumberFormatter
     protected function loadFormatterId(string $formatterId): void
     {
         $locale = $this->params['locale'];
-        $this->formatters[$formatterId] = new IntlNumberFormatter(
+        $formatter = new IntlNumberFormatter(
             $locale,
             IntlNumberFormatter::CURRENCY
         );
-        $this->formatters[$formatterId]->setAttribute(IntlNumberFormatter::FRACTION_DIGITS, $this->params['decimals']);
+        $formatter->setAttribute(IntlNumberFormatter::FRACTION_DIGITS, $this->params['decimals']);
         if ($this->params['pattern'] !== null) {
-            $this->formatters[$formatterId]->setPattern($this->params['pattern']);
+            $formatter->setPattern($this->params['pattern']);
         }
+        $this->initWhitespaceSeparator($formatter);
+        $this->formatters[$formatterId] = $formatter;
     }
 
     /**

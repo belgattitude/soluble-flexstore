@@ -129,9 +129,9 @@ abstract class AbstractWriter
         if (!is_iterable($options)) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
-                '"%s" expects an array or Traversable; received "%s"',
-                __METHOD__,
-                gettype($options)
+                    '"%s" expects an array or Traversable; received "%s"',
+                    __METHOD__,
+                    gettype($options)
             )
             );
         }

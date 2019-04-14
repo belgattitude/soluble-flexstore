@@ -44,7 +44,7 @@ class NumberFormatterTest extends TestCase
     public function testGetSet(): void
     {
         $f = $this->nf;
-        $this->assertTrue(is_string($f->getLocale()));
+        $this->assertInternalType('string', $f->getLocale());
         $this->assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
         $this->assertNull($f->getPattern());
         $this->assertEquals(2, $f->getDecimals());

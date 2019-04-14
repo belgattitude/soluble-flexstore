@@ -88,12 +88,13 @@ class NumberFormatter implements FormatterInterface, LocalizableInterface, Forma
         }
     }
 
-    protected function initWhitespaceSeparator(IntlNumberFormatter $formatter):void {
+    protected function initWhitespaceSeparator(IntlNumberFormatter $formatter): void
+    {
         if ($this->params['force_non_breaking_whitespace'] === true
         && in_array(bin2hex($formatter->getSymbol(IntlNumberFormatter::GROUPING_SEPARATOR_SYMBOL)), [
                 self::NARROW_NO_BREAK_SPACE_HEX,
                 self::NO_BREAK_SPACE_HEX
-            ])) {
+            ], true)) {
             $formatter->setSymbol(IntlNumberFormatter::GROUPING_SEPARATOR_SYMBOL, ' ');
         }
     }

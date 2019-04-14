@@ -43,7 +43,6 @@ class ColumnModelTest extends TestCase
      */
     protected $columnModel;
 
-
     protected function setUp(): void
     {
         parent::setUp();

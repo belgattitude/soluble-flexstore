@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.13.1 (2019-04-14)
+
+### Improvement
+
+- NumberFormatter, UnitFormatter and CurrencyFormatter now allows to disable Non breaking spaces 
+
+
 ## 0.13.0 (2019-04-05)
 
 ### Added

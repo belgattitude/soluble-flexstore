@@ -37,26 +37,26 @@ class SimpleHeadersTest extends TestCase
     public function testAll()
     {
         $headers = new SimpleHeaders();
-        $this->assertNull($headers->getCharset());
-        $this->assertNull($headers->getFilename());
-        $this->assertNull($headers->getContentDispositionType());
-        $this->assertNull($headers->getContentLength());
-        $this->assertNull($headers->getContentType());
+        self::assertNull($headers->getCharset());
+        self::assertNull($headers->getFilename());
+        self::assertNull($headers->getContentDispositionType());
+        self::assertNull($headers->getContentLength());
+        self::assertNull($headers->getContentType());
 
         $headers->setContentType('application/pdf');
         $headers->setFilename('test.pdf');
         $headers->setContentLength(10);
         //$headers->setCharset('utf8');
 
-        $this->assertEquals('application/pdf', $headers->getContentType());
-        $this->assertEquals(10, $headers->getContentLength());
-        $this->assertEquals('test.pdf', $headers->getFilename());
-        $this->assertEquals('attachement', $headers->getContentDispositionType());
+        self::assertEquals('application/pdf', $headers->getContentType());
+        self::assertEquals(10, $headers->getContentLength());
+        self::assertEquals('test.pdf', $headers->getFilename());
+        self::assertEquals('attachement', $headers->getContentDispositionType());
 
         $lines = $headers->getHeaderLines();
-        $this->assertEquals('Content-Type: application/pdf', $lines[0]);
-        $this->assertEquals('Content-Disposition: attachement; filename="test.pdf"', $lines[1]);
-        $this->assertEquals('Content-Length: 10', $lines[2]);
+        self::assertEquals('Content-Type: application/pdf', $lines[0]);
+        self::assertEquals('Content-Disposition: attachement; filename="test.pdf"', $lines[1]);
+        self::assertEquals('Content-Length: 10', $lines[2]);
 
         // with charset
         $headers = new SimpleHeaders();
@@ -66,9 +66,9 @@ class SimpleHeadersTest extends TestCase
         $headers->setCharset('utf-8');
 
         $lines = $headers->getHeaderLines();
-        $this->assertEquals('Content-Type: application/pdf; charset=utf-8', $lines[0]);
-        $this->assertEquals('Content-Disposition: attachement; filename="test.pdf"', $lines[1]);
-        $this->assertEquals('Content-Length: 10', $lines[2]);
+        self::assertEquals('Content-Type: application/pdf; charset=utf-8', $lines[0]);
+        self::assertEquals('Content-Disposition: attachement; filename="test.pdf"', $lines[1]);
+        self::assertEquals('Content-Length: 10', $lines[2]);
 
         // with charset
         $headers = new SimpleHeaders();
@@ -77,9 +77,9 @@ class SimpleHeadersTest extends TestCase
         $headers->setContentLength(10);
 
         $lines = $headers->getHeaderLines();
-        $this->assertEquals('Content-Type: application/pdf; charset=utf-8', $lines[0]);
-        $this->assertEquals('Content-Disposition: attachement; filename="test.pdf"', $lines[1]);
-        $this->assertEquals('Content-Length: 10', $lines[2]);
+        self::assertEquals('Content-Type: application/pdf; charset=utf-8', $lines[0]);
+        self::assertEquals('Content-Disposition: attachement; filename="test.pdf"', $lines[1]);
+        self::assertEquals('Content-Length: 10', $lines[2]);
 
         // with charset
         $headers = new SimpleHeaders();
@@ -88,9 +88,9 @@ class SimpleHeadersTest extends TestCase
         $headers->setContentLength(10);
 
         $lines = $headers->getHeaderLines();
-        $this->assertEquals('Content-Type: application/pdf; charset=utf-8', $lines[0]);
-        $this->assertEquals('Content-Disposition: inline; filename="test.pdf"', $lines[1]);
-        $this->assertEquals('Content-Length: 10', $lines[2]);
+        self::assertEquals('Content-Type: application/pdf; charset=utf-8', $lines[0]);
+        self::assertEquals('Content-Disposition: inline; filename="test.pdf"', $lines[1]);
+        self::assertEquals('Content-Length: 10', $lines[2]);
 
         // with only attachement
         $headers = new SimpleHeaders();
@@ -99,9 +99,9 @@ class SimpleHeadersTest extends TestCase
         $headers->setContentLength(10);
 
         $lines = $headers->getHeaderLines();
-        $this->assertEquals('Content-Type: application/pdf; charset=utf-8', $lines[0]);
-        $this->assertEquals('Content-Disposition: attachement', $lines[1]);
-        $this->assertEquals('Content-Length: 10', $lines[2]);
+        self::assertEquals('Content-Type: application/pdf; charset=utf-8', $lines[0]);
+        self::assertEquals('Content-Disposition: attachement', $lines[1]);
+        self::assertEquals('Content-Length: 10', $lines[2]);
     }
 
     public function testSetCharsetThrowsRuntimeException()

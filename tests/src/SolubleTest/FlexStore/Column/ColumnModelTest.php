@@ -81,7 +81,7 @@ class ColumnModelTest extends TestCase
         $cm->addRowRenderer($clo);
 
         $data = $store->getData();
-        $this->assertEquals('My product id:10', $data->current()->offsetGet('product_id'));
+        self::assertEquals('My product id:10', $data->current()->offsetGet('product_id'));
     }
 
     public function testRenderer2()
@@ -105,8 +105,8 @@ class ColumnModelTest extends TestCase
         $column = new Column('cool', ['type' => ColumnType::TYPE_STRING]);
         $cm->add($column);
 
-        $this->assertTrue($column->isVirtual());
-        $this->assertFalse($cm->get('product_id')->isVirtual());
+        self::assertTrue($column->isVirtual());
+        self::assertFalse($cm->get('product_id')->isVirtual());
 
         $f = function (\ArrayObject $row) {
             $row['cool'] = 'My cool value is :' . $row['product_id'];
@@ -116,7 +116,7 @@ class ColumnModelTest extends TestCase
         $cm->addRowRenderer($clo);
 
         $data = $store->getData();
-        $this->assertEquals('My cool value is :10', $data->current()->offsetGet('cool'));
+        self::assertEquals('My cool value is :10', $data->current()->offsetGet('cool'));
     }
 
     public function testRenderer3ThrowsException()
@@ -206,54 +206,54 @@ class ColumnModelTest extends TestCase
 
         $results = $cm->search()->regexp('/price/');
 
-        $this->assertInstanceOf('Soluble\FlexStore\Column\ColumnModel\Search\Result', $results);
-        $this->assertEquals(['price', 'list_price', 'public_price'], $results->toArray());
+        self::assertInstanceOf('Soluble\FlexStore\Column\ColumnModel\Search\Result', $results);
+        self::assertEquals(['price', 'list_price', 'public_price'], $results->toArray());
 
         $formatterDb = new CurrencyFormatter([
                     'currency_code' => new \Soluble\FlexStore\Formatter\RowColumn('currency_reference')
         ]);
-        $this->assertInstanceOf(\Soluble\FlexStore\Formatter\RowColumn::class, $formatterDb->getCurrencyCode());
+        self::assertInstanceOf(\Soluble\FlexStore\Formatter\RowColumn::class, $formatterDb->getCurrencyCode());
         $results->setFormatter($formatterDb);
         foreach ($results->toArray() as $name) {
             /**
              * @var CurrencyFormatter
              */
             $f = $cm->get($name)->getFormatter();
-            $this->assertEquals($formatterDb, $f);
-            $this->assertInstanceOf(\Soluble\FlexStore\Formatter\RowColumn::class, $f->getCurrencyCode());
+            self::assertEquals($formatterDb, $f);
+            self::assertInstanceOf(\Soluble\FlexStore\Formatter\RowColumn::class, $f->getCurrencyCode());
         }
 
         $formatterEur = new CurrencyFormatter([
             'currency_code' => 'EUR'
         ]);
 
-        $this->assertEquals('EUR', $formatterEur->getCurrencyCode());
+        self::assertEquals('EUR', $formatterEur->getCurrencyCode());
 
         $cm->get('price')->setFormatter($formatterEur);
 
         $test = $cm->search()->in(['price'])->toArray();
-        $this->assertEquals(['price'], $test);
+        self::assertEquals(['price'], $test);
 
         $cool = new Column('notincool');
         $cm->add($cool);
         $test = $cm->search()->notIn(['notincool'])->toArray();
-        $this->assertNotContains('notincool', $test);
+        self::assertNotContains('notincool', $test);
 
         $cool = new Column('cooldate');
         $cool->setType('date');
         $cm->add($cool);
         $test = $cm->search()->findByType('date')->toArray();
-        $this->assertContains('cooldate', $test);
+        self::assertContains('cooldate', $test);
 
         $cool = new Column('cool');
         $cm->add($cool);
         $test = $cm->search()->in(['cool'])->toArray();
-        $this->assertEquals(['cool'], $test);
+        self::assertEquals(['cool'], $test);
 
         $cool2 = new Column('cool2');
         $cm->add($cool2, 'cool');
         $test = $cm->search()->in(['cool2'])->toArray();
-        $this->assertEquals(['cool2'], $test);
+        self::assertEquals(['cool2'], $test);
 
         $cm->sort(['cool', 'cool2']);
 
@@ -261,10 +261,10 @@ class ColumnModelTest extends TestCase
         $cm->add($cool3);
 
         $test = $cm->search()->in(['cool3'])->toArray();
-        $this->assertEquals(['cool3'], $test);
+        self::assertEquals(['cool3'], $test);
 
-        $this->assertEquals($formatterEur, $cm->get('price')->getFormatter());
-        $this->assertEquals($formatterDb, $cm->get('list_price')->getFormatter());
+        self::assertEquals($formatterEur, $cm->get('price')->getFormatter());
+        self::assertEquals($formatterDb, $cm->get('list_price')->getFormatter());
     }
 
     public function testSetFormatter()
@@ -292,17 +292,17 @@ class ColumnModelTest extends TestCase
 
         $cm->get('price')->setFormatter($formatter);
         $data = $store->getData()->toArray();
-        $this->assertEquals('10,20 €', $data[0]['price']);
+        self::assertEquals('10,20 €', $data[0]['price']);
         // Null will be transformed in 0,00 €
-        $this->assertEquals('0,00 €', $data[3]['price']);
+        self::assertEquals('0,00 €', $data[3]['price']);
 
         $formatter->setLocale('en_US');
         $formatter->setCurrencyCode('USD');
         $cm->get('price')->setFormatter($formatter);
         $data = $store->getData()->toArray();
-        $this->assertEquals('$10.20', $data[0]['price']);
+        self::assertEquals('$10.20', $data[0]['price']);
         // Null will be transformed in 0,00 €
-        $this->assertEquals('$0.00', $data[3]['price']);
+        self::assertEquals('$0.00', $data[3]['price']);
 
         // store 2
         $store = new FlexStore($source);
@@ -313,8 +313,8 @@ class ColumnModelTest extends TestCase
         $cm = $store->getColumnModel();
         $cm->setFormatter($formatter, ['price', 'list_price']);
         $data = $store->getData()->toArray();
-        $this->assertEquals('10,20 €', $data[0]['price']);
-        $this->assertEquals('15,30 €', $data[0]['list_price']);
+        self::assertEquals('10,20 €', $data[0]['price']);
+        self::assertEquals('15,30 €', $data[0]['list_price']);
     }
 
     public function testCustomColumn()
@@ -338,7 +338,7 @@ class ColumnModelTest extends TestCase
         $cc->setType('string');
 
         $cm->add($cc);
-        $this->assertTrue($cm->get($cc->getName())->isVirtual());
+        self::assertTrue($cm->get($cc->getName())->isVirtual());
         $cm->sort(['picture_url', 'price', 'list_price']);
         $cm->exclude(['reference']);
 
@@ -355,7 +355,7 @@ class ColumnModelTest extends TestCase
             'product_id' => '10',
             'public_price' => '18.200000',
         ];
-        $this->assertEquals($expected, $data[0]);
+        self::assertEquals($expected, $data[0]);
     }
 
     public function testAddBeforeAndAfter()
@@ -381,49 +381,49 @@ class ColumnModelTest extends TestCase
         $cm->add($cc);
         try {
             $cm->add($cc);
-            $this->assertFalse(true, ' should throw DuplicateColumnException');
+            self::assertFalse(true, ' should throw DuplicateColumnException');
         } catch (\Soluble\FlexStore\Column\Exception\DuplicateColumnException $ex) {
-            $this->assertTrue(true);
+            self::assertTrue(true);
         }
 
         // column must appear at the end
         $arr = array_keys((array) $cm->getColumns());
-        $this->assertEquals('test', $arr[count($arr) - 1]);
+        self::assertEquals('test', $arr[count($arr) - 1]);
 
         // TEST INSERT AFTER
         $cc2 = new Column('insert_after');
 
         try {
             $cm->add($cc2, 'not_existentcolumn');
-            $this->assertFalse(true, ' should throw ColumnNotFoundException');
+            self::assertFalse(true, ' should throw ColumnNotFoundException');
         } catch (\Soluble\FlexStore\Column\Exception\ColumnNotFoundException $ex) {
-            $this->assertTrue(true);
+            self::assertTrue(true);
         }
 
         $cm->add($cc2, 'product_id');
 
         // column must appear at the end
         $arr = array_keys((array) $cm->getColumns());
-        $this->assertEquals('insert_after', $arr[1]);
+        self::assertEquals('insert_after', $arr[1]);
 
         $cc2 = new Column('insert_after_end');
         $cm->add($cc2, 'test', ColumnModel::ADD_COLUMN_AFTER);
         $arr = array_keys((array) $cm->getColumns());
-        $this->assertEquals('insert_after_end', $arr[count($arr) - 1]);
+        self::assertEquals('insert_after_end', $arr[count($arr) - 1]);
 
         // TEST INSERT BEFORE
         $cc = new Column('insert_before');
         $cm->add($cc, 'product_id', ColumnModel::ADD_COLUMN_BEFORE);
         $arr = array_keys((array) $cm->getColumns());
-        $this->assertEquals('insert_before', $arr[0]);
+        self::assertEquals('insert_before', $arr[0]);
 
         // TEST MODE EXCEPTION
         $cc = new Column('invalid_mode');
         try {
             $cm->add($cc, 'product_id', 'invalid_mode');
-            $this->assertFalse(true, ' should throw InvalidArgumentException');
+            self::assertFalse(true, ' should throw InvalidArgumentException');
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
-            $this->assertTrue(true);
+            self::assertTrue(true);
         }
     }
 
@@ -446,16 +446,16 @@ class ColumnModelTest extends TestCase
 
         try {
             $cm->exists('');
-            $this->assertFalse(true, ' should throw InvalidArgumentException');
+            self::assertFalse(true, ' should throw InvalidArgumentException');
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
-            $this->assertTrue(true);
+            self::assertTrue(true);
         }
 
         try {
             $cm->sort(['product_id', 'undefined_col']);
-            $this->assertFalse(true, ' should throw InvalidArgumentException');
+            self::assertFalse(true, ' should throw InvalidArgumentException');
         } catch (\Soluble\FlexStore\Column\Exception\InvalidArgumentException $ex) {
-            $this->assertTrue(true);
+            self::assertTrue(true);
         }
     }
 
@@ -491,11 +491,11 @@ class ColumnModelTest extends TestCase
 
         $data = $source->getData()->toArray();
         foreach ($data as $row) {
-            $this->assertEquals(200, $row['price']);
+            self::assertEquals(200, $row['price']);
             if ($row['product_id'] == 113) {
-                $this->assertEquals('MyNEWREF', $row['reference']);
+                self::assertEquals('MyNEWREF', $row['reference']);
             } else {
-                $this->assertNotEquals('MyNEWREF', $row['reference']);
+                self::assertNotEquals('MyNEWREF', $row['reference']);
             }
         }
     }
@@ -503,12 +503,12 @@ class ColumnModelTest extends TestCase
     public function testGetColumns()
     {
         $columnModel = $this->columnModel;
-        $this->assertInstanceOf('\Soluble\FlexStore\Column\ColumnModel', $columnModel);
+        self::assertInstanceOf('\Soluble\FlexStore\Column\ColumnModel', $columnModel);
         $columns = $columnModel->getColumns();
-        $this->assertInstanceOf('ArrayObject', $columns);
+        self::assertInstanceOf('ArrayObject', $columns);
         foreach ($columns as $key => $column) {
-            $this->assertInstanceOf('Soluble\FlexStore\Column\Column', $column);
-            $this->assertEquals($key, $column->getName());
+            self::assertInstanceOf('Soluble\FlexStore\Column\Column', $column);
+            self::assertEquals($key, $column->getName());
         }
     }
 
@@ -521,7 +521,7 @@ class ColumnModelTest extends TestCase
 
         $excluded = ['product_id', 'legacy_mapping'];
         $cm->exclude($excluded);
-        $this->assertEquals($excluded, $cm->getExcluded());
+        self::assertEquals($excluded, $cm->getExcluded());
     }
 
     public function testFindVirtual()
@@ -536,7 +536,7 @@ class ColumnModelTest extends TestCase
         $cm->add(new Column('cool', $params = ['type' => 'string']));
 
         $virtual = $cm->search()->findVirtual()->toArray();
-        $this->assertEquals(['cool'], $virtual);
+        self::assertEquals(['cool'], $virtual);
     }
 
     public function testSortColumns()
@@ -549,7 +549,7 @@ class ColumnModelTest extends TestCase
         $sort = ['email', 'user_id'];
         $cm->sort($sort);
 
-        $this->assertEquals(['email', 'user_id', 'password', 'username'], array_keys((array) $cm->getColumns()));
+        self::assertEquals(['email', 'user_id', 'password', 'username'], array_keys((array) $cm->getColumns()));
     }
 
     public function testSortColumnsThrowsDuplicateColumnException()
@@ -572,14 +572,14 @@ class ColumnModelTest extends TestCase
         $source = new SqlSource($this->adapter, $select);
         $cm = $source->getColumnModel();
         $col = $cm->get('user_id');
-        $this->assertInstanceOf('Soluble\FlexStore\Column\Column', $col);
+        self::assertInstanceOf('Soluble\FlexStore\Column\Column', $col);
 
         $select = new \Zend\Db\Sql\Select();
         $select->from('user');
         $source = new SqlSource($this->adapter, $select);
         $cm = $source->getColumnModel();
         $col = $cm->get('email');
-        $this->assertInstanceOf('Soluble\FlexStore\Column\Column', $col);
+        self::assertInstanceOf('Soluble\FlexStore\Column\Column', $col);
     }
 
     public function testHasColumn()
@@ -588,9 +588,9 @@ class ColumnModelTest extends TestCase
         $select->from('user')->columns(['user_id', 'password', 'username']);
         $source = new SqlSource($this->adapter, $select);
         $cm = $source->getColumnModel();
-        $this->assertTrue($cm->exists('user_id'));
-        $this->assertTrue($cm->exists('password'));
-        $this->assertFalse($cm->exists('email'));
+        self::assertTrue($cm->exists('user_id'));
+        self::assertTrue($cm->exists('password'));
+        self::assertFalse($cm->exists('email'));
     }
 
     public function testGetColumnThrowsColumnNotFoundException()
@@ -614,7 +614,7 @@ class ColumnModelTest extends TestCase
         $include_only = ['email', 'user_id'];
 
         $cm->includeOnly($include_only);
-        $this->assertEquals($include_only, array_keys((array) $cm->getColumns()));
+        self::assertEquals($include_only, array_keys((array) $cm->getColumns()));
     }
 
     public function testIncludeOnlyWithSortAndExclusions()
@@ -627,15 +627,15 @@ class ColumnModelTest extends TestCase
         $include_only = ['email', 'user_id', 'username'];
 
         $cm->includeOnly($include_only, $sort = false);
-        $this->assertEquals(['user_id', 'email', 'username'], array_keys((array) $cm->getColumns()));
+        self::assertEquals(['user_id', 'email', 'username'], array_keys((array) $cm->getColumns()));
 
         $cm->exclude(['user_id']);
         $cm->includeOnly($include_only, $sort = true, $preserve_excluded = false);
-        $this->assertEquals(['email', 'user_id', 'username'], array_keys((array) $cm->getColumns()));
+        self::assertEquals(['email', 'user_id', 'username'], array_keys((array) $cm->getColumns()));
 
         $cm->exclude(['user_id', 'username']);
         $cm->includeOnly($include_only, $sort = true, $preserve_excluded = true);
-        $this->assertEquals(['email'], array_keys((array) $cm->getColumns()));
+        self::assertEquals(['email'], array_keys((array) $cm->getColumns()));
     }
 
     public function testExclusionRetrieval()
@@ -648,7 +648,7 @@ class ColumnModelTest extends TestCase
         $excluded = ['user_id', 'email'];
         $cm = $source->getColumnModel();
         $cm->exclude($excluded);
-        $this->assertEquals($excluded, $cm->getExcluded());
+        self::assertEquals($excluded, $cm->getExcluded());
 
         $data = $source->getData();
         $this->isInstanceOf('Soluble\FlexStore\ResultSet\ResultSet');
@@ -656,8 +656,8 @@ class ColumnModelTest extends TestCase
         $d = $data->toArray();
         $first = array_keys($d[0]);
 
-        $this->assertCount(3, $first);
-        $this->assertEquals('displayname', array_shift($first));
-        $this->assertEquals('username', array_shift($first));
+        self::assertCount(3, $first);
+        self::assertEquals('displayname', array_shift($first));
+        self::assertEquals('username', array_shift($first));
     }
 }

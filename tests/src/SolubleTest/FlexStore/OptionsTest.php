@@ -36,25 +36,25 @@ class OptionsTest extends TestCase
 
     public function testSetGetLimitAndOffset()
     {
-        $this->assertNull($this->options->getLimit());
-        $this->assertFalse($this->options->hasLimit());
+        self::assertNull($this->options->getLimit());
+        self::assertFalse($this->options->hasLimit());
         $this->options->setLimit(10);
-        $this->assertEquals(10, $this->options->getLimit());
-        $this->assertTrue($this->options->hasLimit());
+        self::assertEquals(10, $this->options->getLimit());
+        self::assertTrue($this->options->hasLimit());
 
-        $this->assertNull($this->options->getOffset());
-        $this->assertFalse($this->options->hasOffset());
+        self::assertNull($this->options->getOffset());
+        self::assertFalse($this->options->hasOffset());
 
         $this->options->setLimit(40, 50);
-        $this->assertEquals(50, $this->options->getOffset());
+        self::assertEquals(50, $this->options->getOffset());
         $this->options->setLimit(10);
-        $this->assertEquals(50, $this->options->getOffset());
+        self::assertEquals(50, $this->options->getOffset());
         $this->options->unsetOffset();
-        $this->assertNull($this->options->getOffset());
-        $this->assertFalse($this->options->hasOffset());
+        self::assertNull($this->options->getOffset());
+        self::assertFalse($this->options->hasOffset());
 
         $this->options->unsetLimit();
-        $this->assertNull($this->options->getLimit());
-        $this->assertFalse($this->options->hasLimit());
+        self::assertNull($this->options->getLimit());
+        self::assertFalse($this->options->hasLimit());
     }
 }

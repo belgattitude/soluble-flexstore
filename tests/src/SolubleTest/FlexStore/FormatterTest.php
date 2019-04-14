@@ -23,21 +23,21 @@ class FormatterTest extends TestCase
     public function testCreate()
     {
         $c = Formatter::create(Formatter::FORMATTER_CURRENCY);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\FormatterInterface', $c);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\FormatterNumberInterface', $c);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\CurrencyFormatter', $c);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\NumberFormatter', $c);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\FormatterInterface', $c);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\FormatterNumberInterface', $c);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\CurrencyFormatter', $c);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\NumberFormatter', $c);
 
         $u = Formatter::create(Formatter::FORMATTER_UNIT);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\FormatterInterface', $u);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\FormatterNumberInterface', $u);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\UnitFormatter', $u);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\NumberFormatter', $u);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\FormatterInterface', $u);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\FormatterNumberInterface', $u);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\UnitFormatter', $u);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\NumberFormatter', $u);
 
         $n = Formatter::create(Formatter::FORMATTER_NUMBER);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\FormatterInterface', $n);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\FormatterNumberInterface', $n);
-        $this->assertInstanceOf('Soluble\FlexStore\Formatter\NumberFormatter', $n);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\FormatterInterface', $n);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\FormatterNumberInterface', $n);
+        self::assertInstanceOf('Soluble\FlexStore\Formatter\NumberFormatter', $n);
     }
 
     public function testCreateThrowsInvalidArgumentException()
@@ -49,6 +49,6 @@ class FormatterTest extends TestCase
     public function testGetSupported()
     {
         $su = Formatter::getSupported();
-        $this->assertInternalType('array', $su);
+        self::assertInternalType('array', $su);
     }
 }

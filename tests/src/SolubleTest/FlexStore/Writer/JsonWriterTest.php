@@ -60,21 +60,21 @@ class JsonWriterTest extends TestCase
     public function testGetData()
     {
         $data = $this->jsonWriter->getData();
-        $this->assertJson($data);
+        self::assertJson($data);
         $d = json_decode($data, $assoc = true);
-        $this->assertArrayHasKey('total', $d);
-        $this->assertArrayHasKey('start', $d);
-        $this->assertArrayHasKey('limit', $d);
-        $this->assertArrayHasKey('request_id', $d);
-        $this->assertArrayHasKey('data', $d);
-        $this->assertTrue($d['success']);
-        $this->assertArrayHasKey('timestamp', $d);
-        $this->assertNull($d['request_id']);
+        self::assertArrayHasKey('total', $d);
+        self::assertArrayHasKey('start', $d);
+        self::assertArrayHasKey('limit', $d);
+        self::assertArrayHasKey('request_id', $d);
+        self::assertArrayHasKey('data', $d);
+        self::assertTrue($d['success']);
+        self::assertArrayHasKey('timestamp', $d);
+        self::assertNull($d['request_id']);
         $timestamp = DateTime::createFromFormat(DateTime::W3C, $d['timestamp']);
 
-        $this->assertEquals($timestamp->format(DateTime::W3C), $d['timestamp']);
-        $this->assertEquals($d['total'], count($d['data']));
-        $this->assertArrayNotHasKey('query', $d);
+        self::assertEquals($timestamp->format(DateTime::W3C), $d['timestamp']);
+        self::assertEquals($d['total'], count($d['data']));
+        self::assertArrayNotHasKey('query', $d);
     }
 
     public function testGetDataWithGlobalLimit()
@@ -91,28 +91,28 @@ class JsonWriterTest extends TestCase
         $jsonWriter = new JsonWriter($store);
 
         $data = json_decode($jsonWriter->getData(), true);
-        $this->assertEquals($limit, $data['limit']);
-        $this->assertGreaterThan($limit, $data['total']);
-        $this->assertEquals($limit, count($data['data']));
+        self::assertEquals($limit, $data['limit']);
+        self::assertGreaterThan($limit, $data['total']);
+        self::assertEquals($limit, count($data['data']));
     }
 
     public function testGetDataWithRequestId()
     {
         $this->jsonWriter->setRequestId(12321321321);
         $data = $this->jsonWriter->getData();
-        $this->assertJson($data);
+        self::assertJson($data);
         $d = json_decode($data, $assoc = true);
-        $this->assertEquals(12321321321, $d['request_id']);
+        self::assertEquals(12321321321, $d['request_id']);
     }
 
     public function testGetDataWithDebug()
     {
         $this->jsonWriter->setDebug($debug = true);
         $data = $this->jsonWriter->getData();
-        $this->assertJson($data);
+        self::assertJson($data);
         $d = json_decode($data, $assoc = true);
 
-        $this->assertArrayHasKey('query', $d);
+        self::assertArrayHasKey('query', $d);
     }
 
     public function testColumnModel()
@@ -129,13 +129,13 @@ class JsonWriterTest extends TestCase
         $cm->search()->regexp('/price/')->setFormatter($formatter);
 
         $formatted_data = $store->getData()->toArray();
-        $this->assertEquals('CN¥15.30', $formatted_data[0]['list_price']);
+        self::assertEquals('CN¥15.30', $formatted_data[0]['list_price']);
 
         $writer = new JsonWriter($store);
         $json_data = json_decode($writer->getData(), $assoc = true);
 
-        $this->assertNotEquals('CN¥15.30', $json_data['data'][0]['list_price']);
-        $this->assertEquals(15.3, (float) $json_data['data'][0]['list_price']);
+        self::assertNotEquals('CN¥15.30', $json_data['data'][0]['list_price']);
+        self::assertEquals(15.3, (float) $json_data['data'][0]['list_price']);
     }
 
     /**
@@ -176,8 +176,8 @@ class JsonWriterTest extends TestCase
     public function testGetHTTPHeaders()
     {
         $headers = $this->jsonWriter->getHttpHeaders();
-        $this->assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
-        $this->assertEquals('application/json', $headers->getContentType());
-        $this->assertEquals('UTF-8', strtoupper($headers->getCharset()));
+        self::assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
+        self::assertEquals('application/json', $headers->getContentType());
+        self::assertEquals('UTF-8', strtoupper($headers->getCharset()));
     }
 }

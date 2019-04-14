@@ -56,9 +56,9 @@ class QuerySourceTest extends TestCase
         $data = $source1->getData();
         $this->isInstanceOf('Soluble\FlexStore\ResultSet\ResultSet');
         $d = $data->toArray();
-        $this->assertInternalType('array', $d);
-        $this->assertArrayHasKey('user_id', $d[0]);
-        $this->assertArrayHasKey('email', $d[0]);
+        self::assertInternalType('array', $d);
+        self::assertArrayHasKey('user_id', $d[0]);
+        self::assertArrayHasKey('email', $d[0]);
 
         $options = new Options();
         $options->setLimit(10, 0);
@@ -66,27 +66,27 @@ class QuerySourceTest extends TestCase
         $data2 = $source2->getData($options);
         $d2 = $data2->toArray();
 
-        $this->assertInternalType('array', $d2);
+        self::assertInternalType('array', $d2);
 
-        $this->assertArrayHasKey('user_id', $d2[0]);
-        $this->assertArrayHasKey('email', $d2[0]);
-        $this->assertEquals($d[0], $d2[0]);
+        self::assertArrayHasKey('user_id', $d2[0]);
+        self::assertArrayHasKey('email', $d2[0]);
+        self::assertEquals($d[0], $d2[0]);
     }
 
     public function testGetMetadata()
     {
         $metadata = $this->source->getMetadataReader();
-        $this->assertInstanceOf('\Soluble\Metadata\Reader\AbstractMetadataReader', $metadata);
+        self::assertInstanceOf('\Soluble\Metadata\Reader\AbstractMetadataReader', $metadata);
     }
 
     public function testGetColumnModel()
     {
         $columnModel = $this->source->getColumnModel();
-        $this->assertInstanceOf('\Soluble\FlexStore\Column\ColumnModel', $columnModel);
+        self::assertInstanceOf('\Soluble\FlexStore\Column\ColumnModel', $columnModel);
         $columns = $columnModel->getColumns();
-        $this->assertInstanceOf('ArrayObject', $columns);
+        self::assertInstanceOf('ArrayObject', $columns);
         foreach ($columns as $column) {
-            $this->assertFalse($column->isVirtual());
+            self::assertFalse($column->isVirtual());
         }
     }
 
@@ -94,7 +94,7 @@ class QuerySourceTest extends TestCase
     {
         $source = $this->getNewSource();
         $mr = $source->getMetadataReader();
-        $this->assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
+        self::assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
     }
 
     public function testCalcFoundRowsAndWithZeroLimit()
@@ -105,13 +105,13 @@ class QuerySourceTest extends TestCase
         $options->setLimit(0, 0);
 
         $data = $source->getData($options);
-        $this->assertEquals(0, $data->count());
-        $this->assertEquals(0, $data->getTotalRows());
+        self::assertEquals(0, $data->count());
+        self::assertEquals(0, $data->getTotalRows());
 
         // Edge, test if SQL_CALC_FOUND_ROWS was really injected
         $query = $source->getQueryString();
-        $this->assertNotContains('SQL_CALC_FOUND_ROWS', $query);
-        $this->assertContains('LIMIT 0 OFFSET 0', $query);
+        self::assertNotContains('SQL_CALC_FOUND_ROWS', $query);
+        self::assertContains('LIMIT 0 OFFSET 0', $query);
     }
 
     public function testCalcFoundRowsAndOptions()
@@ -123,13 +123,13 @@ class QuerySourceTest extends TestCase
 
         $data = $source->getData($options);
 
-        $this->assertEquals(2, $data->count());
-        $this->assertGreaterThan(2, $data->getTotalRows());
+        self::assertEquals(2, $data->count());
+        self::assertGreaterThan(2, $data->getTotalRows());
 
         // Edge, test if SQL_CALC_FOUND_ROWS was really injected
         $query = $source->getQueryString();
-        $this->assertContains('SQL_CALC_FOUND_ROWS', $query);
-        $this->assertContains('LIMIT 2 OFFSET 0', $query);
+        self::assertContains('SQL_CALC_FOUND_ROWS', $query);
+        self::assertContains('LIMIT 2 OFFSET 0', $query);
     }
 
     /**

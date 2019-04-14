@@ -71,14 +71,14 @@ class StoreTest extends TestCase
 
         $data = $store->getData()->toArray();
         $keys = implode(',', array_keys($data[0]));
-        $this->assertEquals('id,test_char_10', $keys);
+        self::assertEquals('id,test_char_10', $keys);
 
         $search->all()->setExcluded(true);
         $search->regexp('/\_10$/')->setExcluded($excluded = false);
 
         $data = $store->getData()->toArray();
         $keys = implode(',', array_keys($data[0]));
-        $this->assertEquals('test_char_10,test_varbinary_10', $keys);
+        self::assertEquals('test_char_10,test_varbinary_10', $keys);
     }
 
     public function testGetOptions()
@@ -86,10 +86,10 @@ class StoreTest extends TestCase
         $this->source->select()->from('product');
         $store = new FlexStore($this->source);
         $options = $store->getOptions();
-        $this->assertInstanceOf('Soluble\FlexStore\Options', $options);
+        self::assertInstanceOf('Soluble\FlexStore\Options', $options);
         $options->setLimit(2);
         $data = $store->getData()->toArray();
-        $this->assertCount(2, $data);
+        self::assertCount(2, $data);
     }
 
     public function testGetSource()
@@ -97,7 +97,7 @@ class StoreTest extends TestCase
         $this->source->select()->from('user');
         $store = new FlexStore($this->source);
         $source = $store->getSource();
-        $this->assertInstanceOf('Soluble\FlexStore\Source\Zend\SqlSource', $source);
+        self::assertInstanceOf('Soluble\FlexStore\Source\Zend\SqlSource', $source);
     }
 
     public function testGetData()
@@ -106,7 +106,7 @@ class StoreTest extends TestCase
         $source->setSelect($this->select);
         $store = new FlexStore($source);
         $resultset = $store->getData();
-        $this->assertInstanceOf('Soluble\FlexStore\ResultSet\ResultSet', $resultset);
+        self::assertInstanceOf('Soluble\FlexStore\ResultSet\ResultSet', $resultset);
     }
 
     public function testGetDataThrowsEmptyQueryException()
@@ -114,7 +114,7 @@ class StoreTest extends TestCase
         $this->expectException('Soluble\FlexStore\Exception\EmptyQueryException');
         $store = new FlexStore($this->source);
         $resultset = $store->getData();
-        $this->assertInstanceOf('Soluble\FlexStore\ResultSet\ResultSet', $resultset);
+        self::assertInstanceOf('Soluble\FlexStore\ResultSet\ResultSet', $resultset);
     }
 
     public function testGetColumnModel()
@@ -122,6 +122,6 @@ class StoreTest extends TestCase
         $this->source->select()->from('user');
         $store = new FlexStore($this->source);
         $cm = $store->getColumnModel();
-        $this->assertInstanceOf('Soluble\FlexStore\Column\ColumnModel', $cm);
+        self::assertInstanceOf('Soluble\FlexStore\Column\ColumnModel', $cm);
     }
 }

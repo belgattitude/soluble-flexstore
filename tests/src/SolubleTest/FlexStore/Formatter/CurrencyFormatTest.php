@@ -43,26 +43,26 @@ class CurrencyFormatTest extends TestCase
             'decimals' => 3
         ];
         $f = new CurrencyFormatter($params);
-        $this->assertEquals('zh_CN', $f->getLocale());
-        $this->assertEquals('#,##0.###', $f->getPattern());
-        $this->assertEquals(3, $f->getDecimals());
+        self::assertEquals('zh_CN', $f->getLocale());
+        self::assertEquals('#,##0.###', $f->getPattern());
+        self::assertEquals(3, $f->getDecimals());
     }
 
     public function testGetSet()
     {
         $f = $this->currencyFormatter;
-        $this->assertInternalType('string', $f->getLocale());
-        $this->assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
-        $this->assertNull($f->getPattern());
-        $this->assertEquals(2, $f->getDecimals());
+        self::assertInternalType('string', $f->getLocale());
+        self::assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
+        self::assertNull($f->getPattern());
+        self::assertEquals(2, $f->getDecimals());
 
         $f->setDecimals(3);
         $f->setPattern('#,##0.###');
         $f->setLocale('zh_CN');
 
-        $this->assertEquals('zh_CN', $f->getLocale());
-        $this->assertEquals('#,##0.###', $f->getPattern());
-        $this->assertEquals(3, $f->getDecimals());
+        self::assertEquals('zh_CN', $f->getLocale());
+        self::assertEquals('#,##0.###', $f->getPattern());
+        self::assertEquals(3, $f->getDecimals());
     }
 
     public function testConstructThrowsInvalidArgumentException()
@@ -79,29 +79,29 @@ class CurrencyFormatTest extends TestCase
         $moneyFormatter = new CurrencyFormatter();
         $moneyFormatter->setCurrencyCode('EUR');
         $moneyFormatter->setLocale('fr_FR');
-        $this->assertEquals('10,24 €', $moneyFormatter->format(10.239));
+        self::assertEquals('10,24 €', $moneyFormatter->format(10.239));
         $moneyFormatter->setLocale('en_US');
-        $this->assertEquals('€10.24', $moneyFormatter->format(10.239));
+        self::assertEquals('€10.24', $moneyFormatter->format(10.239));
         $moneyFormatter->setLocale('en_GB');
-        $this->assertEquals('€10.24', $moneyFormatter->format(10.239));
+        self::assertEquals('€10.24', $moneyFormatter->format(10.239));
         $moneyFormatter->setCurrencyCode('CAD');
-        $this->assertEquals('CA$10.24', $moneyFormatter->format(10.239));
+        self::assertEquals('CA$10.24', $moneyFormatter->format(10.239));
         $moneyFormatter->setCurrencyCode('CNY');
-        $this->assertEquals('CN¥10.24', $moneyFormatter->format(10.239));
+        self::assertEquals('CN¥10.24', $moneyFormatter->format(10.239));
         $moneyFormatter->setCurrencyCode('GBP');
-        $this->assertEquals('£10.24', $moneyFormatter->format(10.239));
-        $this->assertEquals('-£10.24', $moneyFormatter->format(-10.239));
+        self::assertEquals('£10.24', $moneyFormatter->format(10.239));
+        self::assertEquals('-£10.24', $moneyFormatter->format(-10.239));
         $moneyFormatter->setLocale('fr_FR');
         $moneyFormatter->setCurrencyCode('EUR');
-        $this->assertEquals('-10,24 €', $moneyFormatter->format(-10.239));
+        self::assertEquals('-10,24 €', $moneyFormatter->format(-10.239));
         $moneyFormatter->setLocale('en_GB');
         $moneyFormatter->setCurrencyCode('GBP');
-        $this->assertEquals('-£10.24', $moneyFormatter->format(-10.239));
+        self::assertEquals('-£10.24', $moneyFormatter->format(-10.239));
 
         $parsed = $moneyFormatter->parse('-£10.24');
-        $this->assertInternalType('array', $parsed);
-        $this->assertEquals('GBP', $parsed['currency']);
-        $this->assertEquals(-10.24, $parsed['value']);
+        self::assertInternalType('array', $parsed);
+        self::assertEquals('GBP', $parsed['currency']);
+        self::assertEquals(-10.24, $parsed['value']);
 
         $params = [
             'locale' => 'fr_FR',
@@ -109,9 +109,9 @@ class CurrencyFormatTest extends TestCase
         ];
         $f = new CurrencyFormatter($params);
         $f->setCurrencyCode('EUR');
-        $this->assertEquals('1 123,457 €', $f->format(1123.4567));
+        self::assertEquals('1 123,457 €', $f->format(1123.4567));
 
-        $this->assertEquals('0,000 €', $f->format(null));
+        self::assertEquals('0,000 €', $f->format(null));
     }
 
     public function testFormatThrowsRuntimeException()

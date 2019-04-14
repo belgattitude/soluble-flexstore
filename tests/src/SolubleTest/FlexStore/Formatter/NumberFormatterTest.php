@@ -36,26 +36,26 @@ class NumberFormatterTest extends TestCase
             'decimals' => 3
         ];
         $f = new NumberFormatter($params);
-        $this->assertEquals('zh_CN', $f->getLocale());
-        $this->assertEquals('#,##0.###', $f->getPattern());
-        $this->assertEquals(3, $f->getDecimals());
+        self::assertEquals('zh_CN', $f->getLocale());
+        self::assertEquals('#,##0.###', $f->getPattern());
+        self::assertEquals(3, $f->getDecimals());
     }
 
     public function testGetSet(): void
     {
         $f = $this->nf;
-        $this->assertInternalType('string', $f->getLocale());
-        $this->assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
-        $this->assertNull($f->getPattern());
-        $this->assertEquals(2, $f->getDecimals());
+        self::assertInternalType('string', $f->getLocale());
+        self::assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
+        self::assertNull($f->getPattern());
+        self::assertEquals(2, $f->getDecimals());
 
         $f->setDecimals(3);
         $f->setPattern('#,##0.###');
         $f->setLocale('zh_CN');
 
-        $this->assertEquals('zh_CN', $f->getLocale());
-        $this->assertEquals('#,##0.###', $f->getPattern());
-        $this->assertEquals(3, $f->getDecimals());
+        self::assertEquals('zh_CN', $f->getLocale());
+        self::assertEquals('#,##0.###', $f->getPattern());
+        self::assertEquals(3, $f->getDecimals());
     }
 
     public function testFormat()
@@ -72,20 +72,20 @@ class NumberFormatterTest extends TestCase
         self::assertEquals('-1 123,457', $f->format(-1123.4567));
 
         $f->setLocale('en_US');
-        $this->assertEquals('1,123.457', $f->format(1123.4567));
-        $this->assertEquals('-1,123.457', $f->format(-1123.4567));
+        self::assertEquals('1,123.457', $f->format(1123.4567));
+        self::assertEquals('-1,123.457', $f->format(-1123.4567));
 
         $params = [
             'locale' => 'fr_BE'
         ];
         $f = new NumberFormatter($params);
-        $this->assertEquals('1 123,46', $f->format(1123.4567));
+        self::assertEquals('1 123,46', $f->format(1123.4567));
 
         $params = [
             'locale' => 'en_GB'
         ];
         $f = new NumberFormatter($params);
-        $this->assertEquals('1,123.46', $f->format(1123.4567));
+        self::assertEquals('1,123.46', $f->format(1123.4567));
     }
 
     public function testConstructThrowsInvalidArgumentException()

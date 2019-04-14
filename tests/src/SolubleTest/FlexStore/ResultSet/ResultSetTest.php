@@ -74,7 +74,7 @@ class ResultSetTest extends TestCase
 
         $resultset = $this->store->getData();
         $arr = $resultset->toArray();
-        $this->assertInternalType('array', $arr);
+        self::assertInternalType('array', $arr);
     }
 
     public function testResultSetThrowsRuntimeException()
@@ -98,7 +98,7 @@ class ResultSetTest extends TestCase
 
         $store = $this->getStore($select);
         $resultset = $store->getData();
-        $this->assertInstanceOf(\Soluble\FlexStore\Source\AbstractSource::class, $resultset->getSource());
+        self::assertInstanceOf(\Soluble\FlexStore\Source\AbstractSource::class, $resultset->getSource());
     }
 
     public function testGetFieldCount()
@@ -107,21 +107,21 @@ class ResultSetTest extends TestCase
         $select->from('product_brand')->limit(1)->columns(['reference']);
         $store = $this->getStore($select);
         $resultset = $store->getData();
-        $this->assertEquals(1, $resultset->getFieldCount());
+        self::assertEquals(1, $resultset->getFieldCount());
 
         $select = new \Zend\Db\Sql\Select();
         $select->from('product_brand')->limit(1)->columns(['reference', 'brand_id']);
 
         $store = $this->getStore($select);
         $resultset = $store->getData();
-        $this->assertEquals(2, $resultset->getFieldCount());
+        self::assertEquals(2, $resultset->getFieldCount());
 
         $select = new \Zend\Db\Sql\Select();
         $select->from('product_brand')->limit(1);
 
         $store = $this->getStore($select);
         $resultset = $store->getData();
-        $this->assertEquals(14, $resultset->getFieldCount());
+        self::assertEquals(14, $resultset->getFieldCount());
     }
 
     public function testGetTotal()
@@ -136,9 +136,9 @@ class ResultSetTest extends TestCase
         $resultset = $store->getData();
         $total = $resultset->getTotalRows();
 
-        $this->assertEquals(10, $total);
-        $this->assertCount(10, $resultset);
-        $this->assertEquals(10, $resultset->count());
+        self::assertEquals(10, $total);
+        self::assertCount(10, $resultset);
+        self::assertEquals(10, $resultset->count());
 
         // With no limit
         $select = new \Zend\Db\Sql\Select();
@@ -150,8 +150,8 @@ class ResultSetTest extends TestCase
         $resultset = $store->getSource()->getData($options);
         $total = $resultset->getTotalRows();
 
-        $this->assertEquals(93, $total);
-        $this->assertCount(10, $resultset);
+        self::assertEquals(93, $total);
+        self::assertCount(10, $resultset);
     }
 
     /**
@@ -161,7 +161,7 @@ class ResultSetTest extends TestCase
     {
         $this->expectException(\Soluble\FlexStore\Exception\InvalidUsageException::class);
         $paginator = $this->resultset->getPaginator();
-        $this->assertInstanceOf(\Zend\Paginator\Paginator::class, $paginator);
+        self::assertInstanceOf(\Zend\Paginator\Paginator::class, $paginator);
     }
 
     /**
@@ -178,12 +178,12 @@ class ResultSetTest extends TestCase
         $resultset = $source->getData();
         $paginator = $resultset->getPaginator();
 
-        $this->assertInstanceOf(\Soluble\FlexStore\Helper\Paginator::class, $paginator);
+        self::assertInstanceOf(\Soluble\FlexStore\Helper\Paginator::class, $paginator);
 
         $pages = $paginator->getPages();
 
-        $this->assertEquals(10, $pages->itemCountPerPage);
-        $this->assertEquals(1, $pages->first);
-        $this->assertEquals(1, $pages->current);
+        self::assertEquals(10, $pages->itemCountPerPage);
+        self::assertEquals(1, $pages->first);
+        self::assertEquals(1, $pages->current);
     }
 }

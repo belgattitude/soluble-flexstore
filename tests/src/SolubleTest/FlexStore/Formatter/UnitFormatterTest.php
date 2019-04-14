@@ -40,29 +40,29 @@ class UnitFormatterTest extends TestCase
             'decimals' => 3
         ];
         $f = new UnitFormatter($params);
-        $this->assertEquals('zh_CN', $f->getLocale());
-        $this->assertEquals('#,##0.###', $f->getPattern());
-        $this->assertEquals(3, $f->getDecimals());
+        self::assertEquals('zh_CN', $f->getLocale());
+        self::assertEquals('#,##0.###', $f->getPattern());
+        self::assertEquals(3, $f->getDecimals());
     }
 
     public function testGetSet()
     {
         $f = $this->uf;
-        $this->assertInternalType('string', $f->getLocale());
-        $this->assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
-        $this->assertNull($f->getPattern());
-        $this->assertNull($f->getUnit());
-        $this->assertEquals(2, $f->getDecimals());
+        self::assertInternalType('string', $f->getLocale());
+        self::assertEquals($f->getLocale(), substr(\Locale::getDefault(), 0, 5));
+        self::assertNull($f->getPattern());
+        self::assertNull($f->getUnit());
+        self::assertEquals(2, $f->getDecimals());
 
         $f->setDecimals(3);
         $f->setPattern('#,##0.###');
         $f->setLocale('zh_CN');
         $f->setUnit('Kg');
 
-        $this->assertEquals('Kg', $f->getUnit());
-        $this->assertEquals('zh_CN', $f->getLocale());
-        $this->assertEquals('#,##0.###', $f->getPattern());
-        $this->assertEquals(3, $f->getDecimals());
+        self::assertEquals('Kg', $f->getUnit());
+        self::assertEquals('zh_CN', $f->getLocale());
+        self::assertEquals('#,##0.###', $f->getPattern());
+        self::assertEquals(3, $f->getDecimals());
     }
 
     public function testFormat()
@@ -79,8 +79,8 @@ class UnitFormatterTest extends TestCase
         self::assertEquals('-1 123,456 Kg', $f->format(-1123.4563));
 
         $f->setLocale('en_US');
-        $this->assertEquals('1,123.457 Kg', $f->format(1123.4567));
-        $this->assertEquals('-1,123.457 Kg', $f->format(-1123.4567));
+        self::assertEquals('1,123.457 Kg', $f->format(1123.4567));
+        self::assertEquals('-1,123.457 Kg', $f->format(-1123.4567));
 
         $params = [
             'locale' => 'fr_BE',
@@ -89,16 +89,16 @@ class UnitFormatterTest extends TestCase
 
         $f = new UnitFormatter($params);
 
-        $this->assertEquals('1 128,46 m³', $f->format(1128.4567));
+        self::assertEquals('1 128,46 m³', $f->format(1128.4567));
         $params = [
             'locale' => 'en_GB',
             'unit' => 'm²'
         ];
         $f = new UnitFormatter($params);
-        $this->assertEquals('1,123.46 m²', $f->format(1123.4567));
+        self::assertEquals('1,123.46 m²', $f->format(1123.4567));
 
         // Null values
-        $this->assertEquals('0.00 m²', $f->format(null));
+        self::assertEquals('0.00 m²', $f->format(null));
     }
 
     public function testConstructThrowsInvalidArgumentException()

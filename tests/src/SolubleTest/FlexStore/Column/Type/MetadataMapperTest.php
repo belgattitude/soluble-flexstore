@@ -26,9 +26,9 @@ class MetadataMapperTest extends TestCase
         $mapper = new MetadataMapper();
         foreach ($supported as $md_type) {
             $type = $mapper->getColumnTypeByMetadataType($md_type);
-            $this->assertInstanceOf('Soluble\FlexStore\Column\Type\AbstractType', $type);
-            $this->assertInternalType('string', $type->getName());
-            $this->assertTrue(\Soluble\FlexStore\Column\ColumnType::isSupported($type->getName()));
+            self::assertInstanceOf('Soluble\FlexStore\Column\Type\AbstractType', $type);
+            self::assertInternalType('string', $type->getName());
+            self::assertTrue(\Soluble\FlexStore\Column\ColumnType::isSupported($type->getName()));
         }
     }
 

@@ -41,7 +41,7 @@ class ColumnTest extends TestCase
         ];
 
         $column = new Column('cool', $properties);
-        $this->assertEquals($properties, $column->getProperties());
+        self::assertEquals($properties, $column->getProperties());
     }
 
     public function testWithProperties()
@@ -59,23 +59,23 @@ class ColumnTest extends TestCase
         ];
 
         $column = new Column('cool', $properties);
-        $this->assertFalse($column->isSortable());
-        $this->assertFalse($column->isGroupable());
-        $this->assertFalse($column->isFilterable());
-        $this->assertTrue($column->isHidden());
-        $this->assertTrue($column->isExcluded());
-        $this->assertTrue($column->isEditable());
-        $this->assertNull($column->getClass());
-        $this->assertNull($column->getAlign());
-        $this->assertEquals('header', $column->getHeader());
-        $this->assertEquals(ColumnType::TYPE_DATE, $column->getType());
-        $this->assertEquals('100%', $column->getWidth());
+        self::assertFalse($column->isSortable());
+        self::assertFalse($column->isGroupable());
+        self::assertFalse($column->isFilterable());
+        self::assertTrue($column->isHidden());
+        self::assertTrue($column->isExcluded());
+        self::assertTrue($column->isEditable());
+        self::assertNull($column->getClass());
+        self::assertNull($column->getAlign());
+        self::assertEquals('header', $column->getHeader());
+        self::assertEquals(ColumnType::TYPE_DATE, $column->getType());
+        self::assertEquals('100%', $column->getWidth());
 
         $properties = [
             'header' => 'changed',
         ];
         $column->setProperties($properties);
-        $this->assertEquals('changed', $column->getHeader());
+        self::assertEquals('changed', $column->getHeader());
     }
 
     public function testSetPropertiesThrowsInvalidArgumentException()
@@ -114,58 +114,58 @@ class ColumnTest extends TestCase
     public function testGetSet()
     {
         $column = new Column('cool');
-        $this->assertEquals('cool', $column->getName());
+        self::assertEquals('cool', $column->getName());
 
-        $this->assertEquals('cool', $column->getHeader());
+        self::assertEquals('cool', $column->getHeader());
         $column->setHeader('Hello');
-        $this->assertEquals('Hello', $column->getHeader());
+        self::assertEquals('Hello', $column->getHeader());
 
         // Width
-        $this->assertNull($column->getWidth());
+        self::assertNull($column->getWidth());
         $column->setWidth(10);
-        $this->assertEquals(10, $column->getWidth());
+        self::assertEquals(10, $column->getWidth());
 
         // Groupable
-        $this->assertTrue($column->isGroupable());
+        self::assertTrue($column->isGroupable());
         $column->setGroupable($groupable = true);
-        $this->assertTrue($column->isGroupable());
+        self::assertTrue($column->isGroupable());
         $column->setGroupable($groupable = false);
-        $this->assertFalse($column->isGroupable());
+        self::assertFalse($column->isGroupable());
 
         // Hidden
-        $this->assertFalse($column->isHidden());
+        self::assertFalse($column->isHidden());
         $column->setHidden();
-        $this->assertTrue($column->isHidden());
+        self::assertTrue($column->isHidden());
         $column->setHidden(false);
-        $this->assertFalse($column->isHidden());
+        self::assertFalse($column->isHidden());
 
         // Filterable
-        $this->assertTrue($column->isFilterable());
+        self::assertTrue($column->isFilterable());
         $column->setFilterable();
-        $this->assertTrue($column->isFilterable());
+        self::assertTrue($column->isFilterable());
         $column->setFilterable(false);
-        $this->assertFalse($column->isFilterable());
+        self::assertFalse($column->isFilterable());
 
         // Excluded
-        $this->assertFalse($column->isExcluded());
+        self::assertFalse($column->isExcluded());
         $column->setExcluded();
-        $this->assertTrue($column->isExcluded());
+        self::assertTrue($column->isExcluded());
         $column->setExcluded(false);
-        $this->assertFalse($column->isExcluded());
+        self::assertFalse($column->isExcluded());
 
         // Sortable
-        $this->assertTrue($column->isSortable());
+        self::assertTrue($column->isSortable());
         $column->setSortable();
-        $this->assertTrue($column->isSortable());
+        self::assertTrue($column->isSortable());
         $column->setSortable(false);
-        $this->assertFalse($column->isSortable());
+        self::assertFalse($column->isSortable());
 
         // Editable
-        $this->assertFalse($column->isEditable());
+        self::assertFalse($column->isEditable());
         $column->setEditable();
-        $this->assertTrue($column->isEditable());
+        self::assertTrue($column->isEditable());
         $column->setEditable(false);
-        $this->assertFalse($column->isEditable());
+        self::assertFalse($column->isEditable());
     }
 
     public function testConstructThrowsInvalidArgumentException()
@@ -193,6 +193,6 @@ class ColumnTest extends TestCase
     public function test__toString()
     {
         $column = new Column('hello');
-        $this->assertEquals('hello', (string) $column);
+        self::assertEquals('hello', (string) $column);
     }
 }

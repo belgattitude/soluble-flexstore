@@ -99,18 +99,18 @@ class CSVWriterTest extends TestCase
         $options = new \Soluble\FlexStore\Options();
         $options->setLimit(0);
         $data = $this->csvWriter->getData($options);
-        $this->assertInternalType('string', $data);
+        self::assertInternalType('string', $data);
 
         $data = explode(CSVWriter::SEPARATOR_NEWLINE_UNIX, $data);
         $header = str_getcsv($data[0], CSVWriter::SEPARATOR_TAB, $enclosure, $escape = null);
         $columns = array_keys((array) $this->source->getColumnModel()->getColumns());
-        $this->assertEquals($columns, $header);
+        self::assertEquals($columns, $header);
     }
 
     public function testGetData()
     {
         $data = $this->csvWriter->getData();
-        $this->assertInternalType('string', $data);
+        self::assertInternalType('string', $data);
     }
 
     public function testCharsetTranslit()
@@ -161,7 +161,7 @@ class CSVWriterTest extends TestCase
                 $cell = $line1[0];
                 $utf8_cell = utf8_encode($cell);
 
-                $this->assertEquals($case['expected'], $utf8_cell, "Translit error with query number $idx");
+                self::assertEquals($case['expected'], $utf8_cell, "Translit error with query number $idx");
             } catch (Exception\CharsetConversionException $e) {
                 if ($case['should_pass']) {
                     throw $e;
@@ -185,11 +185,11 @@ class CSVWriterTest extends TestCase
         );
 
         $data = $this->csvWriter->getData();
-        $this->assertInternalType('string', $data);
+        self::assertInternalType('string', $data);
         $data = explode(CSVWriter::SEPARATOR_NEWLINE_UNIX, $data);
         $line0 = str_getcsv($data[0], CSVWriter::SEPARATOR_TAB, $enclosure, $escape = null);
-        $this->assertInternalType('array', $line0);
-        $this->assertEquals($line0[1], 'category_id');
+        self::assertInternalType('array', $line0);
+        self::assertEquals($line0[1], 'category_id');
 
         $select = new \Zend\Db\Sql\Select();
         $select->from('product_category_translation')->where("lang = 'fr' and category_id = 988")->limit(50);
@@ -198,22 +198,22 @@ class CSVWriterTest extends TestCase
         $data = $this->csvWriter->getData();
         $data = explode(CSVWriter::SEPARATOR_NEWLINE_UNIX, $data);
         $line1 = str_getcsv($data[1], CSVWriter::SEPARATOR_TAB, $enclosure, $escape = null);
-        $this->assertInternalType('array', $line1);
+        self::assertInternalType('array', $line1);
         $title = $line1[4];
 
         $header = str_getcsv($data[0], CSVWriter::SEPARATOR_TAB, $enclosure, $escape = null);
         $columns = array_keys((array) $this->source->getColumnModel()->getColumns());
-        $this->assertEquals($columns, $header);
+        self::assertEquals($columns, $header);
 
-        $this->assertTrue(mb_check_encoding($title, 'ISO-8859-1'));
-        $this->assertFalse(mb_check_encoding($title, 'UTF-8'));
-        $this->assertFalse(mb_check_encoding($title, 'ASCII'));
-        $this->assertEquals(utf8_decode('Modèles Electriques'), $title);
+        self::assertTrue(mb_check_encoding($title, 'ISO-8859-1'));
+        self::assertFalse(mb_check_encoding($title, 'UTF-8'));
+        self::assertFalse(mb_check_encoding($title, 'ASCII'));
+        self::assertEquals(utf8_decode('Modèles Electriques'), $title);
 
         $headers = $this->csvWriter->getHttpHeaders();
-        $this->assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
-        $this->assertEquals('text/csv', $headers->getContentType());
-        $this->assertEquals('ISO-8859-1', strtoupper($headers->getCharset()));
+        self::assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
+        self::assertEquals('text/csv', $headers->getContentType());
+        self::assertEquals('ISO-8859-1', strtoupper($headers->getCharset()));
     }
 
     public function testGetDataLatin1CharsetThrowsCharsetException()
@@ -257,11 +257,11 @@ class CSVWriterTest extends TestCase
         );
 
         $data = $this->csvWriter->getData();
-        $this->assertInternalType('string', $data);
+        self::assertInternalType('string', $data);
         $data = explode(CSVWriter::SEPARATOR_NEWLINE_UNIX, $data);
         $line0 = str_getcsv($data[0], CSVWriter::SEPARATOR_TAB, $enclosure, $escape = null);
-        $this->assertInternalType('array', $line0);
-        $this->assertEquals($line0[1], 'category_id');
+        self::assertInternalType('array', $line0);
+        self::assertEquals($line0[1], 'category_id');
 
         $select = new \Zend\Db\Sql\Select();
         $select->from('product_category_translation')->where("lang = 'fr' and category_id = 988")->limit(50);
@@ -271,18 +271,18 @@ class CSVWriterTest extends TestCase
 
         $data = explode(CSVWriter::SEPARATOR_NEWLINE_UNIX, $data);
         $line1 = str_getcsv($data[1], CSVWriter::SEPARATOR_TAB, $enclosure, $escape = null);
-        $this->assertInternalType('array', $line1);
+        self::assertInternalType('array', $line1);
         $title = $line1[4];
 
-        $this->assertTrue(mb_check_encoding($title, 'UTF-8'));
-        $this->assertFalse(mb_check_encoding($title, 'ASCII'));
-        $this->assertNotEquals(utf8_decode($title), $title);
-        $this->assertEquals('Modèles Electriques', $title);
+        self::assertTrue(mb_check_encoding($title, 'UTF-8'));
+        self::assertFalse(mb_check_encoding($title, 'ASCII'));
+        self::assertNotEquals(utf8_decode($title), $title);
+        self::assertEquals('Modèles Electriques', $title);
 
         $headers = $this->csvWriter->getHttpHeaders();
-        $this->assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
-        $this->assertEquals('text/csv', $headers->getContentType());
-        $this->assertEquals('UTF-8', strtoupper($headers->getCharset()));
+        self::assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
+        self::assertEquals('text/csv', $headers->getContentType());
+        self::assertEquals('UTF-8', strtoupper($headers->getCharset()));
     }
 
     public function testGetDataWithOptionsThrowsInvalidArgumentException()
@@ -320,7 +320,7 @@ class CSVWriterTest extends TestCase
 
         $this->csvWriter->setStore(new FlexStore($this->getSource($select)));
         $data = $this->csvWriter->getData();
-        $this->assertContains('alpha\; beta\;', $data);
+        self::assertContains('alpha\; beta\;', $data);
     }
 
     public function testGetDataEnclosureDelimiterWithoutEscape()
@@ -347,14 +347,14 @@ class CSVWriterTest extends TestCase
         $this->csvWriter->setStore(new FlexStore($this->getSource($select)));
         $data = $this->csvWriter->getData();
 
-        $this->assertContains('"alpha; beta;"', $data);
+        self::assertContains('"alpha; beta;"', $data);
     }
 
     public function testGetHTTPHeaders()
     {
         $headers = $this->csvWriter->getHttpHeaders();
-        $this->assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
-        $this->assertEquals('text/csv', $headers->getContentType());
-        $this->assertEquals('UTF-8', strtoupper($headers->getCharset()));
+        self::assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
+        self::assertEquals('text/csv', $headers->getContentType());
+        self::assertEquals('UTF-8', strtoupper($headers->getCharset()));
     }
 }

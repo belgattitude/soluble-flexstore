@@ -37,24 +37,24 @@ class HydrationOptionsTest extends TestCase
     public function testAll()
     {
         $ho = $this->object;
-        $this->assertTrue($ho->isColumnExclusionEnabled());
-        $this->assertTrue($ho->isRenderersEnabled());
-        $this->assertTrue($ho->isFormattersEnabled());
+        self::assertTrue($ho->isColumnExclusionEnabled());
+        self::assertTrue($ho->isRenderersEnabled());
+        self::assertTrue($ho->isFormattersEnabled());
 
         $ho->disableColumnExclusion();
         $ho->disableFormatters();
         $ho->disableRenderers();
 
-        $this->assertFalse($ho->isColumnExclusionEnabled());
-        $this->assertFalse($ho->isRenderersEnabled());
-        $this->assertFalse($ho->isFormattersEnabled());
+        self::assertFalse($ho->isColumnExclusionEnabled());
+        self::assertFalse($ho->isRenderersEnabled());
+        self::assertFalse($ho->isFormattersEnabled());
 
         $ho->enableColumnExclusion();
         $ho->enableFormatters();
         $ho->enableRenderers();
 
-        $this->assertTrue($ho->isColumnExclusionEnabled());
-        $this->assertTrue($ho->isRenderersEnabled());
-        $this->assertTrue($ho->isFormattersEnabled());
+        self::assertTrue($ho->isColumnExclusionEnabled());
+        self::assertTrue($ho->isRenderersEnabled());
+        self::assertTrue($ho->isFormattersEnabled());
     }
 }

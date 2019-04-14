@@ -57,7 +57,7 @@ class SimpleXmlWriterTest extends TestCase
     public function testConstructor()
     {
         $xmlWriter = new SimpleXmlWriter(new FlexStore($this->source));
-        $this->assertInstanceOf('\Soluble\FlexStore\Writer\AbstractWriter', $xmlWriter);
+        self::assertInstanceOf('\Soluble\FlexStore\Writer\AbstractWriter', $xmlWriter);
     }
 
     /**
@@ -68,17 +68,17 @@ class SimpleXmlWriterTest extends TestCase
         $this->xmlWriter->setRowTag('row');
 
         $data = $this->xmlWriter->getData();
-        $this->assertInternalType('string', $data);
+        self::assertInternalType('string', $data);
         $xml = new \SimpleXMLElement($data);
 
-        $this->assertInternalType('numeric', (string) $xml->total);
-        $this->assertInternalType('numeric', (string) $xml->success);
+        self::assertInternalType('numeric', (string) $xml->total);
+        self::assertInternalType('numeric', (string) $xml->success);
 
         $timestamp = DateTime::createFromFormat(DateTime::W3C, (string) $xml->timestamp);
 
-        $this->assertEquals($timestamp->format(DateTime::W3C), (string) $xml->timestamp);
+        self::assertEquals($timestamp->format(DateTime::W3C), (string) $xml->timestamp);
 
-        $this->assertNotEmpty($xml->data->row[0]->reference);
+        self::assertNotEmpty($xml->data->row[0]->reference);
     }
 
     public function testGetDataWithOptions()
@@ -91,13 +91,13 @@ class SimpleXmlWriterTest extends TestCase
         );
 
         $data = $this->xmlWriter->getData();
-        $this->assertInternalType('string', $data);
+        self::assertInternalType('string', $data);
 
         $xml = new \SimpleXMLElement($data);
 
-        $this->assertInternalType('numeric', (string) $xml->total);
-        $this->assertInternalType('numeric', (string) $xml->success);
-        $this->assertNotEmpty($xml->data->line[0]->reference);
+        self::assertInternalType('numeric', (string) $xml->total);
+        self::assertInternalType('numeric', (string) $xml->success);
+        self::assertNotEmpty($xml->data->line[0]->reference);
     }
 
     /**
@@ -119,9 +119,9 @@ class SimpleXmlWriterTest extends TestCase
     public function testGetHTTPHeaders()
     {
         $headers = $this->xmlWriter->getHttpHeaders();
-        $this->assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
-        $this->assertEquals('application/xml', $headers->getContentType());
-        $this->assertEquals('UTF-8', $headers->getCharset());
-        $this->assertEquals('attachement', $headers->getContentDispositionType());
+        self::assertInstanceOf("Soluble\FlexStore\Writer\Http\SimpleHeaders", $headers);
+        self::assertEquals('application/xml', $headers->getContentType());
+        self::assertEquals('UTF-8', $headers->getCharset());
+        self::assertEquals('attachement', $headers->getContentDispositionType());
     }
 }

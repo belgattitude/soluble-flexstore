@@ -49,17 +49,17 @@ class SqlSourceTest extends TestCase
     public function testGetMetadata()
     {
         $metadata = $this->source->getMetadataReader();
-        $this->assertInstanceOf('\Soluble\Metadata\Reader\AbstractMetadataReader', $metadata);
+        self::assertInstanceOf('\Soluble\Metadata\Reader\AbstractMetadataReader', $metadata);
     }
 
     public function testGetColumnModel()
     {
         $columnModel = $this->source->getColumnModel();
-        $this->assertInstanceOf('\Soluble\FlexStore\Column\ColumnModel', $columnModel);
+        self::assertInstanceOf('\Soluble\FlexStore\Column\ColumnModel', $columnModel);
         $columns = $columnModel->getColumns();
-        $this->assertInstanceOf('ArrayObject', $columns);
+        self::assertInstanceOf('ArrayObject', $columns);
         foreach ($columns as $column) {
-            $this->assertFalse($column->isVirtual());
+            self::assertFalse($column->isVirtual());
         }
     }
 
@@ -69,7 +69,7 @@ class SqlSourceTest extends TestCase
         $select->from(['p' => 'product']);
         $source = new SqlSource($this->adapter, $select);
         $mr = $source->getMetadataReader();
-        $this->assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
+        self::assertInstanceOf('Soluble\Metadata\Reader\AbstractMetadataReader', $mr);
     }
 
     public function testIdentifier()
@@ -78,9 +78,9 @@ class SqlSourceTest extends TestCase
         $select->from(['p' => 'product']);
 
         $source = new SqlSource($this->adapter, $select);
-        $this->assertNull($source->getIdentifier());
+        self::assertNull($source->getIdentifier());
         $source->setIdentifier('product_id');
-        $this->assertEquals('product_id', $source->getIdentifier());
+        self::assertEquals('product_id', $source->getIdentifier());
     }
 
     public function testCalcFoundRowsAndWithZeroLimit()
@@ -94,13 +94,13 @@ class SqlSourceTest extends TestCase
         $source = new SqlSource($this->adapter, $select);
 
         $data = $source->getData($options);
-        $this->assertEquals(0, $data->count());
-        $this->assertEquals(0, $data->getTotalRows());
+        self::assertEquals(0, $data->count());
+        self::assertEquals(0, $data->getTotalRows());
 
         // Edge, test if SQL_CALC_FOUND_ROWS was really injected
         $query = $source->__toString();
-        $this->assertNotContains('SQL_CALC_FOUND_ROWS', $query);
-        $this->assertContains('LIMIT 0 OFFSET 0', $query);
+        self::assertNotContains('SQL_CALC_FOUND_ROWS', $query);
+        self::assertContains('LIMIT 0 OFFSET 0', $query);
     }
 
     public function testCalcFoundRowsAndOptions()
@@ -113,13 +113,13 @@ class SqlSourceTest extends TestCase
 
         $source = new SqlSource($this->adapter, $select);
         $data = $source->getData($options);
-        $this->assertEquals(2, $data->count());
-        $this->assertGreaterThan(2, $data->getTotalRows());
+        self::assertEquals(2, $data->count());
+        self::assertGreaterThan(2, $data->getTotalRows());
 
         // Edge, test if SQL_CALC_FOUND_ROWS was really injected
         $query = $source->__toString();
-        $this->assertContains('SQL_CALC_FOUND_ROWS', $query);
-        $this->assertContains('LIMIT 2 OFFSET 0', $query);
+        self::assertContains('SQL_CALC_FOUND_ROWS', $query);
+        self::assertContains('LIMIT 2 OFFSET 0', $query);
 
         // Second edge case, when the query already contains
         // a quantifier : it should not be overridden
@@ -131,7 +131,7 @@ class SqlSourceTest extends TestCase
         $source = new SqlSource($this->adapter, $select);
         $source->getData($options);
         $query = $source->__toString();
-        $this->assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
+        self::assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
 
         // Third edge case, when the query already contains
         // a quantifier but in string version : it should not be overridden
@@ -143,7 +143,7 @@ class SqlSourceTest extends TestCase
         $source = new SqlSource($this->adapter, $select);
         $source->getData($options);
         $query = $source->getQueryString();
-        $this->assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
+        self::assertContains('SQL_CALC_FOUND_ROWS SQL_NO_CACHE', $query);
     }
 
     public function testCustomQuery()
@@ -170,7 +170,7 @@ class SqlSourceTest extends TestCase
 
         $source = new SqlSource($this->adapter, $select);
         $data = $source->getData();
-        $this->assertTrue($data->count() > 0);
+        self::assertTrue($data->count() > 0);
         //var_dump($data->toArray());
 
         //$columnModel = $source->getColumnModel();
@@ -188,9 +188,9 @@ class SqlSourceTest extends TestCase
         $data = $source1->getData();
         $this->isInstanceOf('Soluble\FlexStore\ResultSet\ResultSet');
         $d = $data->toArray();
-        $this->assertInternalType('array', $d);
-        $this->assertArrayHasKey('user_id', $d[0]);
-        $this->assertArrayHasKey('email', $d[0]);
+        self::assertInternalType('array', $d);
+        self::assertArrayHasKey('user_id', $d[0]);
+        self::assertArrayHasKey('email', $d[0]);
 
         $options = new Options();
         $options->setLimit(10, 0);
@@ -198,11 +198,11 @@ class SqlSourceTest extends TestCase
         $data2 = $source2->getData($options);
         $d2 = $data2->toArray();
 
-        $this->assertInternalType('array', $d2);
+        self::assertInternalType('array', $d2);
 
-        $this->assertArrayHasKey('user_id', $d2[0]);
-        $this->assertArrayHasKey('email', $d2[0]);
-        $this->assertEquals($d[0], $d2[0]);
+        self::assertArrayHasKey('user_id', $d2[0]);
+        self::assertArrayHasKey('email', $d2[0]);
+        self::assertEquals($d[0], $d2[0]);
     }
 
     public function testGetDataThrowsEmptyQueryException()
@@ -218,16 +218,16 @@ class SqlSourceTest extends TestCase
     {
         $data = $this->source->getData();
         $sql_string = $this->source->getQueryString();
-        $this->assertInternalType('string', $sql_string);
-        $this->assertRegExp('/^select/', strtolower(trim($sql_string)));
+        self::assertInternalType('string', $sql_string);
+        self::assertRegExp('/^select/', strtolower(trim($sql_string)));
     }
 
     public function testGetQueryStringThrowsInvalidUsageException()
     {
         $this->expectException('Soluble\FlexStore\Exception\InvalidUsageException');
         $sql_string = $this->source->getQueryString();
-        $this->assertInternalType('string', $sql_string);
-        $this->assertRegExp('/^select/', strtolower(trim($sql_string)));
+        self::assertInternalType('string', $sql_string);
+        self::assertRegExp('/^select/', strtolower(trim($sql_string)));
     }
 
     /**

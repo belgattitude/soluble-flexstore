@@ -56,24 +56,24 @@ class JsonWriterTest extends TestCase
     public function testGetData()
     {
         $data = $this->jsonWriter->getData();
-        $this->assertJson($data);
+        self::assertJson($data);
         $d = json_decode($data, $assoc = true);
-        $this->assertArrayHasKey('total', $d);
-        $this->assertArrayHasKey('start', $d);
-        $this->assertArrayHasKey('limit', $d);
-        $this->assertArrayHasKey('data', $d);
-        $this->assertTrue($d['success']);
-        $this->assertEquals($d['total'], count($d['data']));
-        $this->assertArrayNotHasKey('query', $d);
+        self::assertArrayHasKey('total', $d);
+        self::assertArrayHasKey('start', $d);
+        self::assertArrayHasKey('limit', $d);
+        self::assertArrayHasKey('data', $d);
+        self::assertTrue($d['success']);
+        self::assertEquals($d['total'], count($d['data']));
+        self::assertArrayNotHasKey('query', $d);
     }
 
     public function testGetDataWithDebug()
     {
         $this->jsonWriter->setDebug($debug = true);
         $data = $this->jsonWriter->getData();
-        $this->assertJson($data);
+        self::assertJson($data);
         $d = json_decode($data, $assoc = true);
 
-        $this->assertArrayHasKey('query', $d);
+        self::assertArrayHasKey('query', $d);
     }
 }

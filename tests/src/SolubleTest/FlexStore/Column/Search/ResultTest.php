@@ -61,50 +61,50 @@ class ResultTest extends TestCase
 
         $results = $cm->search()->regexp('/created_at/');
 
-        $this->assertInstanceOf('Soluble\FlexStore\Column\ColumnModel\Search\Result', $results);
+        self::assertInstanceOf('Soluble\FlexStore\Column\ColumnModel\Search\Result', $results);
 
         $results->setEditable(true);
-        $this->assertTrue($cm->get('created_at')->isEditable());
+        self::assertTrue($cm->get('created_at')->isEditable());
         $results->setEditable(false);
-        $this->assertFalse($cm->get('created_at')->isEditable());
+        self::assertFalse($cm->get('created_at')->isEditable());
 
         $results->setExcluded(true);
-        $this->assertTrue($cm->get('created_at')->isExcluded());
+        self::assertTrue($cm->get('created_at')->isExcluded());
         $results->setExcluded(false);
-        $this->assertFalse($cm->get('created_at')->isExcluded());
+        self::assertFalse($cm->get('created_at')->isExcluded());
 
         $results->setSortable(true);
-        $this->assertTrue($cm->get('created_at')->isSortable());
+        self::assertTrue($cm->get('created_at')->isSortable());
         $results->setSortable(false);
-        $this->assertFalse($cm->get('created_at')->isSortable());
+        self::assertFalse($cm->get('created_at')->isSortable());
 
         $results->setHidden(true);
-        $this->assertTrue($cm->get('created_at')->isHidden());
+        self::assertTrue($cm->get('created_at')->isHidden());
         $results->setHidden(false);
-        $this->assertFalse($cm->get('created_at')->isHidden());
+        self::assertFalse($cm->get('created_at')->isHidden());
 
         $results->setVirtual(true);
-        $this->assertTrue($cm->get('created_at')->isVirtual());
+        self::assertTrue($cm->get('created_at')->isVirtual());
         $results->setVirtual(false);
-        $this->assertFalse($cm->get('created_at')->isVirtual());
+        self::assertFalse($cm->get('created_at')->isVirtual());
 
         $results->setGroupable(true);
-        $this->assertTrue($cm->get('created_at')->isGroupable());
+        self::assertTrue($cm->get('created_at')->isGroupable());
         $results->setGroupable(false);
-        $this->assertFalse($cm->get('created_at')->isGroupable());
+        self::assertFalse($cm->get('created_at')->isGroupable());
 
         $results->setFilterable(true);
-        $this->assertTrue($cm->get('created_at')->isFilterable());
+        self::assertTrue($cm->get('created_at')->isFilterable());
         $results->setFilterable(false);
-        $this->assertFalse($cm->get('created_at')->isFilterable());
+        self::assertFalse($cm->get('created_at')->isFilterable());
 
         $results->setWidth(10);
-        $this->assertEquals(10, $cm->get('created_at')->getWidth());
+        self::assertEquals(10, $cm->get('created_at')->getWidth());
 
         $results->setHeader('header');
-        $this->assertEquals('header', $cm->get('created_at')->getHeader());
+        self::assertEquals('header', $cm->get('created_at')->getHeader());
 
         $results->setType('date');
-        $this->assertEquals('date', $cm->get('created_at')->getType());
+        self::assertEquals('date', $cm->get('created_at')->getType());
     }
 }

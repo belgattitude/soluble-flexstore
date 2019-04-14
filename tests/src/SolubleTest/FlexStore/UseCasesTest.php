@@ -80,31 +80,31 @@ class UseCasesTest extends TestCase
 
             $data = $store->getData();
 
-            $this->assertInstanceOf('\Traversable', $data);
-            $this->assertInstanceOf('\Countable', $data);
-            $this->assertInstanceOf('\Soluble\FlexStore\Resultset\ResultsetInterface', $data);
+            self::assertInstanceOf('\Traversable', $data);
+            self::assertInstanceOf('\Countable', $data);
+            self::assertInstanceOf('\Soluble\FlexStore\Resultset\ResultsetInterface', $data);
 
-            $this->assertInternalType('integer', $data->count());
-            $this->assertEquals(count($data), $data->count());
+            self::assertInternalType('integer', $data->count());
+            self::assertEquals(count($data), $data->count());
 
             $current = $data->current();
 
-            $this->assertInstanceOf('ArrayObject', $current);
+            self::assertInstanceOf('ArrayObject', $current);
 
             $i = 0;
             foreach ($data as $idx => $row) {
-                $this->assertEquals($i, $idx);
+                self::assertEquals($i, $idx);
 
-                $this->assertInstanceOf('ArrayObject', $row);
+                self::assertInstanceOf('ArrayObject', $row);
                 ++$i;
             }
 
             $toArray = $data->toArray();
-            $this->assertInternalType('array', $toArray);
+            self::assertInternalType('array', $toArray);
             foreach ($toArray as $idx => $row) {
-                $this->assertInternalType('array', $row);
+                self::assertInternalType('array', $row);
             }
-            $this->assertEquals((array) $current, $toArray[0]);
+            self::assertEquals((array) $current, $toArray[0]);
         }
     }
 
@@ -120,7 +120,7 @@ class UseCasesTest extends TestCase
             $options = new Options();
             $options->setLimit(1);
             $data = $store->getData($options);
-            $this->assertCount(1, $data);
+            self::assertCount(1, $data);
 
             // with initial limit
             $queryOne = $this->getQueryOne($key, $limit = 2);
@@ -129,7 +129,7 @@ class UseCasesTest extends TestCase
             $options = new Options();
             $options->setLimit(1);
             $data = $store->getData($options);
-            $this->assertCount(1, $data);
+            self::assertCount(1, $data);
         }
     }
 
@@ -158,11 +158,11 @@ class UseCasesTest extends TestCase
             $store = new FlexStore($source);
 
             $cm = $store->getColumnModel();
-            $this->assertInstanceOf('\Soluble\FlexStore\Column\ColumnModel', $cm);
+            self::assertInstanceOf('\Soluble\FlexStore\Column\ColumnModel', $cm);
             $columns = $cm->getColumns();
-            $this->assertInstanceOf('ArrayObject', $columns);
+            self::assertInstanceOf('ArrayObject', $columns);
             $column = $cm->get('reference');
-            $this->assertEquals($column, $columns['reference']);
+            self::assertEquals($column, $columns['reference']);
 
             $p = $column->getProperties();
 

@@ -36,15 +36,15 @@ class ColumnTypeTest extends TestCase
 
     public function testCreate()
     {
-        $this->assertEquals(ColumnType::TYPE_STRING, ColumnType::createType(ColumnType::TYPE_STRING)->getName());
-        $this->assertEquals(ColumnType::TYPE_INTEGER, ColumnType::createType(ColumnType::TYPE_INTEGER)->getName());
-        $this->assertEquals(ColumnType::TYPE_BIT, ColumnType::createType(ColumnType::TYPE_BIT)->getName());
-        $this->assertEquals(ColumnType::TYPE_BLOB, ColumnType::createType(ColumnType::TYPE_BLOB)->getName());
-        $this->assertEquals(ColumnType::TYPE_BOOLEAN, ColumnType::createType(ColumnType::TYPE_BOOLEAN)->getName());
-        $this->assertEquals(ColumnType::TYPE_DATE, ColumnType::createType(ColumnType::TYPE_DATE)->getName());
-        $this->assertEquals(ColumnType::TYPE_DATETIME, ColumnType::createType(ColumnType::TYPE_DATETIME)->getName());
-        $this->assertEquals(ColumnType::TYPE_DECIMAL, ColumnType::createType(ColumnType::TYPE_DECIMAL)->getName());
-        $this->assertEquals(ColumnType::TYPE_TIME, ColumnType::createType(ColumnType::TYPE_TIME)->getName());
+        self::assertEquals(ColumnType::TYPE_STRING, ColumnType::createType(ColumnType::TYPE_STRING)->getName());
+        self::assertEquals(ColumnType::TYPE_INTEGER, ColumnType::createType(ColumnType::TYPE_INTEGER)->getName());
+        self::assertEquals(ColumnType::TYPE_BIT, ColumnType::createType(ColumnType::TYPE_BIT)->getName());
+        self::assertEquals(ColumnType::TYPE_BLOB, ColumnType::createType(ColumnType::TYPE_BLOB)->getName());
+        self::assertEquals(ColumnType::TYPE_BOOLEAN, ColumnType::createType(ColumnType::TYPE_BOOLEAN)->getName());
+        self::assertEquals(ColumnType::TYPE_DATE, ColumnType::createType(ColumnType::TYPE_DATE)->getName());
+        self::assertEquals(ColumnType::TYPE_DATETIME, ColumnType::createType(ColumnType::TYPE_DATETIME)->getName());
+        self::assertEquals(ColumnType::TYPE_DECIMAL, ColumnType::createType(ColumnType::TYPE_DECIMAL)->getName());
+        self::assertEquals(ColumnType::TYPE_TIME, ColumnType::createType(ColumnType::TYPE_TIME)->getName());
     }
 
     public function testCreateThrowsInvalidArgumentException()
@@ -58,14 +58,14 @@ class ColumnTypeTest extends TestCase
         $supported = ColumnType::getSupported();
         foreach ($supported as $type_name) {
             $type = ColumnType::createType($type_name);
-            $this->assertInstanceOf('Soluble\FlexStore\Column\Type\AbstractType', $type);
-            $this->assertEquals($type_name, $type->getName());
+            self::assertInstanceOf('Soluble\FlexStore\Column\Type\AbstractType', $type);
+            self::assertEquals($type_name, $type->getName());
         }
     }
 
     public function testIsSupported()
     {
-        $this->assertTrue(ColumnType::isSupported(ColumnType::TYPE_BIT));
-        $this->assertFalse(ColumnType::isSupported('cool'));
+        self::assertTrue(ColumnType::isSupported(ColumnType::TYPE_BIT));
+        self::assertFalse(ColumnType::isSupported('cool'));
     }
 }

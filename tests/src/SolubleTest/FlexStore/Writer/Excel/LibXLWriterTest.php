@@ -53,10 +53,7 @@ class LibXLWriterTest extends TestCase
         LibXL::setDefaultLicense($libxl_lic);
     }
 
-    /**
-     * @return SqlSource
-     */
-    protected function getTestSource()
+    protected function getTestSource(): SqlSource
     {
         $select = new Select();
         $select->from(['p' => 'product'])
@@ -90,9 +87,7 @@ class LibXLWriterTest extends TestCase
             'length' => new Expression('1.36666666')
         ]);
 
-        $source = new SqlSource($this->adapter, $select);
-
-        return $source;
+        return new SqlSource($this->adapter, $select);
     }
 
     public function testColumnModelWithColumnExclusion()
@@ -114,22 +109,25 @@ class LibXLWriterTest extends TestCase
             'currency_code' => 'EUR',
             'locale' => $locale
         ]);
-        self::assertNotInstanceOf('Soluble\FlexStore\Formatter\RowColumn', $formatterEur->getCurrencyCode());
+        self::assertNotInstanceOf(\Soluble\FlexStore\Formatter\RowColumn::class, $formatterEur->getCurrencyCode());
 
         $unitFormatter = new Formatter\UnitFormatter([
             'unit' => '%',
             'decimals' => 2,
-            'locale' => $locale
+            'locale' => $locale,
+            //'disableUseOfNonBreakingSpaces' => true
         ]);
 
         $intFormatter = new Formatter\NumberFormatter([
             'decimals' => 0,
-            'locale' => $locale
+            'locale' => $locale,
+            //'disableUseOfNonBreakingSpaces' => true
         ]);
 
         $volumeFormatter = new Formatter\NumberFormatter([
             'decimals' => 3,
-            'locale' => $locale
+            'locale' => $locale,
+            //'disableUseOfNonBreakingSpaces' => true
         ]);
 
         $cm->search()->regexp('/price/')->setFormatter($formatterDb);
@@ -172,11 +170,11 @@ class LibXLWriterTest extends TestCase
         $c2 = $sheet->getCell('C2');
 
         self::assertEquals('n', $c2->getDataType());
-        self::assertEquals('15.30 CN¥', $c2->getFormattedValue());
+        self::assertEquals('15.30 CN¥', trim($c2->getFormattedValue()));
 
         $d2 = $sheet->getCell('D2');
         self::assertEquals('n', $d2->getDataType());
-        self::assertEquals('18.20 €', $d2->getFormattedValue());
+        self::assertEquals('18.20 €', trim($d2->getFormattedValue()));
 
         $n2 = $sheet->getCell('N2');
 
@@ -210,7 +208,7 @@ class LibXLWriterTest extends TestCase
 
         $i2 = $sheet->getCell('I2');
         self::assertEquals(number_format(22.00, 2), number_format($i2->getValue(), 2));
-        self::assertTrue('22.00 %' === $i2->getFormattedValue());
+        self::assertTrue('22.00 %' === trim($i2->getFormattedValue()));
         self::assertEquals('n', $i2->getDataType());
     }
 
@@ -276,11 +274,11 @@ class LibXLWriterTest extends TestCase
         $c2 = $sheet->getCell('C2');
 
         self::assertEquals('n', $c2->getDataType());
-        self::assertEquals('15.30 CN¥', $c2->getFormattedValue());
+        self::assertEquals('15.30 CN¥', trim($c2->getFormattedValue()));
 
         $d2 = $sheet->getCell('D2');
         self::assertEquals('n', $d2->getDataType());
-        self::assertEquals('18.20 €', $d2->getFormattedValue());
+        self::assertEquals('18.20 €', trim($d2->getFormattedValue()));
 
         $o2 = $sheet->getCell('O2');
         self::assertEquals('n', $o2->getDataType());
@@ -396,14 +394,14 @@ class LibXLWriterTest extends TestCase
     protected function excelToArray($file, $reader = 'Excel2007')
     {
         // Due to notice by php_excel class
-        if (strtoupper($reader) == 'EXCEL5') {
+        if (strtoupper($reader) === 'EXCEL5') {
             ini_set('error_reporting', E_ALL ^ E_NOTICE);
         }
         $excelReader = $this->getExcelReader($file, $reader);
         $sheet = $excelReader->getActiveSheet();
 
         $arr = $sheet->toArray($nullValue = null, $calculateFormulas = false, $formatData = false, $returnCellRef = true);
-        if (strtoupper($reader) == 'EXCEL5') {
+        if (strtoupper($reader) === 'EXCEL5') {
             ini_set('error_reporting', E_ALL | E_STRICT);
         }
 

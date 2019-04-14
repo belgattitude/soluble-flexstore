@@ -103,12 +103,9 @@ class LibXLWriter extends AbstractSendableWriter
      * Set file format (xls, xlsx), default is xlsx.
      *
      * @param string $file_format
-     *
-     * @return LibXLWriter
-     *
      * @throws Exception\InvalidArgumentException
      */
-    public function setFormat($file_format)
+    public function setFormat($file_format): self
     {
         if (!LibXL::isSupportedFormat($file_format)) {
             throw new Exception\InvalidArgumentException(__METHOD__ . " Unsupported format given '$file_format'");
@@ -142,6 +139,7 @@ class LibXLWriter extends AbstractSendableWriter
                 $formatString = $formatString . '.' . $zeros;
             }
             $formatString = $formatString . ' "' . $symbol . '"_-';
+
             //$formatString = $formatString . ' [$€-80C]_-';
             //$format_code = '"C$"' . $format_code . '_-';
 
@@ -321,7 +319,7 @@ class LibXLWriter extends AbstractSendableWriter
             }
 
             // We now have the type
-            if ($type == 'number' && $decimals === null && $metadata !== null && $metadata->offsetExists($name)) {
+            if ($type === 'number' && $decimals === null && $metadata !== null && $metadata->offsetExists($name)) {
                 // try to guess from metadata
                 $decimals = $metadata->offsetGet($name)->getNumericPrecision();
                 if (!$decimals) {
